@@ -1,0 +1,315 @@
+.social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-3px);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-links a i {
+            color: var(--secondary);
+            font-size: 12px;
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            transform: translateX(5px);
+        }
+
+        .footer-contacts {
+            list-style: none;
+        }
+
+        .footer-contacts li {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .footer-contacts i {
+            color: var(--secondary);
+            font-size: 18px;
+            min-width: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            opacity: 0.6;
+        }
+
+        .requisites {
+            font-size: 12px;
+            margin-top: 15px;
+            opacity: 0.7;
+        }
+
+        @media (max-width: 992px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== КНОПКА НАВЕРХ ===== */
+        .scroll-top {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            width: 60px;
+            height: 60px;
+            background: var(--secondary);
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 10px 30px rgba(230, 126, 34, 0.4);
+            transition: all 0.3s;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 99;
+        }
+
+        .scroll-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        /* ===== УВЕДОМЛЕНИЯ ===== */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--success);
+            color: var(--white);
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(39, 174, 96, 0.3);
+            transform: translateX(400px);
+            transition: transform 0.3s;
+            z-index: 9999;
+        }
+
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+<!-- КНОПКА НАВЕРХ -->
+<button class="scroll-top" id="scrollTop">
+    <i class="fas fa-arrow-up"></i>
+</button>
+
+<!-- УВЕДОМЛЕНИЕ -->
+<div class="notification" id="notification">
+    <i class="fas fa-check-circle"></i> Спасибо! Мы свяжемся с вами в ближайшее время.
+</div>
+
+<!-- ШАПКА -->
+<header class="header">
+    <div class="container">
+        <div class="logo">
+            <h1>ООО <span>«АЛМИК»</span></h1>
+            <div class="slogan">ГРУЗОПЕРЕВОЗКИ ПО ТВЕРИ И ОБЛАСТИ</div>
+        </div>
+        
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+            <i class="fas fa-bars"></i>
+        </button>
+        
+        <div class="header-contacts" id="headerContacts">
+            <div class="phone-wrapper">
+                <a href="tel:+79991234567" class="phone-number">
+                    <i class="fas fa-phone-alt"></i> +7 (999) 123-45-67
+                </a>
+                <span class="work-time">Круглосуточно, без выходных</span>
+            </div>
+            <button class="callback-btn" onclick="openForm()">
+                <i class="fas fa-headset"></i> Заказать звонок
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- ПЕРВЫЙ ЭКРАН -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>
+                Быстрые и надежные<br>
+                <span class="highlight">грузоперевозки в Твери</span>
+            </h1>
+            <p class="hero-subtitle">Собственный автопарк. Страховка груза. Опытные водители. Работаем круглосуточно.</p>
+            
+            <div class="hero-features">
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>От 1 до 20 тонн</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Страховка</span>
+                </div>
+                <div class="hero-feature">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Без выходных</span>
+                </div>
+            </div>
+            
+            <div class="hero-buttons">
+                <button class="btn-primary" onclick="openForm()">
+                    <i class="fas fa-calculator"></i> Рассчитать стоимость
+                </button>
+                <button class="btn-secondary" onclick="scrollToSection('about')">
+                    <i class="fas fa-chevron-down"></i> Подробнее
+                </button>
+            </div>
+        </div>
+        
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">5+</div>
+                <div class="stat-label">Лет на рынке</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">500+</div>
+                <div class="stat-label">Перевозок</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Постоянных клиентов</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- О КОМПАНИИ -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-content">
+                <h2>О компании ООО «АЛМИК»</h2>
+                <p class="about-text">Мы — молодая и динамично развивающаяся транспортная компания в Твери. Несмотря на небольшой срок работы, мы уже зарекомендовали себя как надежный партнер для перевозки грузов любой сложности.</p>
+                
+                <div class="company-details">
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-building"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h4>Реквизиты компании</h4>
+                            <p><strong>ООО «АЛМИК»</strong><br>
+                            ИНН 6900000798 | ОГРН 1236900010380<br>
+                            <span class="small">Зарегистрирована 3 октября 2023 года</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h4>Генеральный директор</h4>
+                            <p><strong>Михайлов Алексей Анатольевич</strong><br>
+                            <span class="small">Работаем напрямую, без посредников</span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="detail-content">
+                            <h4>Юридический адрес</h4>
+                            <p>г. Тверь, ул. Седова, д. 55, кв. 80</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="about-image">
+                <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80" alt="Грузовик ООО АЛМИК">
+                <div class="experience-badge">
+                    <span class="years">5+</span>
+                    <span class="text">лет опыта</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="benefits">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <p class="section-subtitle">Работаем для вас с 2023 года, но уже успели зарекомендовать себя</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card" data-aos="fade-up">
+                <div class="benefit-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <h3>Свой автопарк</h3>
+                <p>Новые машины, разная грузоподъемность от 1 до 20 тонн. Регулярное ТО</p>
+            </div>
+            
+            <div class="benefit-card" data-aos="fade-up" data-aos-delay="100">
+                <div class="benefit-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <h3>Точно в срок</h3>
+                <p>Соблюдаем временные интервалы, минимальные задержки, GPS-мониторинг</p>
+            </div>
+            
+            <div class="benefit-card" data-aos="fade-up" data-aos-delay="200">
+                <div class="benefit-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <h3>Страховка груза</h3>
+                <p>Все перевозки застрахованы. Ваш груз в полной безопасности</p>
+            </div>
