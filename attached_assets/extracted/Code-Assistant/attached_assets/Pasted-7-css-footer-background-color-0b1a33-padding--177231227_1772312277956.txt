@@ -1,0 +1,363 @@
+7. КОНТАКТЫ И ПОДВАЛ (ФУТЕР)
+css
+/* Футер */
+.footer {
+  background-color: #0b1a33;
+  padding: 60px 0 30px;
+  color: white;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.footer-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 50px;
+  margin-bottom: 40px;
+}
+
+.footer-info h3,
+.footer-map h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 24px;
+  color: white;
+  margin-bottom: 25px;
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.footer-info h3::after,
+.footer-map h3::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background-color: #f05a28;
+}
+
+.contact-details {
+  list-style: none;
+  padding: 0;
+}
+
+.contact-details li {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  color: rgba(255,255,255,0.8);
+}
+
+.contact-details li strong {
+  color: #f05a28;
+  min-width: 100px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.map-container {
+  background: #1a2f4f;
+  border-radius: 15px;
+  overflow: hidden;
+  height: 250px;
+  border: 3px solid rgba(240,90,40,0.3);
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a2f4f 0%, #0b1a33 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.5);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  position: relative;
+  border-radius: 12px;
+}
+
+.map-placeholder::before {
+  content: "📍";
+  font-size: 48px;
+  margin-right: 10px;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 30px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  color: rgba(255,255,255,0.5);
+}
+
+@media (max-width: 768px) {
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .contact-details li {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .contact-details li strong {
+    min-width: auto;
+  }
+}
+8. ОБЩИЕ СТИЛИ (СКОПИРУЙ ЭТО В НАЧАЛО)
+css
+/* Общие стили */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  color: #333;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+9. HTML-СТРУКТУРА (СКОПИРУЙ ЭТО В index.html)
+html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Транспортная компания TransLogist</title>
+    <!-- Подключаем шрифты -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Здесь будут стили (вставь все CSS из пунктов 1-8) -->
+    <style>
+        /* ВСТАВЬ СЮДА ВСЕ CSS КОДЫ ИЗ ПУНКТОВ 1-8 */
+    </style>
+</head>
+<body>
+
+<!-- ХЕДЕР (ШАПКА) -->
+<header class="header">
+    <div class="header-container">
+        <div class="logo">Trans<span>Logist</span></div>
+        <div class="header-contacts">
+            <a href="tel:+79991234567" class="phone-number">+7 (999) 123-45-67</a>
+            <button class="callback-btn">Заказать звонок</button>
+        </div>
+    </div>
+</header>
+
+<!-- ГЕРОЙ (ПЕРВЫЙ ЭКРАН) -->
+<section class="hero">
+    <div class="hero-container">
+        <h1>Быстрые и надежные<br>грузоперевозки</h1>
+        <p class="hero-subtitle">Перевезем любой груз по городу и России. Собственный автопарк. Страховка. Опытные водители.</p>
+        <div class="hero-buttons">
+            <button class="btn-primary">Рассчитать стоимость</button>
+            <button class="btn-secondary">Узнать подробнее</button>
+        </div>
+    </div>
+</section>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<section class="benefits">
+    <div class="benefits-container">
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <p class="section-subtitle">Работаем для вас с 2010 года</p>
+        
+        <div class="benefits-grid">
+            <div class="benefit-card">
+                <div class="benefit-icon">🚚</div>
+                <h3>Свой автопарк</h3>
+                <p>Новые машины, разная грузоподъемность от 1 до 20 тонн</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">⏱️</div>
+                <h3>Точно в срок</h3>
+                <p>Соблюдаем временные интервалы, минимальные задержки</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">💰</div>
+                <h3>Прозрачные цены</h3>
+                <p>Фиксированная стоимость без скрытых платежей</p>
+            </div>
+            <div class="benefit-card">
+                <div class="benefit-icon">📦</div>
+                <h3>Аккуратно</h3>
+                <p>Опытные грузчики и водители, страховка груза</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="services">
+    <div class="services-container">
+        <h2 class="section-title">Наши услуги</h2>
+        <p class="section-subtitle">Полный спектр транспортных услуг</p>
+        
+        <div class="services-grid">
+            <div class="service-item">
+                <span class="service-check">✓</span>
+                <div class="service-content">
+                    <h3>Грузоперевозки</h3>
+                    <p>Газель, 5 тонн, 10 тонн, фуры с гидробортом</p>
+                </div>
+            </div>
+            <div class="service-item">
+                <span class="service-check">✓</span>
+                <div class="service-content">
+                    <h3>Квартирные переезды</h3>
+                    <p>Аккуратно упакуем и перевезем ваши вещи</p>
+                </div>
+            </div>
+            <div class="service-item">
+                <span class="service-check">✓</span>
+                <div class="service-content">
+                    <h3>Офисные переезды</h3>
+                    <p>Перевозка оргтехники, мебели, документов</p>
+                </div>
+            </div>
+            <div class="service-item">
+                <span class="service-check">✓</span>
+                <div class="service-content">
+                    <h3>Негабаритный груз</h3>
+                    <p>Спецтехника и оборудование любой сложности</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- КАК МЫ РАБОТАЕМ -->
+<section class="steps">
+    <div class="steps-container">
+        <h2 class="section-title">Как мы работаем</h2>
+        <p class="section-subtitle">Всего 3 простых шага</p>
+        
+        <div class="steps-grid">
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Оставьте заявку</h3>
+                <p>Звонок или форма на сайте. Мы перезвоним за 5 минут</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Согласование</h3>
+                <p>Подберем машину, рассчитаем точную стоимость</p>
+            </div>
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>Едем!</h3>
+                <p>Забираем груз, доставляем вовремя, вы принимаете работу</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ФОРМА ОБРАТНОЙ СВЯЗИ -->
+<section class="contact-form-section">
+    <div class="form-container">
+        <h2 class="form-title">Остались вопросы?</h2>
+        <p class="form-subtitle">Свяжитесь с нами прямо сейчас</p>
+        
+        <form class="contact-form">
+            <div class="form-group">
+                <label for="name">Ваше имя</label>
+                <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Ваш телефон</label>
+                <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Сообщение</label>
+                <textarea id="message" name="message" placeholder="Опишите вашу задачу..."></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Отправить заявку</button>
+        </form>
+    </div>
+</section>
+
+<!-- ФУТЕР С КАРТОЙ -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-main">
+            <div class="footer-info">
+                <h3>Контакты</h3>
+                <ul class="contact-details">
+                    <li><strong>Адрес:</strong> г. Москва, ул. Логистов, д. 10</li>
+                    <li><strong>Телефон:</strong> +7 (999) 123-45-67</li>
+                    <li><strong>Email:</strong> info@translogist.ru</li>
+                    <li><strong>Режим:</strong> Круглосуточно, без выходных</li>
+                </ul>
+            </div>
+            
+            <div class="footer-map">
+                <h3>Схема проезда</h3>
+                <div class="map-container">
+                    <div class="map-placeholder">
+                        Москва, ул. Логистов, д. 10
+                    </div>
+                    <!-- Здесь можно вставить реальную карту Яндекса если нужно -->
+                    <!--
+                    <iframe src="https://yandex.ru/map-widget/v1/?ll=37.617494%2C55.750625&z=10" width="100%" height="100%" frameborder="0"></iframe>
+                    -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            © 2026 Транспортная компания "TransLogist". Все права защищены.
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
+🎯 КАК ЭТО ИСПОЛЬЗОВАТЬ В REPLIT:
+Вариант А (Для Replit Agent): Скопируй весь текст (пункты 1-9) и вставь в чат с AI. Скажи: "Сделай сайт по этому описанию и коду".
+
+Вариант Б (Ручной):
+
+Создай новый HTML проект в Replit
+
+Открой файл index.html
+
+Скопируй HTML-код из пункта 9
+
+Вставь все CSS стили (из пунктов 1-8) внутрь тега <style>
+
+Запусти проект
+
+Этот промпт настолько подробный, что даже если AI проигнорирует половину, у тебя останется готовый код, который можно просто скопировать и вставить вручную. Все секции расположены в правильном порядке, цвета заданы, отступы соблюдены, форма работает.
+
