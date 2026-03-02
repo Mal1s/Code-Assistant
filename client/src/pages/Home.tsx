@@ -3,6 +3,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 // В начале файла, после import, добавьте эту функцию
 const getPartnerLogo = (partnerName: string) => {
+  const logoMap: { [key: string]: string } = {
+    'Русский Свет': 'https://russvet.ru/upload/iblock/34e/34e2f6a6c3f3f5a0e9a5e1e1a8a2a1a1.png',
+    'Ozon': 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Ozon_logo.svg/2560px-Ozon_logo.svg.png',
+    'Тверской Вагоностроительный Завод': 'https://www.tvz.ru/bitrix/templates/tvz/img/logo.png',
+    'Металл Профиль': 'https://metallprofil.ru/local/templates/metallprofil/images/logo.svg',
+    'ТехноНИКОЛЬ': 'https://www.tn.ru/local/templates/main/img/logo.svg',
+    'УВМ-Сталь': 'https://uvm-stal.ru/images/logo.png',
+    'Wildberries': 'https://static-basket-01.wb.ru/vol0/i/v3/header/logo-wb.svg',
+    'Мелькомбинат': 'https://melkom.ru/bitrix/templates/melkom/images/logo.png',
+    'Салаир': 'https://salair.pro/templates/salair/images/logo.png',
+    'Светофор': 'https://svetofor.club/image/catalog/logo/svetofor-logo.png'
+  };
+
+  const logoUrl = logoMap[partnerName];
+  if (logoUrl) {
+    return <img src={logoUrl} alt={partnerName} className="max-h-12 max-w-full object-contain filter grayscale hover:grayscale-0 transition-all duration-300" />;
+  }
+
   // Эмодзи как запасной вариант
   const emojiMap: { [key: string]: string } = {
     'Русский Свет': '⚡',
@@ -16,8 +34,8 @@ const getPartnerLogo = (partnerName: string) => {
     'Салаир': '⛏️',
     'Светофор': '🚦'
   };
-
-  return emojiMap[partnerName] || '🏢';
+  
+  return <span className="text-5xl filter drop-shadow-lg">{emojiMap[partnerName] || '🏢'}</span>;
 };
 
 export default function Home() {
@@ -363,7 +381,7 @@ export default function Home() {
                 className="absolute top-0 left-0 w-64 h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400" 
+                  src="https://images.unsplash.com/photo-1586191583591-76d8b5aab5f0?w=800" 
                   alt="Truck 1"
                   className="w-full h-full object-cover"
                 />
@@ -383,7 +401,7 @@ export default function Home() {
                 className="absolute top-32 right-0 w-72 h-48 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1519003722824-8e0e021f4c0a?w=400" 
+                  src="https://images.unsplash.com/photo-1603787081111-6d03b3124f07?w=800" 
                   alt="Truck 2"
                   className="w-full h-full object-cover"
                 />
@@ -403,7 +421,7 @@ export default function Home() {
                 className="absolute bottom-0 left-20 w-56 h-40 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
               >
                 <img 
-                  src="https://images.unsplash.com/photo-1624365169361-5ced8dd8e3e0?w=400" 
+                  src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800" 
                   alt="Truck 3"
                   className="w-full h-full object-cover"
                 />
