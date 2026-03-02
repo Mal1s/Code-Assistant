@@ -4,6 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      setScrolled(offset > 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const scrollTo = (id: string) => {
     setIsMenuOpen(false);
@@ -16,6 +26,13 @@ export default function Home() {
     (e.target as HTMLFormElement).reset();
     setTimeout(() => setShowSuccess(false), 4000);
   };
+
+  // Список партнеров
+  const partners = [
+    'Русский Свет', 'Ozon', 'Тверской Вагоностроительный Завод',
+    'Металл Профиль', 'ТехноНИКОЛЬ', 'УВМ-Сталь',
+    'Wildberries', 'Мелькомбинат', 'Салаир', 'Светофор'
+  ];
 
   return (
     <div className="flex flex-col w-full">
@@ -46,10 +63,12 @@ export default function Home() {
             <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-4xl">✕</button>
             <button onClick={() => scrollTo('hero')} className="text-2xl font-bold">Главная</button>
             <button onClick={() => scrollTo('about')} className="text-2xl font-bold">О компании</button>
+            <button onClick={() => scrollTo('why-us')} className="text-2xl font-bold">Почему мы</button>
             <button onClick={() => scrollTo('services')} className="text-2xl font-bold">Услуги</button>
+            <button onClick={() => scrollTo('partners')} className="text-2xl font-bold">Партнеры</button>
             <button onClick={() => scrollTo('form')} className="text-2xl font-bold">Заявка</button>
             <button onClick={() => scrollTo('contacts')} className="text-2xl font-bold">Контакты</button>
-            <a href="tel:+79301796020" className="text-3xl font-extrabold text-[#f05a28]">+7 (930) 179-60-20</a>
+            <a href="tel:+79011172371" className="text-3xl font-extrabold text-[#f05a28]">+7 (901) 117-23-71</a>
           </motion.div>
         )}
       </AnimatePresence>
@@ -60,17 +79,19 @@ export default function Home() {
           <div className="text-2xl md:text-3xl font-black tracking-tighter">
             <span className="text-[#f05a28]">А</span>ЛМИК
           </div>
-          
+
           <nav className="hidden lg:flex gap-8 font-semibold">
             <button onClick={() => scrollTo('hero')} className="hover:text-[#f05a28]">Главная</button>
             <button onClick={() => scrollTo('about')} className="hover:text-[#f05a28]">О компании</button>
+            <button onClick={() => scrollTo('why-us')} className="hover:text-[#f05a28]">Почему мы</button>
             <button onClick={() => scrollTo('services')} className="hover:text-[#f05a28]">Услуги</button>
+            <button onClick={() => scrollTo('partners')} className="hover:text-[#f05a28]">Партнеры</button>
             <button onClick={() => scrollTo('contacts')} className="hover:text-[#f05a28]">Контакты</button>
           </nav>
 
           <div className="flex items-center gap-4">
-            <a href="tel:+79301796020" className="hidden sm:block text-lg md:text-xl font-bold hover:text-[#f05a28] transition-colors">
-              +7 (930) 179-60-20
+            <a href="tel:+79011172371" className="hidden sm:block text-lg md:text-xl font-bold hover:text-[#f05a28] transition-colors">
+              +7 (901) 117-23-71
             </a>
             <button onClick={() => scrollTo('form')} className="hidden md:block btn-orange !py-2 !px-6 text-sm">
               Заказать звонок
@@ -81,14 +102,23 @@ export default function Home() {
       </header>
 
       {/* HERO SECTION */}
-      <section id="hero" className="hero-section">
+      <section 
+        id="hero" 
+        className="hero-section"
+        style={{
+          backgroundImage: scrolled
+            ? "linear-gradient(rgba(11, 26, 51, 0.9), rgba(11, 26, 51, 0.9)), url('https://images.unsplash.com/photo-1519003722824-8e0e021f4c0a?w=1200')"
+            : "linear-gradient(rgba(11, 26, 51, 0.85), rgba(11, 26, 51, 0.85)), url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1200')",
+          backgroundAttachment: scrolled ? 'fixed' : 'scroll'
+        }}
+      >
         <div className="max-w-5xl text-center text-white">
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-[1.1]"
           >
-            ГРУЗОПЕРЕВОЗКИ ПО ТВЕРИ И ОБЛАСТИ
+            ГРУЗОПЕРЕВОЗКИ ПО РОССИИ <br />И ДРУЖЕСТВЕННЫМ СТРАНАМ
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -96,11 +126,12 @@ export default function Home() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-2xl mb-10 opacity-90 max-w-3xl mx-auto font-medium"
           >
-            Собственный автопарк. Страховка груза. Работаем с 2023 года.
+            Современный автопарк (ТС от 2023 года). Полная страховка грузов. 
+            Команда с 15-летним опытом.
           </motion.p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-stretch sm:items-center">
             <button onClick={() => scrollTo('form')} className="btn-orange">Рассчитать стоимость</button>
-            <button onClick={() => scrollTo('about')} className="btn-outline">Подробнее</button>
+            <button onClick={() => scrollTo('about')} className="btn-outline">Подробнее о компании</button>
           </div>
         </div>
       </section>
@@ -108,22 +139,34 @@ export default function Home() {
       {/* ABOUT SECTION */}
       <section id="about" className="py-20 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
             <div className="rounded-[30px] overflow-hidden shadow-2xl">
               <img src="https://images.unsplash.com/photo-1624365169361-5ced8dd8e3e0?w=800" alt="Truck" className="w-full h-full object-cover" />
             </div>
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-[#0b1a33] mb-6">ООО «АЛМИК» — ваш надежный партнер</h2>
-              <p className="text-lg text-slate-600 mb-10 leading-relaxed">
-                Мы молодая, но уже зарекомендовавшая себя транспортная компания в Твери. Работаем с 2023 года. Перевезли более 500 тонн грузов без повреждений.
-              </p>
-              
+              <h2 className="text-3xl md:text-4xl font-black text-[#0b1a33] mb-4">ООО «АЛМИК» — ваш надежный партнер в логистике</h2>
+
+              <div className="space-y-4 text-slate-600 mb-8 leading-relaxed">
+                <p className="text-lg font-semibold text-[#0b1a33]">
+                  Представляем Вам нашу транспортную компанию ООО "АлМик" и предлагаем сотрудничество в области логистики.
+                </p>
+                <p>
+                  Хотя сама компания работает с 2023 года, наша команда имеет более чем 15-летний опыт в организации грузоперевозок (ранее — как ИП). За это время мы научились решать задачи любой сложности и ценим доверие наших клиентов.
+                </p>
+                <p>
+                  В работе используем как собственный автопарк — новые транспортные средства от 2023 года выпуска, которые находятся на балансе организации, так и привлеченный транспорт. Все грузы, которые мы возим, застрахованы. Сотрудники оформлены официально по трудовым договорам.
+                </p>
+                <p className="bg-slate-50 p-4 rounded-xl border-l-4 border-[#f05a28]">
+                  <strong>Работаем на ОСНО, НДС 20%.</strong> Полный пакет закрывающих документов.
+                </p>
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {[
                   { label: 'ИНН', val: '6900000798', icon: 'fingerprint' },
                   { label: 'ОГРН', val: '1236900010380', icon: 'file-contract' },
                   { label: 'Директор', val: 'Михайлов А.А.', icon: 'user-tie' },
-                  { label: 'Юр. адрес', val: 'г. Тверь, ул. Седова, 55', icon: 'map-marker-alt' }
+                  { label: 'Юр. адрес', val: 'ул. Седова, 55, кв. 80', icon: 'map-marker-alt' }
                 ].map((item) => (
                   <div key={item.label} className="bg-slate-50 p-6 rounded-2xl flex gap-4 items-center border border-slate-100">
                     <div className="w-12 h-12 bg-[#0b1a33] text-white rounded-xl flex items-center justify-center text-xl shrink-0">
@@ -141,24 +184,60 @@ export default function Home() {
         </div>
       </section>
 
-      {/* BENEFITS */}
-      <section className="py-20 px-4 md:px-8 bg-slate-50">
+      {/* WHY CHOOSE US - НОВЫЙ РАЗДЕЛ */}
+      <section id="why-us" className="py-20 px-4 md:px-8 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">Наши преимущества</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Почему выбирают нас</h2>
+          <p className="text-center text-slate-600 mb-16 max-w-2xl mx-auto">
+            15 лет опыта, современный автопарк и индивидуальный подход к каждому клиенту
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { t: 'Свой автопарк', p: 'Новые машины, ТО по регламенту', i: 'truck' },
-              { t: 'Страховка груза', p: 'Полная защита вашего товара', i: 'shield-alt' },
-              { t: 'Работаем по договору', p: 'Юридическая чистота сделки', i: 'file-signature' },
-              { t: 'Круглосуточно', p: 'Всегда на связи и в пути', i: 'clock' }
-            ].map((item) => (
-              <div key={item.t} className="card-glass text-center">
-                <div className="text-5xl text-[#f05a28] mb-6">
-                  <i className={`fas fa-${item.i}`}></i>
+              { 
+                icon: 'fa-route', 
+                title: 'Грузоперевозки «под ключ»', 
+                desc: 'Берём на себя всё: от подачи транспорта до оформления документов и страхования. Вы просто получаете результат.'
+              },
+              { 
+                icon: 'fa-map-marked-alt', 
+                title: 'Работаем по всей РФ и за её пределами', 
+                desc: 'Доставка в любой уголок России, а также в страны ближнего зарубежья: Беларусь, Казахстан и другие дружественные государства.'
+              },
+              { 
+                icon: 'fa-truck', 
+                title: 'Новый автопарк', 
+                desc: 'Собственные автомобили от 2023 года выпуска на балансе организации. Техника проходит регулярное ТО.'
+              },
+              { 
+                icon: 'fa-shield-alt', 
+                title: 'Полная страховка грузов', 
+                desc: 'Все перевозки застрахованы. Ваш груз под надежной защитой на всем пути следования.'
+              },
+              { 
+                icon: 'fa-clock', 
+                title: 'Опыт команды более 15 лет', 
+                desc: 'За плечами наших специалистов тысячи успешных перевозок и решение нестандартных задач.'
+              },
+              { 
+                icon: 'fa-file-invoice', 
+                title: 'Работаем с НДС 20%', 
+                desc: 'ОСНО, официальное оформление, полный пакет документов для юридических лиц.'
+              }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="card-glass"
+              >
+                <div className="text-4xl text-[#f05a28] mb-5">
+                  <i className={`fas ${item.icon}`}></i>
                 </div>
-                <h3 className="text-xl font-bold mb-3">{item.t}</h3>
-                <p className="text-slate-500">{item.p}</p>
-              </div>
+                <h3 className="text-xl font-bold mb-3 text-[#0b1a33]">{item.title}</h3>
+                <p className="text-slate-500 leading-relaxed">{item.desc}</p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -167,45 +246,104 @@ export default function Home() {
       {/* SERVICES */}
       <section id="services" className="py-20 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">Наши услуги</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Наши услуги</h2>
+          <p className="text-center text-slate-600 mb-16 max-w-2xl mx-auto">
+            Полный комплекс логистических услуг для вашего бизнеса
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               { t: 'Грузоперевозки', p: 'Газель, 5т, 10т, фуры', i: 'truck-moving' },
               { t: 'Квартирные переезды', p: 'Аккуратно и быстро', i: 'home' },
-              { t: 'Офисные переезды', p: 'Для малого и крупного бизнеса', i: 'briefcase' },
-              { t: 'Доставка стройматериалов', p: 'На любые объекты города', i: 'cubes' },
-              { t: 'Негабаритный груз', p: 'Спецтехника любой сложности', i: 'boxes' },
-              { t: 'Рефрижераторы', p: 'С температурным режимом', i: 'thermometer-half' }
-            ].map((item) => (
-              <div key={item.t} className="group relative bg-[#0b1a33] text-white p-10 rounded-[30px] overflow-hidden transition-all hover:bg-[#f05a28]">
+              { t: 'Офисные переезды', p: 'Для бизнеса любого масштаба', i: 'briefcase' },
+              { t: 'Негабаритный груз', p: 'Сложные маршруты', i: 'cubes' },
+              { t: 'Погрузо-разгрузочные работы', p: 'Спецтехника и такелаж', i: 'arrow-circle-up' }, // ДОБАВЛЕНО
+              { t: 'Аренда спецтехники', p: 'Манипуляторы, погрузчики', i: 'forklift' }, // ДОБАВЛЕНО
+              { t: 'Рефрижераторы', p: 'С температурным режимом', i: 'thermometer-half' },
+              { t: 'Доставка стройматериалов', p: 'На любые объекты', i: 'hard-hat' }
+            ].map((item, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                className="group relative bg-[#0b1a33] text-white p-8 rounded-[30px] overflow-hidden transition-all hover:bg-[#f05a28] cursor-pointer"
+              >
                 <div className="relative z-10">
-                  <div className="text-4xl mb-6"><i className={`fas fa-${item.i}`}></i></div>
-                  <h3 className="text-2xl font-bold mb-4">{item.t}</h3>
-                  <p className="opacity-70 group-hover:opacity-100">{item.p}</p>
+                  <div className="text-4xl mb-5"><i className={`fas fa-${item.i}`}></i></div>
+                  <h3 className="text-xl font-bold mb-3">{item.t}</h3>
+                  <p className="opacity-70 text-sm group-hover:opacity-100">{item.p}</p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* PARTNERS - НОВЫЙ РАЗДЕЛ */}
+      <section id="partners" className="py-20 px-4 md:px-8 bg-slate-50">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Основные партнеры нашей компании</h2>
+          <p className="text-center text-slate-600 mb-16 max-w-3xl mx-auto">
+            Мы гордимся сотрудничеством с лидерами рынка и дорожим доверием каждого клиента
+          </p>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {partners.map((partner, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ delay: index * 0.03 }}
+                className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-all border border-slate-100 flex items-center justify-center grayscale hover:grayscale-0"
+              >
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-[#f05a28] bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i className="fas fa-building text-2xl text-[#f05a28]"></i>
+                  </div>
+                  <span className="font-semibold text-sm text-[#0b1a33]">{partner}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            className="mt-12 text-center bg-white p-8 rounded-3xl border border-slate-200 max-w-3xl mx-auto"
+          >
+            <p className="text-slate-600 text-lg italic">
+              "Надеемся стать для Вас в будущем надежным партнером и помощником 
+              в решении Ваших транспортных задач."
+            </p>
+            <p className="font-bold text-[#0b1a33] mt-4">— Алексей Михайлов, директор ООО «АЛМИК»</p>
+          </motion.div>
         </div>
       </section>
 
       {/* PROCESS */}
       <section className="py-20 px-4 md:px-8 bg-slate-900 text-white">
         <div className="max-w-5xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-16">Всего 3 шага</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Как мы работаем</h2>
+          <p className="text-center opacity-70 mb-16 max-w-2xl mx-auto">Всего 3 простых шага к вашей перевозке</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
             {[
-              { n: '1', t: 'Оставьте заявку', p: 'Звонок или форма на сайте' },
-              { n: '2', t: 'Согласование', p: 'Подберем машину и рассчитаем цену' },
-              { n: '3', t: 'Перевозка', p: 'Забираем груз и доставляем вовремя' }
+              { n: '1', t: 'Оставьте заявку', p: 'Звонок или форма на сайте — мы свяжемся с вами в течение 15 минут' },
+              { n: '2', t: 'Согласование', p: 'Подберем оптимальный транспорт и рассчитаем точную стоимость' },
+              { n: '3', t: 'Перевозка', p: 'Забираем груз и доставляем точно в срок с полной страховкой' }
             ].map((step, idx) => (
-              <div key={step.n} className="text-center">
+              <motion.div 
+                key={step.n}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: idx * 0.1 }}
+                className="text-center"
+              >
                 <div className="w-20 h-20 bg-[#f05a28] rounded-full flex items-center justify-center text-3xl font-black mx-auto mb-8 shadow-xl">
                   {step.n}
                 </div>
                 <h3 className="text-2xl font-bold mb-4">{step.t}</h3>
-                <p className="opacity-70">{step.p}</p>
-              </div>
+                <p className="opacity-70 max-w-[250px] mx-auto">{step.p}</p>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -215,8 +353,42 @@ export default function Home() {
       <section id="form" className="py-20 px-4 md:px-8 bg-slate-50">
         <div className="max-w-5xl mx-auto">
           <div className="bg-white p-8 md:p-12 rounded-[40px] shadow-2xl border border-slate-100">
-            <h2 className="text-2xl md:text-3xl font-black text-center mb-10 text-[#0b1a33]">ОФОРМИТЬ ЗАЯВКУ НА ПЕРЕВОЗКУ</h2>
-            <form onSubmit={handleFormSubmit} className="ati-form-grid">
+            <h2 className="text-2xl md:text-3xl font-black text-center mb-4 text-[#0b1a33]">ОФОРМИТЬ ЗАЯВКУ НА ПЕРЕВОЗКУ</h2>
+            <p className="text-center text-slate-500 mb-10">Заполните форму, и мы свяжемся с вами для уточнения деталей</p>
+
+            <form onSubmit={handleFormSubmit} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="form-field">
+                <label className="text-sm font-bold">Ваше имя *</label>
+                <input type="text" placeholder="Иван Иванов" required className="form-input" />
+              </div>
+              <div className="form-field">
+                <label className="text-sm font-bold">Телефон *</label>
+                <input type="tel" placeholder="+7 (___) ___-__-__" required className="form-input" />
+              </div>
+              <div className="form-field">
+                <label className="text-sm font-bold">Email</label>
+                <input type="email" placeholder="mail@example.com" className="form-input" />
+              </div>
+
+              <div className="form-field">
+                <label className="text-sm font-bold">Откуда</label>
+                <input type="text" placeholder="Тверь, ул. Примерная, д. 1" className="form-input" />
+              </div>
+              <div className="form-field">
+                <label className="text-sm font-bold">Куда</label>
+                <input type="text" placeholder="Москва, ул. Логистическая, д. 10" className="form-input" />
+              </div>
+
+              {/* ГАБАРИТЫ Д/Ш/В ВМЕСТО ОБЪЕМА */}
+              <div className="form-field lg:col-span-3">
+                <label className="text-sm font-bold">Габариты груза (Д/Ш/В, в метрах)</label>
+                <div className="grid grid-cols-3 gap-3">
+                  <input type="text" placeholder="Длина" className="form-input" />
+                  <input type="text" placeholder="Ширина" className="form-input" />
+                  <input type="text" placeholder="Высота" className="form-input" />
+                </div>
+              </div>
+
               <div className="form-field">
                 <label className="text-sm font-bold">Тип груза</label>
                 <select className="form-input">
@@ -226,22 +398,7 @@ export default function Home() {
                   <option>Продукты</option>
                 </select>
               </div>
-              <div className="form-field">
-                <label className="text-sm font-bold">Вес (тонн)</label>
-                <input type="number" placeholder="1.5" className="form-input" />
-              </div>
-              <div className="form-field">
-                <label className="text-sm font-bold">Объем (м³)</label>
-                <input type="number" placeholder="12" className="form-input" />
-              </div>
-              <div className="form-field">
-                <label className="text-sm font-bold">Упаковка</label>
-                <select className="form-input">
-                  <option>Паллеты</option>
-                  <option>Коробки</option>
-                  <option>Без упаковки</option>
-                </select>
-              </div>
+
               <div className="form-field">
                 <label className="text-sm font-bold">Тип кузова</label>
                 <select className="form-input">
@@ -251,43 +408,24 @@ export default function Home() {
                   <option>Изотерм</option>
                 </select>
               </div>
+
               <div className="form-field">
                 <label className="text-sm font-bold">Дата загрузки</label>
                 <input type="date" className="form-input" />
               </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="text-sm font-bold">Откуда</label>
-                <input type="text" placeholder="Тверь" className="form-input" />
-              </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="text-sm font-bold">Куда</label>
-                <input type="text" placeholder="Москва" className="form-input" />
-              </div>
-              <div className="form-field">
-                <label className="text-sm font-bold">Ставка (руб)</label>
-                <input type="number" placeholder="15000" className="form-input" />
-              </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="text-sm font-bold">Ваше имя *</label>
-                <input type="text" placeholder="Иван" required className="form-input" />
-              </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="text-sm font-bold">Телефон *</label>
-                <input type="tel" placeholder="+7 (___) ___-__-__" required className="form-input" />
-              </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-1">
-                <label className="text-sm font-bold">Email</label>
-                <input type="email" placeholder="mail@example.com" className="form-input" />
-              </div>
-              <div className="form-field col-span-1 md:col-span-2 lg:col-span-3">
+
+              <div className="form-field lg:col-span-3">
                 <label className="text-sm font-bold">Комментарий</label>
-                <textarea rows={3} placeholder="Дополнительная информация..." className="form-input"></textarea>
+                <textarea rows={3} placeholder="Дополнительная информация, особые пожелания..." className="form-input"></textarea>
               </div>
-              <div className="col-span-1 md:col-span-2 lg:col-span-3 mt-4">
+
+              <div className="lg:col-span-3 mt-4">
                 <button type="submit" className="btn-orange w-full !text-xl !py-6">
                   ОТПРАВИТЬ ЗАЯВКУ
                 </button>
-                <p className="text-center text-xs text-slate-400 mt-4">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+                <p className="text-center text-xs text-slate-400 mt-4">
+                  Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+                </p>
               </div>
             </form>
           </div>
@@ -297,28 +435,43 @@ export default function Home() {
       {/* CONTACTS & MAP */}
       <section id="contacts" className="py-20 px-4 md:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-black text-center mb-4 text-[#0b1a33]">Контакты</h2>
+          <p className="text-center text-slate-600 mb-16">Всегда на связи и готовы помочь</p>
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             <div className="space-y-8">
-              <h2 className="text-3xl md:text-4xl font-black text-[#0b1a33]">Контакты</h2>
               <div className="space-y-6">
                 <div className="flex gap-5 items-start">
                   <div className="w-14 h-14 bg-[#f05a28] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg">
                     <i className="fas fa-map-marker-alt"></i>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold">Адрес</h4>
-                    <p className="text-slate-600">г. Тверь, ул. Седова, д. 55, кв. 80</p>
+                    <h4 className="text-lg font-bold">Юридический адрес</h4>
+                    <p className="text-slate-600">170012, Тверская обл., г. Тверь, ул. Седова, д. 55, кв. 80</p>
                   </div>
                 </div>
+
+                <div className="flex gap-5 items-start">
+                  <div className="w-14 h-14 bg-[#f05a28] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg">
+                    <i className="fas fa-building"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold">Фактический и почтовый адрес</h4>
+                    <p className="text-slate-600">170036, Тверская обл., г. Тверь, Петербургское шоссе 93к1, офис 516</p>
+                  </div>
+                </div>
+
                 <div className="flex gap-5 items-start">
                   <div className="w-14 h-14 bg-[#f05a28] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg">
                     <i className="fas fa-phone-alt"></i>
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold">Телефон</h4>
-                    <a href="tel:+79301796020" className="text-xl font-bold text-[#f05a28]">+7 (930) 179-60-20</a>
+                    <h4 className="text-lg font-bold">Телефоны</h4>
+                    <a href="tel:+79011172371" className="text-xl font-bold text-[#f05a28] block">+7 (901) 117-23-71</a>
+                    <a href="tel:+79301796020" className="text-lg text-slate-600 hover:text-[#f05a28]">+7 (930) 179-60-20</a>
                   </div>
                 </div>
+
                 <div className="flex gap-5 items-start">
                   <div className="w-14 h-14 bg-[#f05a28] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg">
                     <i className="fas fa-envelope"></i>
@@ -328,14 +481,26 @@ export default function Home() {
                     <a href="mailto:info@almik-tver.ru" className="text-slate-600 hover:text-[#f05a28]">info@almik-tver.ru</a>
                   </div>
                 </div>
+
+                <div className="flex gap-5 items-start">
+                  <div className="w-14 h-14 bg-[#f05a28] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-lg">
+                    <i className="fas fa-clock"></i>
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-bold">Режим работы</h4>
+                    <p className="text-slate-600">Круглосуточно, без выходных</p>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="h-[400px] bg-slate-100 rounded-[30px] overflow-hidden relative shadow-inner">
-               <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
-                  <i className="fas fa-map-marked-alt text-6xl mb-4"></i>
-                  <p className="text-xl font-bold">г. Тверь, ул. Седова, д. 55</p>
-                  <p className="text-sm">Здесь будет карта Яндекса</p>
-               </div>
+
+            <div className="h-[500px] bg-slate-100 rounded-[30px] overflow-hidden relative shadow-inner">
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-400 bg-slate-50">
+                <i className="fas fa-map-marked-alt text-6xl mb-4 text-[#f05a28]"></i>
+                <p className="text-xl font-bold text-[#0b1a33]">г. Тверь, Петербургское шоссе 93к1</p>
+                <p className="text-sm text-slate-500">офис 516 (фактический адрес)</p>
+                <p className="text-xs mt-4">Здесь будет интерактивная карта</p>
+              </div>
             </div>
           </div>
         </div>
@@ -348,6 +513,7 @@ export default function Home() {
             <div className="text-2xl font-black mb-2"><span className="text-[#f05a28]">А</span>ЛМИК</div>
             <p className="opacity-60 text-sm">ИНН 6900000798 | ОГРН 1236900010380</p>
           </div>
+
           <div className="flex gap-4">
             <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#f05a28] transition-colors">
               <i className="fab fa-whatsapp"></i>
@@ -359,8 +525,9 @@ export default function Home() {
               <i className="fab fa-vk"></i>
             </a>
           </div>
+
           <div className="text-sm opacity-60">
-            © 2026 ООО «АЛМИК». Все права защищены.
+            © {new Date().getFullYear()} ООО «АЛМИК». Все права защищены.
           </div>
         </div>
       </footer>
