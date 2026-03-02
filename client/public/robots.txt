@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+Sitemap: https://almik-tver.ru/sitemap.xml
+Host: https://almik-tver.ru
