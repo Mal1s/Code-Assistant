@@ -16,7 +16,13 @@ import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-
 import imgTrucks from "@assets/image_1772480282842.png";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/9ce8d2a17992f3891548dd932eb49e17_1772480373987.jpg";
-import imgManager from "@assets/900h480__1772480291927.jpg";
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true },
+  transition: { duration: 0.6 }
+};
 
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -40,23 +46,23 @@ export default function Home() {
     const logoUrl = logoMap[partnerName];
     if (logoUrl) {
       return (
-        <div className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-slate-100 group">
+        <motion.div 
+          whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)" }}
+          className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 group transition-all duration-300"
+        >
           <img 
             src={logoUrl} 
             alt={partnerName} 
             className="max-h-16 max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300" 
           />
-        </div>
+        </motion.div>
       );
     }
     return null;
   };
 
   useEffect(() => {
-    const handleScroll = () => {
-      const offset = window.scrollY;
-      setScrolled(offset > 100);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 100);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -80,7 +86,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-slate-50">
+    <div className="flex flex-col w-full bg-[#f8faff]">
       {/* SUCCESS NOTIFICATION */}
       <AnimatePresence>
         {showSuccess && (
@@ -108,7 +114,6 @@ export default function Home() {
             <button onClick={() => setIsMenuOpen(false)} className="absolute top-6 right-6 text-4xl">✕</button>
             <button onClick={() => scrollTo('hero')} className="text-2xl font-bold">Главная</button>
             <button onClick={() => scrollTo('about')} className="text-2xl font-bold">О компании</button>
-            <button onClick={() => scrollTo('why-us')} className="text-2xl font-bold">Почему мы</button>
             <button onClick={() => scrollTo('services')} className="text-2xl font-bold">Услуги</button>
             <button onClick={() => scrollTo('partners')} className="text-2xl font-bold">Партнеры</button>
             <button onClick={() => scrollTo('form')} className="text-2xl font-bold">Заявка</button>
@@ -129,13 +134,13 @@ export default function Home() {
           </div>
 
           <nav className="hidden lg:flex gap-8 font-bold text-sm uppercase tracking-widest">
-            {['hero', 'about', 'why-us', 'services', 'partners', 'contacts'].map((item) => (
+            {['hero', 'about', 'services', 'partners', 'contacts'].map((item) => (
               <button 
                 key={item}
                 onClick={() => scrollTo(item)} 
                 className={`transition-colors hover:text-[#f05a28] ${scrolled ? 'text-slate-600' : 'text-white/90'}`}
               >
-                {item === 'hero' ? 'Главная' : item === 'about' ? 'О компании' : item === 'why-us' ? 'Почему мы' : item === 'services' ? 'Услуги' : item === 'partners' ? 'Партнеры' : 'Контакты'}
+                {item === 'hero' ? 'Главная' : item === 'about' ? 'О компании' : item === 'services' ? 'Услуги' : item === 'partners' ? 'Партнеры' : 'Контакты'}
               </button>
             ))}
           </nav>
@@ -150,26 +155,13 @@ export default function Home() {
       </header>
 
       {/* HERO SECTION */}
-      <section 
-        id="hero" 
-        className="relative h-screen flex items-center overflow-hidden"
-      >
+      <section id="hero" className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={imgHero} 
-            className="w-full h-full object-cover" 
-            alt="Logistic background" 
-          />
+          <img src={imgHero} className="w-full h-full object-cover" alt="Logistic background" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0b1a33] via-[#0b1a33]/80 to-transparent"></div>
         </div>
-
         <div className="container mx-auto px-6 relative z-10">
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
-            className="max-w-4xl"
-          >
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="max-w-4xl">
             <div className="inline-block px-5 py-2 bg-[#f05a28]/20 border border-[#f05a28]/30 rounded-full mb-8">
               <span className="text-[#f05a28] font-black text-sm tracking-widest uppercase">Логистика высшего уровня 24/7</span>
             </div>
@@ -180,16 +172,10 @@ export default function Home() {
               Современный автопарк ТС от 2023 года. Полная страховка грузов. Команда с 15-летним экспертным опытом в логистике.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <button 
-                onClick={() => scrollTo('form')} 
-                className="bg-[#f05a28] text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-[#d44a1d] transition-all hover:scale-105 active:scale-95 shadow-2xl shadow-[#f05a28]/30"
-              >
+              <button onClick={() => scrollTo('form')} className="bg-[#f05a28] text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30">
                 Рассчитать стоимость
               </button>
-              <button 
-                onClick={() => scrollTo('about')} 
-                className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-white/20 transition-all"
-              >
+              <button onClick={() => scrollTo('about')} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-white/20 transition-all">
                 О компании
               </button>
             </div>
@@ -201,11 +187,7 @@ export default function Home() {
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              className="relative"
-            >
+            <motion.div {...fadeInUp} className="relative">
               <div className="rounded-[4rem] overflow-hidden shadow-2xl border-[12px] border-slate-50 aspect-video lg:aspect-square">
                 <img src={imgTrucks} alt="Trucks" className="w-full h-full object-cover" />
               </div>
@@ -214,21 +196,15 @@ export default function Home() {
                 <p className="text-white/80 font-bold uppercase tracking-widest text-xs mt-3">лет в логистике</p>
               </div>
             </motion.div>
-            
-            <div>
+            <motion.div {...fadeInUp}>
               <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-8 leading-tight">Ваш надежный <br />партнер на дороге</h2>
               <div className="space-y-6 text-slate-600 mb-12 text-lg leading-relaxed">
-                <p className="font-bold text-[#0b1a33] text-2xl">
-                  ООО «АлМик» — эксперты в области комплексных транспортных решений.
-                </p>
-                <p>
-                  Несмотря на то, что бренд АлМик официально зарегистрирован в 2023 году, ядро нашей команды обладает более чем 15-летним опытом в сфере логистики. Мы прошли путь от малого бизнеса до надежного партнера крупнейших ритейлеров страны.
-                </p>
+                <p className="font-bold text-[#0b1a33] text-2xl">ООО «АлМик» — эксперты в области комплексных транспортных решений.</p>
+                <p>Несмотря на то, что бренд АлМик официально зарегистрирован в 2023 году, ядро нашей команды обладает более чем 15-летним опытом в сфере логистики.</p>
                 <p className="bg-slate-50 p-6 rounded-[2rem] border-l-8 border-[#f05a28]">
                   Мы используем собственный парк новых ТС 2023+ года выпуска. Все перевозки застрахованы, а каждый водитель оформлен официально. <strong>Работаем с НДС 20% (ОСНО).</strong>
                 </p>
               </div>
-
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {[
                   { label: 'ИНН', val: '6900000798', icon: 'fingerprint' },
@@ -247,67 +223,25 @@ export default function Home() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE US */}
-      <section id="why-us" className="py-24 px-6 bg-[#0b1a33] text-white overflow-hidden relative">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#f05a28]/10 rounded-full blur-[150px] -translate-y-1/2 translate-x-1/2"></div>
-        <div className="container mx-auto relative z-10">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl md:text-6xl font-black mb-6">Почему выбирают нас</h2>
-            <div className="w-24 h-2 bg-[#f05a28] mx-auto rounded-full"></div>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: 'fa-route', title: 'Грузоперевозки «под ключ»', desc: 'Берём на себя всё: от подачи транспорта до страхования и документооборота.' },
-              { icon: 'fa-map-marked-alt', title: 'География без границ', desc: 'Доставка по всей РФ и в дружественные страны СНГ (Беларусь, Казахстан и др.).' },
-              { icon: 'fa-truck', title: 'Новый автопарк', desc: 'Собственные автомобили 2023+ года выпуска. Гарантия технической исправности.' },
-              { icon: 'fa-shield-alt', title: 'Безопасность груза', desc: 'Полная страховка каждой перевозки. Ответственность застрахована на 100%.' },
-              { icon: 'fa-clock', title: 'Скорость и пунктуальность', desc: 'Строгое соблюдение сроков. Оперативная обработка заявок за 15 минут.' },
-              { icon: 'fa-file-invoice', title: 'Прозрачность и НДС', desc: 'Официальный договор, работа по ОСНО с НДС 20%. Полный пакет документов.' }
-            ].map((item, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white/5 backdrop-blur-lg border border-white/10 p-10 rounded-[3rem] hover:bg-white/10 transition-all group"
-              >
-                <div className="w-16 h-16 bg-[#f05a28] rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-xl shadow-[#f05a28]/20 transition-transform group-hover:rotate-12">
-                  <i className={`fas ${item.icon}`}></i>
-                </div>
-                <h3 className="text-2xl font-bold mb-4">{item.title}</h3>
-                <p className="text-slate-400 leading-relaxed text-lg">{item.desc}</p>
-              </motion.div>
-            ))}
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* SERVICES */}
-      <section id="services" className="py-24 px-6 bg-white overflow-hidden">
+      <section id="services" className="py-24 px-6 bg-[#f8faff] overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-6">Наши услуги</h2>
             <div className="w-24 h-2 bg-[#f05a28] mx-auto rounded-full"></div>
           </div>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
               { title: 'Грузоперевозки', desc: 'От 1.5 до 20 тонн: Газели, 5т, 10т, Еврофуры.', icon: 'truck-moving', img: imgWarehouse },
               { title: 'Офисные переезды', desc: 'Комплексное решение для бизнеса любого масштаба.', icon: 'briefcase', img: imgLogistics },
               { title: 'Спецтехника', desc: 'Аренда манипуляторов, погрузчиков и кранов.', icon: 'forklift', img: imgWarehouse }
             ].map((service, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="group relative overflow-hidden rounded-[3rem] bg-slate-50 border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500"
-              >
+              <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-[3rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500">
                 <div className="h-64 overflow-hidden relative">
                   <img src={service.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={service.title} />
                   <div className="absolute inset-0 bg-[#0b1a33]/20 group-hover:bg-transparent transition-colors"></div>
@@ -329,7 +263,7 @@ export default function Home() {
       </section>
 
       {/* PARTNERS */}
-      <section id="partners" className="py-24 px-6 bg-slate-50 overflow-hidden">
+      <section id="partners" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-6">Основные партнеры</h2>
@@ -338,15 +272,9 @@ export default function Home() {
               «Надеемся стать для Вас в будущем надежным партнером и помощником в решении Ваших транспортных задач.»
             </p>
           </div>
-
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
             {partners.map((partner, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
+              <motion.div key={index} {...fadeInUp} transition={{ delay: index * 0.05 }}>
                 {getPartnerLogo(partner)}
               </motion.div>
             ))}
@@ -357,91 +285,154 @@ export default function Home() {
       {/* APPLICATION FORM */}
       <section id="form" className="py-24 px-6 bg-[#0b1a33] relative overflow-hidden">
         <div className="container mx-auto relative z-10">
-          <div className="max-w-6xl mx-auto bg-white p-10 md:p-20 rounded-[4rem] shadow-[0_50px_100px_-12px_rgba(240,90,40,0.25)] border-8 border-[#f05a28]/10">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-              <div>
-                <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-8 leading-tight">ОФОРМИТЬ <br /><span className="text-[#f05a28]">ЗАЯВКУ</span></h2>
-                <p className="text-slate-500 text-xl mb-12 leading-relaxed">Заполните форму, и наши логисты свяжутся с вами в течение 15 минут для расчета точной стоимости и условий.</p>
-                
-                <div className="space-y-10">
-                  <div className="flex items-center gap-6 group">
-                    <div className="w-20 h-20 bg-slate-100 rounded-[2rem] flex items-center justify-center group-hover:bg-[#f05a28] transition-all">
-                      <i className="fas fa-phone-alt text-3xl text-[#0b1a33] group-hover:text-white"></i>
-                    </div>
-                    <div>
-                      <p className="text-[#f05a28] font-black uppercase tracking-[0.2em] text-xs mb-2">Горячая линия</p>
-                      <a href="tel:+79004746688" className="text-3xl font-black text-[#0b1a33]">+7 (900) 474-66-88</a>
-                    </div>
-                  </div>
+          <div className="max-w-6xl mx-auto bg-white p-8 md:p-16 rounded-[4rem] shadow-2xl">
+            <h2 className="text-4xl md:text-5xl font-black text-[#0b1a33] mb-12 text-center uppercase tracking-tight">Оформить заявку</h2>
+            <form onSubmit={handleFormSubmit} className="space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Ваше имя *</label>
+                  <input required type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Телефон *</label>
+                  <input required type="tel" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Email</label>
+                  <input type="email" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+              </div>
 
-                  <div className="flex items-center gap-6 group">
-                    <div className="w-20 h-20 bg-slate-100 rounded-[2rem] flex items-center justify-center group-hover:bg-[#f05a28] transition-all">
-                      <i className="fas fa-envelope text-3xl text-[#0b1a33] group-hover:text-white"></i>
-                    </div>
-                    <div>
-                      <p className="text-[#f05a28] font-black uppercase tracking-[0.2em] text-xs mb-2">Email</p>
-                      <a href="mailto:almik69@mail.ru" className="text-3xl font-black text-[#0b1a33]">almik69@mail.ru</a>
-                    </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Откуда (город, адрес)</label>
+                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Куда (город, адрес)</label>
+                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Длина (м)</label>
+                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Ширина (м)</label>
+                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Высота (м)</label>
+                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Вес (тонн)</label>
+                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Тип груза</label>
+                  <select className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all appearance-none">
+                    <option>Оборудование</option>
+                    <option>Стройматериалы</option>
+                    <option>Мебель</option>
+                    <option>Продукты</option>
+                    <option>Запчасти</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Тип кузова</label>
+                  <select className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all appearance-none">
+                    <option>Тент</option>
+                    <option>Фургон</option>
+                    <option>Рефрижератор</option>
+                    <option>Изотерм</option>
+                    <option>Цельнометаллический</option>
+                    <option>Контейнер</option>
+                  </select>
+                </div>
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">Машин / Дата загрузки</label>
+                  <div className="flex gap-2">
+                    <input type="number" defaultValue="1" className="w-20 px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none" />
+                    <input type="date" className="flex-1 px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none" />
                   </div>
                 </div>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <input required type="text" placeholder="Ваше имя" className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 text-[#0b1a33] focus:outline-none focus:border-[#f05a28] transition-colors font-bold" />
-                  <input required type="tel" placeholder="+7 (___) ___-__-__" className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 text-[#0b1a33] focus:outline-none focus:border-[#f05a28] transition-colors font-bold" />
+              <div className="flex flex-wrap gap-6 py-4">
+                {['Отдельной машиной (FTL)', 'Догрузом (LTL)', 'Страховка груза', 'TIR/CMR/T1'].map(opt => (
+                  <label key={opt} className="flex items-center gap-3 cursor-pointer group">
+                    <div className="w-6 h-6 border-2 border-slate-200 rounded-lg group-hover:border-[#f05a28] flex items-center justify-center transition-all">
+                      <input type="checkbox" className="hidden peer" />
+                      <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
+                        <i className="fas fa-check text-xs text-white"></i>
+                      </div>
+                    </div>
+                    <span className="font-bold text-slate-700">{opt}</span>
+                  </label>
+                ))}
+              </div>
+
+              <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="flex-1 w-full max-w-xs">
+                  <label className="text-sm font-bold text-slate-700 block mb-2">Ставка (руб)</label>
+                  <input type="number" placeholder="0.00" className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:border-[#f05a28] outline-none" />
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <input type="text" placeholder="Откуда" className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 text-[#0b1a33] focus:outline-none focus:border-[#f05a28] transition-colors font-bold" />
-                  <input type="text" placeholder="Куда" className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 text-[#0b1a33] focus:outline-none focus:border-[#f05a28] transition-colors font-bold" />
+                <div className="flex flex-wrap gap-4">
+                  {['С НДС, безнал', 'Без НДС, безнал', 'Наличными'].map(pay => (
+                    <label key={pay} className="flex items-center gap-2 cursor-radio">
+                      <input type="radio" name="payment" className="w-5 h-5 accent-[#f05a28]" />
+                      <span className="font-bold text-slate-700">{pay}</span>
+                    </label>
+                  ))}
                 </div>
-                <textarea rows={4} placeholder="Детали груза: вес, объем, тип..." className="w-full px-8 py-5 rounded-3xl bg-slate-50 border-2 border-slate-100 text-[#0b1a33] focus:outline-none focus:border-[#f05a28] transition-colors font-bold resize-none"></textarea>
-                <button type="submit" className="w-full bg-[#f05a28] text-white py-6 rounded-[2rem] font-black text-2xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/40 hover:scale-[1.02] active:scale-98">
-                  Отправить заявку
+                <div className="flex items-center gap-3">
+                  <span className="font-bold text-slate-700">Торг возможен</span>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" className="sr-only peer" />
+                    <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#f05a28]"></div>
+                  </label>
+                </div>
+              </div>
+
+              <textarea rows={3} placeholder="Дополнительный комментарий..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold"></textarea>
+              
+              <div className="text-center">
+                <button type="submit" className="bg-[#f05a28] text-white px-20 py-6 rounded-[2rem] font-black text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4">
+                  ОТПРАВИТЬ ЗАЯВКУ
                 </button>
-              </form>
-            </div>
+                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+              </div>
+            </form>
           </div>
         </div>
       </section>
 
       {/* CONTACTS */}
-      <section id="contacts" className="py-24 px-6 bg-white">
+      <section id="contacts" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
-            <div>
-              <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-12">Наши контакты</h2>
-              <div className="space-y-10">
-                <div className="flex gap-8 items-start">
-                  <div className="w-20 h-20 bg-slate-100 text-[#f05a28] rounded-[2rem] flex items-center justify-center text-3xl shrink-0">
-                    <i className="fas fa-map-marker-alt"></i>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-2">Адрес офиса</p>
-                    <p className="text-2xl font-black text-[#0b1a33]">Тверь, Петербургское шоссе 93к1, оф. 516</p>
-                    <p className="text-slate-500 mt-2">БЦ «Синтез», 5 этаж</p>
-                  </div>
+          <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-12 text-center">Наши контакты</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+            {[
+              { label: 'Адрес офиса', val: 'Тверь, Петербургское ш. 93к1, оф. 516', sub: 'БЦ «Синтез», 5 этаж', icon: 'map-marker-alt' },
+              { label: 'Юридический', val: 'Тверь, ул. Седова, 55, кв. 80', sub: 'ООО «АЛМИК»', icon: 'building' },
+              { label: 'Режим работы', val: 'Пн-Вс: 08:00 – 22:00', sub: 'Без выходных', icon: 'clock' },
+              { label: 'Связь', val: '+7 (900) 474-66-88', sub: 'almik69@mail.ru', icon: 'phone-alt' }
+            ].map((c, i) => (
+              <motion.div key={i} {...fadeInUp} className="text-center group">
+                <div className="w-20 h-20 bg-slate-50 text-[#f05a28] rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-[#f05a28] group-hover:text-white transition-all">
+                  <i className={`fas fa-${c.icon}`}></i>
                 </div>
-                <div className="flex gap-8 items-start">
-                  <div className="w-20 h-20 bg-slate-100 text-[#f05a28] rounded-[2rem] flex items-center justify-center text-3xl shrink-0">
-                    <i className="fas fa-clock"></i>
-                  </div>
-                  <div>
-                    <p className="text-slate-400 font-bold uppercase tracking-widest text-xs mb-2">Режим работы</p>
-                    <p className="text-2xl font-black text-[#0b1a33]">Пн-Вс: 08:00 – 22:00</p>
-                    <p className="text-slate-500 mt-2">Без перерывов и выходных</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="rounded-[4rem] overflow-hidden shadow-2xl h-[500px] border-8 border-slate-50">
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2179.845839213197!2d35.833633!3d56.885667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b42b93e68058b7%3A0xc3f1797d025170d1!2z0J_QtdGC0LXRgNCx0YPRgNCz0YHQutC-0LUg0YguLCA5M9C6MSwg0KLQstC10YDRjCwg0KLQstC10YDRgdC60LDRjyDQvtCx0LsuLCAxNzAwMzM!5e0!3m2!1sru!2sru!4v1711234567890!5m2!1sru!2sru" 
-                className="w-full h-full border-0" 
-                allowFullScreen={true} 
-                loading="lazy"
-              ></iframe>
-            </div>
+                <p className="text-[#f05a28] font-black uppercase tracking-widest text-xs mb-2">{c.label}</p>
+                <p className="text-xl font-black text-[#0b1a33] mb-1">{c.val}</p>
+                <p className="text-slate-500 font-bold">{c.sub}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -449,69 +440,41 @@ export default function Home() {
       {/* FOOTER */}
       <footer className="bg-slate-950 pt-24 pb-12 overflow-hidden relative">
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-20 mb-20">
-            <div className="lg:col-span-2">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 mb-20 border-b border-slate-900 pb-20">
+            <div>
               <div className="flex items-center gap-3 mb-10">
-                <div className="w-16 h-16 bg-[#f05a28] rounded-2xl flex items-center justify-center">
-                  <span className="text-white font-black text-3xl">A</span>
-                </div>
+                <div className="w-16 h-16 bg-[#f05a28] rounded-2xl flex items-center justify-center"><span className="text-white font-black text-3xl">A</span></div>
                 <span className="text-5xl font-black tracking-tighter text-white">АЛМИК</span>
               </div>
-              <p className="text-slate-500 text-2xl leading-relaxed max-w-xl">
-                Надежная логистика для вашего бизнеса. Работаем на результат, ценим Ваше время, гарантируем безопасность каждого груза.
-              </p>
+              <p className="text-slate-500 text-2xl leading-relaxed">Надежная логистика для вашего бизнеса. Работаем на результат, ценим Ваше время.</p>
             </div>
-
             <div>
-              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Локации</h4>
-              <ul className="space-y-6 text-slate-400 text-lg">
-                <li className="flex gap-4">
-                  <i className="fas fa-map-marker-alt text-[#f05a28] mt-1.5 text-xl"></i>
-                  <div>
-                    <span className="text-white font-bold block mb-1">Юридический адрес:</span>
-                    <span>Тверь, ул. Седова, 55, кв. 80</span>
-                  </div>
-                </li>
-                <li className="flex gap-4">
-                  <i className="fas fa-building text-[#f05a28] mt-1.5 text-xl"></i>
-                  <div>
-                    <span className="text-white font-bold block mb-1">Фактический адрес:</span>
-                    <span>Тверь, Петербургское шоссе 93к1, оф. 516</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Юр. данные</h4>
-              <ul className="space-y-6 text-slate-400 text-lg font-bold">
+              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Реквизиты</h4>
+              <ul className="space-y-4 text-slate-400 font-bold">
                 <li>ИНН: 6900000798</li>
                 <li>ОГРН: 1236900010380</li>
-                <li className="pt-6">
-                  <div className="flex gap-4">
-                    {['facebook', 'instagram', 'vk', 'telegram'].map((s) => (
-                      <a key={s} href="#" className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center hover:bg-[#f05a28] hover:text-white transition-all">
-                        <i className={`fab fa-${s} text-xl`}></i>
-                      </a>
-                    ))}
-                  </div>
-                </li>
+                <li>ООО «АЛМИК»</li>
               </ul>
             </div>
+            <div className="text-right lg:text-left">
+              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Контакты</h4>
+              <a href="tel:+79004746688" className="text-3xl font-black text-white block mb-4 hover:text-[#f05a28]">+7 (900) 474-66-88</a>
+              <a href="mailto:almik69@mail.ru" className="text-2xl font-bold text-slate-500 hover:text-[#f05a28]">almik69@mail.ru</a>
+            </div>
           </div>
-
-          <div className="pt-10 border-t border-slate-900 flex flex-col md:flex-row justify-between items-center gap-8">
-            <p className="text-slate-600 font-bold tracking-wider">© {new Date().getFullYear()} ООО «АЛМИК». ГРУЗОПЕРЕВОЗКИ ЛЮБОЙ СЛОЖНОСТИ.</p>
-            <p className="text-slate-600 font-bold">ИНН 6900000798</p>
+          <div className="flex justify-between items-center text-slate-600 font-bold tracking-widest text-sm uppercase">
+            <span>© {new Date().getFullYear()} ООО «АЛМИК»</span>
+            <span>Грузоперевозки по России</span>
           </div>
         </div>
 
-        {/* TRUCK DECORATION */}
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-slate-900 opacity-30">
+        {/* TRUCK ANIMATION */}
+        <div className="absolute bottom-0 left-0 w-full h-16 bg-slate-900/40 backdrop-blur-sm pointer-events-none border-t border-white/10">
+          <div className="road-line"></div>
           <motion.div
-            animate={{ x: ["-100%", "500%"] }}
-            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="text-4xl absolute -top-10"
+            animate={{ x: ["-10%", "110%"] }}
+            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+            className="text-5xl absolute -top-10 filter drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]"
           >
             🚚
           </motion.div>
