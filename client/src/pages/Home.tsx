@@ -1,6 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
+// В начале файла, после import, добавьте эту функцию
+const getPartnerLogo = (partnerName: string) => {
+  // Эмодзи как запасной вариант
+  const emojiMap: { [key: string]: string } = {
+    'Русский Свет': '⚡',
+    'Ozon': '🛍️',
+    'Тверской Вагоностроительный Завод': '🚂',
+    'Металл Профиль': '🏗️',
+    'ТехноНИКОЛЬ': '🏭',
+    'УВМ-Сталь': '⚙️',
+    'Wildberries': '📦',
+    'Мелькомбинат': '🌾',
+    'Салаир': '⛏️',
+    'Светофор': '🚦'
+  };
+
+  return emojiMap[partnerName] || '🏢';
+};
+
 export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -293,60 +312,191 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PARTNERS С ЛОГОТИПАМИ */}
-      <section id="partners" className="py-20 px-4 md:px-8 bg-slate-50">
+      {/* КРАСИВЫЙ БЛОК С ФУРАМИ */}
+      <section className="py-20 px-4 md:px-8 bg-gradient-to-r from-[#0b1a33] to-[#1a2a44] text-white overflow-hidden">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-black text-center mb-4">Основные партнеры нашей компании</h2>
-          <p className="text-center text-slate-600 mb-16 max-w-3xl mx-auto">
-            Мы гордимся сотрудничеством с лидерами рынка и дорожим доверием каждого клиента
-          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Текст */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <h2 className="text-4xl md:text-5xl font-black mb-6">
+                Современный <span className="text-[#f05a28]">автопарк</span>
+              </h2>
+              <p className="text-xl text-slate-300 mb-8">
+                Транспортные средства от 2023 года выпуска. 
+                Регулярное ТО и полная страховка каждой машины.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                {[
+                  { icon: 'fa-truck', text: 'Фуры' },
+                  { icon: 'fa-truck-moving', text: 'Газели' },
+                  { icon: 'fa-temperature-high', text: 'Рефрижераторы' },
+                  { icon: 'fa-weight-hanging', text: 'Тяжеловозы' }
+                ].map((item, i) => (
+                  <motion.div
+                    key={i}
+                    whileHover={{ scale: 1.1 }}
+                    className="bg-white/10 backdrop-blur-lg px-6 py-3 rounded-full border border-white/20"
+                  >
+                    <i className={`fas ${item.icon} text-[#f05a28] mr-2`}></i>
+                    {item.text}
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Анимированные фото фур */}
+            <div className="relative h-[400px]">
+              <motion.div
+                animate={{ 
+                  y: [0, -10, 0],
+                  rotate: [0, 1, 0, -1, 0]
+                }}
+                transition={{ 
+                  duration: 5,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute top-0 left-0 w-64 h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=400" 
+                  alt="Truck 1"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              <motion.div
+                animate={{ 
+                  y: [0, 10, 0],
+                  rotate: [0, -1, 0, 1, 0]
+                }}
+                transition={{ 
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.5
+                }}
+                className="absolute top-32 right-0 w-72 h-48 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1519003722824-8e0e021f4c0a?w=400" 
+                  alt="Truck 2"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              <motion.div
+                animate={{ 
+                  x: [0, 20, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  duration: 7,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 0.2
+                }}
+                className="absolute bottom-0 left-20 w-56 h-40 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20"
+              >
+                <img 
+                  src="https://images.unsplash.com/photo-1624365169361-5ced8dd8e3e0?w=400" 
+                  alt="Truck 3"
+                  className="w-full h-full object-cover"
+                />
+              </motion.div>
+
+              {/* Движущиеся частицы (имитация дороги) */}
+              <div className="absolute -bottom-10 left-0 w-full h-20 overflow-hidden">
+                <motion.div
+                  animate={{ x: [0, -200] }}
+                  transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                  className="absolute bottom-0 whitespace-nowrap text-4xl text-white/20"
+                >
+                  ⚡ ⚡ ⚡ ⚡ ⚡ ⚡ ⚡ ⚡ ⚡ ⚡
+                </motion.div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PARTNERS С КРАСИВЫМИ ИКОНКАМИ */}
+      <section id="partners" className="py-20 px-4 md:px-8 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-7xl mx-auto">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-black text-[#0b1a33] mb-4">
+              Нам доверяют <span className="text-[#f05a28]">лидеры</span>
+            </h2>
+            <p className="text-xl text-slate-600 max-w-3xl mx-auto">
+              Крупнейшие компании России выбирают нас для решения своих логистических задач
+            </p>
+          </motion.div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {partners.map((partner, index) => (
-              <motion.div 
+              <motion.div
                 key={index}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: index * 0.03 }}
-                className="bg-white p-6 rounded-2xl shadow-md hover:shadow-xl transition-all border border-slate-100 flex items-center justify-center grayscale hover:grayscale-0"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: index * 0.05 }}
+                whileHover={{ 
+                  scale: 1.05,
+                  y: -5,
+                  transition: { duration: 0.2 }
+                }}
+                className="group relative"
               >
-                <div className="h-24 flex items-center justify-center">
-                  <img 
-                    src={`/logos/${logos[partner]}`}
-                    alt={partner}
-                    className="max-h-16 max-w-full object-contain"
-                    onError={(e) => {
-                      // Если картинка не загрузилась - показываем заглушку
-                      const target = e.currentTarget;
-                      target.style.display = 'none';
-                      const parent = target.parentElement;
-                      if (parent) {
-                        parent.innerHTML = `
-                          <div class="text-center">
-                            <div class="w-16 h-16 bg-[#f05a28] bg-opacity-10 rounded-full flex items-center justify-center mx-auto mb-3">
-                              <i class="fas fa-building text-2xl text-[#f05a28]"></i>
-                            </div>
-                            <span class="font-semibold text-sm text-[#0b1a33]">${partner}</span>
-                          </div>
-                        `;
-                      }
+                <div className="absolute inset-0 bg-gradient-to-r from-[#f05a28] to-[#ff8c5a] rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"></div>
+                <div className="relative bg-white p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border-2 border-transparent hover:border-[#f05a28] flex flex-col items-center">
+                  <motion.div
+                    animate={{ 
+                      rotate: [0, 10, -10, 0],
                     }}
-                  />
+                    transition={{ 
+                      duration: 2,
+                      repeat: Infinity,
+                      repeatDelay: 3
+                    }}
+                    className="w-24 h-24 bg-gradient-to-br from-[#f05a28] to-[#ff8c5a] rounded-2xl flex items-center justify-center mb-4 shadow-lg group-hover:shadow-xl transform group-hover:scale-110 transition-all duration-300"
+                  >
+                    <span className="text-5xl filter drop-shadow-lg">
+                      {getPartnerLogo(partner)}
+                    </span>
+                  </motion.div>
+                  <h3 className="font-bold text-lg text-center text-[#0b1a33] group-hover:text-[#f05a28] transition-colors">
+                    {partner}
+                  </h3>
+                  <motion.div 
+                    className="w-12 h-1 bg-[#f05a28] rounded-full mt-3"
+                    initial={{ width: 0 }}
+                    whileInView={{ width: 48 }}
+                    transition={{ delay: 0.3 }}
+                  ></motion.div>
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            className="mt-12 text-center bg-white p-8 rounded-3xl border border-slate-200 max-w-3xl mx-auto"
+            transition={{ delay: 0.5 }}
+            className="mt-16 text-center"
           >
-            <p className="text-slate-600 text-lg italic">
-              "Надеемся стать для Вас в будущем надежным партнером и помощником 
-              в решении Ваших транспортных задач."
-            </p>
-            <p className="font-bold text-[#0b1a33] mt-4">— Алексей Михайлов, директор ООО «АЛМИК»</p>
+            <div className="inline-block bg-white px-8 py-4 rounded-full shadow-lg border border-slate-100">
+              <p className="text-slate-600">
+                <span className="font-bold text-[#f05a28]">10+</span> крупных партнеров доверяют нам свои грузы
+              </p>
+            </div>
           </motion.div>
         </div>
       </section>
@@ -536,28 +686,160 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#0b1a33] text-white py-12 px-4 md:px-8">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8 text-center md:text-left">
-          <div>
-            <div className="text-2xl font-black mb-2"><span className="text-[#f05a28]">А</span>ЛМИК</div>
-            <p className="opacity-60 text-sm">ИНН 6900000798 | ОГРН 1236900010380</p>
+      {/* КРАСИВЫЙ ФУТЕР */}
+      <footer className="relative bg-[#0b1a33] text-white overflow-hidden">
+        {/* Декоративные элементы */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#f05a28] via-yellow-500 to-[#f05a28]"></div>
+        
+        {/* Волна сверху */}
+        <div className="absolute top-0 left-0 w-full overflow-hidden">
+          <svg className="relative block w-full h-[60px]" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
+                  className="fill-[#0b1a33] opacity-20"></path>
+          </svg>
+        </div>
+
+        <div className="relative max-w-7xl mx-auto px-4 pt-20 pb-12">
+          {/* Основной контент футера */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+            {/* Колонка 1: О компании */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="text-3xl font-black mb-6">
+                <span className="text-[#f05a28]">А</span>ЛМИК
+              </div>
+              <p className="text-slate-400 mb-6 leading-relaxed">
+                Ваш надежный партнер в сфере грузоперевозок по России и странам ближнего зарубежья.
+              </p>
+              <div className="flex items-center gap-2 text-sm text-slate-500">
+                <div className="w-2 h-2 bg-[#f05a28] rounded-full"></div>
+                <span>Работаем круглосуточно</span>
+              </div>
+            </motion.div>
+
+            {/* Колонка 2: Быстрые ссылки */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <h3 className="text-xl font-bold mb-6 text-white">Навигация</h3>
+              <ul className="space-y-4">
+                {[
+                  { name: 'О компании', id: 'about' },
+                  { name: 'Услуги', id: 'services' },
+                  { name: 'Почему мы', id: 'why-us' },
+                  { name: 'Партнеры', id: 'partners' },
+                  { name: 'Контакты', id: 'contacts' }
+                ].map((item) => (
+                  <li key={item.id}>
+                    <button 
+                      onClick={() => scrollTo(item.id)}
+                      className="text-slate-400 hover:text-[#f05a28] transition-colors flex items-center gap-2 group"
+                    >
+                      <span className="w-0 group-hover:w-2 h-0.5 bg-[#f05a28] transition-all duration-300"></span>
+                      {item.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+
+            {/* Колонка 3: Контакты */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h3 className="text-xl font-bold mb-6 text-white">Контакты</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-[#f05a28] rounded-full flex items-center justify-center mt-1">
+                    <i className="fas fa-phone-alt text-xs text-white"></i>
+                  </div>
+                  <div>
+                    <a href="tel:+79011172371" className="text-slate-400 hover:text-white transition-colors block">+7 (901) 117-23-71</a>
+                    <a href="tel:+79301796020" className="text-slate-400 hover:text-white transition-colors text-sm">+7 (930) 179-60-20</a>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-[#f05a28] rounded-full flex items-center justify-center mt-1">
+                    <i className="fas fa-envelope text-xs text-white"></i>
+                  </div>
+                  <a href="mailto:info@almik-tver.ru" className="text-slate-400 hover:text-white transition-colors">
+                    info@almik-tver.ru
+                  </a>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-[#f05a28] rounded-full flex items-center justify-center mt-1">
+                    <i className="fas fa-clock text-xs text-white"></i>
+                  </div>
+                  <span className="text-slate-400">Круглосуточно, без выходных</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            {/* Колонка 4: Адреса */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <h3 className="text-xl font-bold mb-6 text-white">Адреса</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-[#f05a28] rounded-full flex items-center justify-center mt-1">
+                    <i className="fas fa-map-marker-alt text-xs text-white"></i>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-semibold">Юридический:</p>
+                    <p className="text-slate-500 text-sm">ул. Седова, 55, кв. 80</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <div className="w-6 h-6 bg-[#f05a28] rounded-full flex items-center justify-center mt-1">
+                    <i className="fas fa-building text-xs text-white"></i>
+                  </div>
+                  <div>
+                    <p className="text-slate-400 font-semibold">Фактический:</p>
+                    <p className="text-slate-500 text-sm">Петербургское шоссе 93к1, офис 516</p>
+                  </div>
+                </li>
+              </ul>
+            </motion.div>
           </div>
 
-          <div className="flex gap-4">
-            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#f05a28] transition-colors">
-              <i className="fab fa-whatsapp"></i>
-            </a>
-            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#f05a28] transition-colors">
-              <i className="fab fa-telegram"></i>
-            </a>
-            <a href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#f05a28] transition-colors">
-              <i className="fab fa-vk"></i>
-            </a>
-          </div>
+          {/* Нижняя часть с реквизитами */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="border-t border-slate-800 pt-8 mt-8"
+          >
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <div className="flex gap-6 text-sm text-slate-500">
+                <span>ИНН 6900000798</span>
+                <span className="hidden md:block">|</span>
+                <span>ОГРН 1236900010380</span>
+              </div>
+              <div className="text-sm text-slate-500">
+                © {new Date().getFullYear()} ООО «АЛМИК». Все права защищены.
+              </div>
+            </div>
+          </motion.div>
 
-          <div className="text-sm opacity-60">
-            © {new Date().getFullYear()} ООО «АЛМИК». Все права защищены.
+          {/* Дорожка с машинами (анимация) */}
+          <div className="absolute bottom-0 left-0 w-full h-16 opacity-10 pointer-events-none">
+            <motion.div
+              animate={{ x: [0, -100] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+              className="absolute bottom-0 left-full whitespace-nowrap text-4xl"
+            >
+              🚚 ⚡ 🚛 ⚡ 🚚 ⚡ 🚛 ⚡ 
+            </motion.div>
           </div>
         </div>
       </footer>
