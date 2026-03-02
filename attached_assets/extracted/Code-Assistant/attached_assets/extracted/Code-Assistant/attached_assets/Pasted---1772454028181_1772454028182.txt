@@ -1,0 +1,201 @@
+СОЗДАЙ ПОЛНОЦЕННЫЙ САЙТ-ПРОЕКТ ДЛЯ ООО «АЛМИК» С ПРАВИЛЬНОЙ СТРУКТУРОЙ, ГОТОВЫЙ К ВЫКЛАДКЕ НА ХОСТИНГ
+
+1. СТРУКТУРА ПАПОК (СОЗДАТЬ АВТОМАТИЧЕСКИ):
+
+/
+├── public/                          # Публичные файлы
+│   ├── index.html                    # Главная страница
+│   ├── 404.html                      # Страница ошибки
+│   ├── robots.txt                    # Для поисковиков
+│   ├── sitemap.xml                    # Карта сайта для Яндекса и Google
+│   └── .htaccess                      # Для настройки сервера (Apache)
+│
+├── public/assets/                     # Все ресурсы
+│   ├── css/
+│   │   └── style.css
+│   ├── js/
+│   │   └── main.js
+│   └── images/
+│       ├── hero-truck.jpg
+│       ├── about-truck.jpg
+│       ├── favicon.ico
+│       └── og-image.jpg               # Для соцсетей (как сайт выглядит в ссылке)
+│
+├── includes/                           # Подключаемые части
+│   ├── header.html
+│   ├── footer.html
+│   └── sections/
+│       ├── hero.html
+│       ├── about.html
+│       ├── benefits.html
+│       ├── services.html
+│       ├── process.html
+│       ├── form.html
+│       └── contacts.html
+│
+└── README.md                            # Инструкция
+
+2. СОДЕРЖИМОЕ ФАЙЛОВ (НА РУССКОМ, С СЕО-НАСТРОЙКАМИ):
+
+2.1 public/robots.txt:
+   User-agent: *
+   Allow: /
+   Sitemap: https://almik-tver.ru/sitemap.xml
+   Host: https://almik-tver.ru
+
+2.2 public/sitemap.xml:
+   <?xml version="1.0" encoding="UTF-8"?>
+   <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+     <url>
+       <loc>https://almik-tver.ru/</loc>
+       <lastmod>2026-03-02</lastmod>
+       <changefreq>weekly</changefreq>
+       <priority>1.0</priority>
+     </url>
+   </urlset>
+
+2.3 public/.htaccess (для хостинга):
+   # Кодировка
+   AddDefaultCharset UTF-8
+   
+   # Сжатие
+   AddOutputFilterByType DEFLATE text/html text/css text/javascript
+   
+   # Кэширование
+   <FilesMatch "\.(ico|jpg|jpeg|png|gif|js|css)$">
+     Header set Cache-Control "max-age=2592000, public"
+   </FilesMatch>
+   
+   # Перенаправление на HTTPS
+   RewriteEngine On
+   RewriteCond %{HTTPS} off
+   RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+   
+   # Кастомная страница ошибки
+   ErrorDocument 404 /404.html
+
+2.4 public/index.html (с правильными мета-тегами на русском):
+   <!DOCTYPE html>
+   <html lang="ru">
+   <head>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     
+     <!-- SEO (Яндекс, Google) -->
+     <title>ООО «АЛМИК» — грузоперевозки в Твери | Собственный автопарк</title>
+     <meta name="description" content="Грузоперевозки по Твери и области от ООО «АЛМИК». Свой автопарк, страховка груза, работаем с 2023 года. ИНН 6900000798. Звоните +7 (930) 179-60-20">
+     <meta name="keywords" content="грузоперевозки Тверь, перевозка грузов, транспортная компания Тверь, ООО АЛМИК, переезды Тверь">
+     <meta name="author" content="ООО «АЛМИК»">
+     <meta name="robots" content="index, follow">
+     
+     <!-- Для Яндекса -->
+     <meta name="yandex-verification" content="здесь_будет_код_подтверждения">
+     
+     <!-- Для Google -->
+     <meta name="google-site-verification" content="здесь_будет_код_подтверждения">
+     
+     <!-- Open Graph (для соцсетей) -->
+     <meta property="og:title" content="ООО «АЛМИК» — грузоперевозки в Твери">
+     <meta property="og:description" content="Свой автопарк, страховка груза, работаем с 2023 года">
+     <meta property="og:image" content="/assets/images/og-image.jpg">
+     <meta property="og:url" content="https://almik-tver.ru">
+     <meta property="og:type" content="website">
+     <meta property="og:locale" content="ru_RU">
+     
+     <!-- Favicon -->
+     <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+     
+     <!-- CSS -->
+     <link rel="stylesheet" href="/assets/css/style.css">
+     
+     <!-- Шрифты -->
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+     
+     <!-- Font Awesome -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   </head>
+   <body>
+     <!-- Header -->
+     <div id="header"></div>
+     
+     <!-- Основной контент -->
+     <main>
+       <div id="hero"></div>
+       <div id="about"></div>
+       <div id="benefits"></div>
+       <div id="services"></div>
+       <div id="process"></div>
+       <div id="form"></div>
+       <div id="contacts"></div>
+     </main>
+     
+     <!-- Footer -->
+     <div id="footer"></div>
+     
+     <!-- JS -->
+     <script src="/assets/js/main.js"></script>
+   </body>
+   </html>
+
+2.5 includes/header.html:
+   <header class="header">
+     <div class="container">
+       <div class="logo">ООО <span>«АЛМИК»</span></div>
+       <nav class="nav">
+         <ul>
+           <li><a href="#about">О нас</a></li>
+           <li><a href="#services">Услуги</a></li>
+           <li><a href="#form">Заявка</a></li>
+           <li><a href="#contacts">Контакты</a></li>
+         </ul>
+       </nav>
+       <div class="header-contacts">
+         <a href="tel:+79301796020" class="phone">+7 (930) 179-60-20</a>
+         <button class="callback-btn">Заказать звонок</button>
+       </div>
+       <button class="burger"><i class="fas fa-bars"></i></button>
+     </div>
+   </header>
+
+2.6 includes/sections/hero.html:
+   <section class="hero">
+     <div class="container">
+       <h1>ГРУЗОПЕРЕВОЗКИ ПО ТВЕРИ И ОБЛАСТИ</h1>
+       <p>Собственный автопарк. Страховка груза. Работаем с 2023 года</p>
+       <div class="hero-buttons">
+         <a href="#form" class="btn btn-primary">Рассчитать стоимость</a>
+         <a href="#about" class="btn btn-secondary">Подробнее</a>
+       </div>
+     </div>
+   </section>
+
+2.7 includes/sections/about.html:
+   <section class="about" id="about">
+     <div class="container">
+       <h2>ООО «АЛМИК» — ваш надежный партнер</h2>
+       <p>Мы молодая, но уже зарекомендовавшая себя транспортная компания в Твери. Работаем с 2023 года. Перевезли более 500 тонн грузов без повреждений.</p>
+       
+       <div class="company-details">
+         <div class="detail-card">
+           <i class="fas fa-building"></i>
+           <h3>ИНН</h3>
+           <p>6900000798</p>
+         </div>
+         <div class="detail-card">
+           <i class="fas fa-file-signature"></i>
+           <h3>ОГРН</h3>
+           <p>1236900010380</p>
+         </div>
+         <div class="detail-card">
+           <i class="fas fa-user-tie"></i>
+           <h3>Директор</h3>
+           <p>Михайлов А.А.</p>
+         </div>
+         <div class="detail-card">
+           <i class="fas fa-map-marker-alt"></i>
+           <h3>Адрес</h3>
+           <p>г. Тверь, ул. Седова, д. 55, кв. 80</p>
+         </div>
+       </div>
+     </div>
+   </section>

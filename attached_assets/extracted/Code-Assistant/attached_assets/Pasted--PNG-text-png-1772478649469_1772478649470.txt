@@ -1,0 +1,72 @@
+Для поиска иконок партнеров (PNG с прозрачным фоном):
+text
+логотип Русский Свет прозрачный фон png
+логотип Ozon прозрачный фон png
+логотип Тверской Вагоностроительный Завод ТВЗ прозрачный фон png
+логотип Металл Профиль прозрачный фон png
+логотип ТехноНИКОЛЬ прозрачный фон png
+логотип УВМ-Сталь прозрачный фон png
+логотип Wildberries WB прозрачный фон png
+логотип Мелькомбинат прозрачный фон png
+логотип Салаир прозрачный фон png
+логотип Светофор прозрачный фон png
+Для красивых фото фур (высокое качество):
+text
+modern truck fleet photography high resolution
+scania truck front view professional photo
+mercedes actros truck on highway sunset
+новые фуры на трассе красивое фото
+truck transportation logistics photography
+современный автопарк грузовиков фото
+truck side view professional photography
+refrigerated truck driving on road
+Для фоновых изображений на сайт:
+text
+highway road perspective at sunset
+truck on mountain road scenic
+дорога фура дальнобой красивое фото
+logistics background with trucks
+cargo transportation professional photography
+tunnel with truck lights abstract
+Конкретные ссылки на фотостоки с качественными фото:
+Unsplash (бесплатно):
+
+text
+unsplash truck photography
+unsplash logistics transportation
+unsplash highway road
+Pexels (бесплатно):
+
+text
+pexels truck driver
+pexels cargo transport
+pexels semi truck
+Запросы для иконок в хорошем качестве:
+
+text
+russvet logo vector svg
+ozon logo brand png transparent
+tvz logo download
+metal profile logo eps
+technonicol logo ai
+wildberries logo png
+мелькомбинат логотип вектор
+Готовые ссылки на фото (можно сразу использовать):
+text
+https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=800 (красная фура)
+https://images.unsplash.com/photo-1519003722824-8e0e021f4c0a?w=800 (фура на закате)
+https://images.unsplash.com/photo-1624365169361-5ced8dd8e3e0?w=800 (современная фура)
+https://images.unsplash.com/photo-1603787081111-6d03b3124f07?w=800 (автопарк)
+https://images.unsplash.com/photo-1586191583591-76d8b5aab5f0?w=800 (дорога)
+Для анимации (CSS эффекты):
+text
+framer motion truck animation examples
+react truck moving animation codepen
+css truck driving animation
+glowing button hover effects
+parallax scrolling truck website
+Цветовая гамма (ваша):
+css
+Основной синий: #0b1a33
+Оранжевый акцент: #f05a28
+Светлый фон: #f8faff

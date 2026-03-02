@@ -1,0 +1,220 @@
+ <div class="benefit-card" data-aos="fade-up" data-aos-delay="300">
+                <div class="benefit-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <h3>Прозрачные цены</h3>
+                <p>Фиксированная стоимость без скрытых платежей. Работаем по договору</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- УСЛУГИ -->
+<section class="services">
+    <div class="container">
+        <h2 class="section-title">Наши услуги</h2>
+        <p class="section-subtitle">Полный спектр транспортных услуг в Твери и области</p>
+        
+        <div class="services-grid">
+            <div class="service-card" data-aos="fade-right">
+                <div class="service-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Грузоперевозки</h3>
+                    <p>Газель, 5 тонн, 10 тонн, фуры с гидробортом</p>
+                </div>
+            </div>
+            
+            <div class="service-card" data-aos="fade-left">
+                <div class="service-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Квартирные переезды</h3>
+                    <p>Аккуратно упакуем и перевезем ваши вещи</p>
+                </div>
+            </div>
+            
+            <div class="service-card" data-aos="fade-right">
+                <div class="service-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Офисные переезды</h3>
+                    <p>Перевозка оргтехники, мебели, документов</p>
+                </div>
+            </div>
+            
+            <div class="service-card" data-aos="fade-left">
+                <div class="service-icon">
+                    <i class="fas fa-cubes"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Негабаритный груз</h3>
+                    <p>Спецтехника и оборудование любой сложности</p>
+                </div>
+            </div>
+            
+            <div class="service-card" data-aos="fade-right">
+                <div class="service-icon">
+                    <i class="fas fa-boxes"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Доставка стройматериалов</h3>
+                    <p>Песок, щебень, кирпич, пиломатериалы</p>
+                </div>
+            </div>
+            
+            <div class="service-card" data-aos="fade-left">
+                <div class="service-icon">
+                    <i class="fas fa-thermometer-half"></i>
+                </div>
+                <div class="service-content">
+                    <h3>Рефрижераторы</h3>
+                    <p>Перевозка продуктов с соблюдением температуры</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- КАК МЫ РАБОТАЕМ -->
+<section class="process">
+    <div class="container">
+        <h2 class="section-title">Как мы работаем</h2>
+        <p class="section-subtitle">Всего 3 простых шага</p>
+        
+        <div class="process-grid">
+            <div class="process-step" data-aos="zoom-in">
+                <div class="step-number">1</div>
+                <h3>Оставьте заявку</h3>
+                <p>Звонок или форма на сайте. Мы перезвоним за 5 минут</p>
+            </div>
+            
+            <div class="process-step" data-aos="zoom-in" data-aos-delay="100">
+                <div class="step-number">2</div>
+                <h3>Согласование</h3>
+                <p>Подберем машину, рассчитаем точную стоимость</p>
+                <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+            </div>
+            
+            <div class="process-step" data-aos="zoom-in" data-aos-delay="200">
+                <div class="step-number">3</div>
+                <h3>Едем!</h3>
+                <p>Забираем груз, доставляем вовремя, вы принимаете работу</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ФОРМА СВЯЗИ -->
+<section class="contact-section" id="contact">
+    <div class="container">
+        <div class="contact-wrapper">
+            <div class="contact-info">
+                <h3>Остались вопросы?</h3>
+                <p>Заполните форму обратной связи, и наш менеджер свяжется с вами в ближайшее время для консультации и расчета стоимости перевозки.</p>
+                
+                <div class="info-items">
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Телефон</h4>
+                            <a href="tel:+79991234567">+7 (999) 123-45-67</a>
+                            <span class="small">Круглосуточно</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Email</h4>
+                            <a href="mailto:info@almik-tver.ru">info@almik-tver.ru</a>
+                            <span class="small">Ответ в течение часа</span>
+                        </div>
+                    </div>
+                    
+                    <div class="info-item">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-text">
+                            <h4>Адрес</h4>
+                            <p>г. Тверь, ул. Седова, д. 55, кв. 80</p>
+                            <span class="small">Юридический адрес</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form" id="orderForm">
+                <form id="callbackForm">
+                    <div class="form-group">
+                        <label for="name">Ваше имя *</label>
+                        <input type="text" id="name" name="name" placeholder="Иван Иванов" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Ваш телефон *</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+7 (999) 123-45-67" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="ivan@example.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Сообщение</label>
+                        <textarea id="message" name="message" placeholder="Опишите вашу задачу, укажите вес, объем, адреса..."></textarea>
+                    </div>
+                    
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Отправить заявку
+                    </button>
+                    
+                    <p style="font-size: 12px; color: #94a3b8; margin-top: 15px; text-align: center;">
+                        Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+                    </p>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- КАРТА -->
+<section class="map-section">
+    <div class="container">
+        <div class="map-container">
+            <!-- Здесь можно вставить реальную карту Яндекса -->
+            <div class="map-placeholder">
+                <i class="fas fa-map-marked-alt"></i>
+                <p>г. Тверь, ул. Седова, д. 55, кв. 80</p>
+                <small>ООО «АЛМИК» — работаем по всей Твери и области</small>
+                <!-- Пример вставки реальной карты (раскомментируй если нужно) 
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=35.910000%2C56.850000&z=12&pt=35.910000,56.850000,pm2dol" width="100%" height="400" frameborder="0"></iframe>
+                -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ПОДВАЛ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">ООО <span>«АЛМИК»</span></div>
+                <p class="footer-about">Надежная транспортная компания в Твери. Работаем с 2023 года. Все виды грузоперевозок.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-vk"></i></a>
+                </div>
+            </div>
+            
