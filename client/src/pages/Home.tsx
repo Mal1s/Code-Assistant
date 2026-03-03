@@ -51,8 +51,15 @@ export default function Home() {
     if (logoUrl) {
       return (
         <motion.div 
-          whileHover={{ scale: 1.05, boxShadow: "0 20px 25px -5px rgb(0 0 0 / 0.1)" }}
-          className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-sm border border-slate-100 group transition-all duration-300"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          whileHover={{ 
+            y: -10,
+            boxShadow: "0 20px 30px -10px rgba(240, 90, 40, 0.3)",
+            borderColor: "#f05a28"
+          }}
+          transition={{ type: "spring", stiffness: 300 }}
+          className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-lg border-2 border-transparent group transition-all duration-300"
         >
           <img 
             src={logoUrl} 
@@ -73,7 +80,16 @@ export default function Home() {
 
   const scrollTo = (id: string) => {
     setIsMenuOpen(false);
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+      // Легкая вибрация при нажатии (на мобилках)
+      if (navigator.vibrate) navigator.vibrate(10);
+    }
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -176,7 +192,7 @@ export default function Home() {
               Современный автопарк ТС от 2023 года. Полная страховка грузов. Команда с 15-летним экспертным опытом в логистике.
             </p>
             <div className="flex flex-col sm:flex-row gap-6">
-              <button onClick={() => scrollTo('form')} className="bg-[#f05a28] text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30">
+              <button onClick={() => scrollTo('form')} className="btn-orange bg-[#f05a28] text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30">
                 Рассчитать стоимость
               </button>
               <button onClick={() => scrollTo('about')} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-white/20 transition-all">
@@ -190,9 +206,32 @@ export default function Home() {
       {/* ABOUT SECTION */}
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
+          {/* Цифры в цифрах */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+            {[
+              { num: 15, text: 'лет опыта', suffix: '+' },
+              { num: 5000, text: 'довольных клиентов', suffix: '+' },
+              { num: 50, text: 'единиц техники', suffix: '' },
+              { num: 24, text: 'часа в сутки', suffix: '/7' }
+            ].map((item, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, scale: 0.5 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ delay: i * 0.1 }}
+                className="text-center"
+              >
+                <div className="text-5xl font-black text-[#f05a28] mb-2">
+                  {item.num}{item.suffix}
+                </div>
+                <div className="text-lg opacity-80 font-bold text-[#0b1a33]">{item.text}</div>
+              </motion.div>
+            ))}
+          </div>
+          
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeInUp} className="relative">
-              <div className="rounded-[4rem] overflow-hidden shadow-2xl border-[12px] border-slate-50 aspect-video lg:aspect-square">
+              <div className="rounded-[4rem] overflow-hidden shadow-2xl border-[12px] border-slate-50 aspect-video lg:aspect-square shimmer-img">
                 <img src={imgTrucks} alt="Trucks" className="w-full h-full object-cover" />
               </div>
               <div className="absolute -bottom-10 -right-10 bg-[#f05a28] p-10 rounded-[3rem] shadow-2xl shadow-[#f05a28]/30 hidden md:block">
@@ -246,7 +285,7 @@ export default function Home() {
               { title: 'Спецтехника', desc: 'Аренда манипуляторов, погрузчиков и кранов.', icon: 'forklift', img: imgSpecTech }
             ].map((service, idx) => (
               <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col">
-                <div className="h-48 overflow-hidden relative">
+                <div className="h-48 overflow-hidden relative shimmer-img">
                   <img src={service.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={service.title} />
                   <div className="absolute inset-0 bg-[#0b1a33]/20 group-hover:bg-transparent transition-colors"></div>
                 </div>
@@ -285,6 +324,7 @@ export default function Home() {
 
       {/* APPLICATION FORM */}
       <section id="form" className="py-24 px-6 bg-[#0b1a33] relative overflow-hidden">
+        <div className="stars"></div>
         <div className="container mx-auto relative z-10">
           <div className="max-w-6xl mx-auto bg-white p-8 md:p-16 rounded-[4rem] shadow-2xl">
             <h2 className="text-4xl md:text-5xl font-black text-[#0b1a33] mb-12 text-center uppercase tracking-tight">Оформить заявку</h2>
@@ -384,7 +424,7 @@ export default function Home() {
               <textarea rows={3} placeholder="Дополнительный комментарий..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold"></textarea>
               
               <div className="text-center">
-                <button type="submit" className="bg-[#f05a28] text-white px-20 py-6 rounded-[2rem] font-black text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4">
+                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-20 py-6 rounded-[2rem] font-black text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4">
                   ОТПРАВИТЬ ЗАЯВКУ
                 </button>
                 <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
@@ -457,7 +497,11 @@ export default function Home() {
             transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
             className="h-full absolute top-[-10px]"
           >
-            <img src={imgMovingAnim} alt="Truck Anim" className="h-14 w-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.3)]" />
+            <div className="relative">
+              {/* LED Underglow */}
+              <div className="absolute -bottom-2 left-4 right-4 h-4 bg-[#f05a28]/40 blur-md rounded-full animate-pulse"></div>
+              <img src={imgMovingAnim} alt="Truck Anim" className="h-14 w-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.3)] relative z-10" />
+            </div>
           </motion.div>
         </div>
       </footer>
