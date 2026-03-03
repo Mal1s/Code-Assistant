@@ -19,6 +19,7 @@ import imgLogistics from "@assets/9ce8d2a17992f3891548dd932eb49e17_1772480373987
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
 import imgSmallTruck from "@assets/y91wxu8z_1772480362456.jpg";
 import imgMovingAnim from "@assets/1691346515_grizly-club-p-kartinki-gruzovik-bez-fona-47_1772523819759.png";
+import imgHouseholdMoving from "@assets/XXL_height_1772524493045.jfif";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -238,11 +239,10 @@ export default function Home() {
             <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-6">Наши услуги</h2>
             <div className="w-24 h-2 bg-[#f05a28] mx-auto rounded-full"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { title: 'Грузоперевозки', desc: 'От 1.5 до 20 тонн: Газели, 5т, 10т, Еврофуры.', icon: 'truck-moving', img: imgWarehouse },
-              { title: 'Офисные переезды', desc: 'Комплексное решение для бизнеса любого масштаба.', icon: 'briefcase', img: imgSmallTruck },
-              { title: 'Домашние переезды', desc: 'Бережная перевозка личных вещей и мебели.', icon: 'home', img: imgSmallTruck },
+              { title: 'Офисные и домашние переезды', desc: 'Комплексное решение для бизнеса и частных лиц. Бережная перевозка мебели и вещей.', icon: 'home', img: imgHouseholdMoving },
               { title: 'Спецтехника', desc: 'Аренда манипуляторов, погрузчиков и кранов.', icon: 'forklift', img: imgSpecTech }
             ].map((service, idx) => (
               <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col">
@@ -399,11 +399,10 @@ export default function Home() {
       <section id="contacts" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-12 text-center">Наши контакты</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {[
               { label: 'Адрес офиса', val: 'Тверь, Петербургское ш. 93к1, оф. 516', sub: 'БЦ «Синтез», 5 этаж', icon: 'map-marker-alt' },
               { label: 'Юридический', val: 'Тверь, ул. Седова, 55, кв. 80', sub: 'ООО «АЛМИК»', icon: 'building' },
-              { label: 'Режим работы', val: 'Пн-Вс: 08:00 – 22:00', sub: 'Без выходных', icon: 'clock' },
               { label: 'Связь', val: '+7 (900) 474-66-88', sub: 'almik69@mail.ru', icon: 'phone-alt' }
             ].map((c, i) => (
               <motion.div key={i} {...fadeInUp} className="text-center group">
@@ -451,14 +450,14 @@ export default function Home() {
         </div>
 
         {/* TRUCK ANIMATION */}
-        <div className="fixed bottom-0 left-0 w-full h-16 bg-slate-900/60 backdrop-blur-md pointer-events-none border-t border-white/10 z-[4000]">
-          <div className="road-line"></div>
+        <div className="fixed bottom-0 left-0 w-full h-12 bg-slate-900/80 backdrop-blur-sm pointer-events-none border-t border-white/5 z-[4000]">
+          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10"></div>
           <motion.div
             animate={{ x: ["-20%", "120%"] }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
-            className="h-full absolute top-[-20px]"
+            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            className="h-full absolute top-[-10px]"
           >
-            <img src={imgMovingAnim} alt="Truck Anim" className="h-24 w-auto drop-shadow-[0_10px_10px_rgba(0,0,0,0.5)]" />
+            <img src={imgMovingAnim} alt="Truck Anim" className="h-14 w-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.3)]" />
           </motion.div>
         </div>
       </footer>
