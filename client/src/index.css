@@ -1,45 +1,83 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@source "./";
 
+/* Определение темы */
+@theme {
+  --color-background: hsl(210 40% 98%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: #0b1a33;
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-secondary: #f05a28;
+  --color-secondary-foreground: hsl(210 40% 98%);
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --color-accent: hsl(210 40% 96.1%);
+  --color-accent-foreground: hsl(222.2 47.4% 11.2%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: #f05a28;
+  --radius: 1rem;
+}
+
+/* Кастомные утилиты */
+@utility btn-orange {
+  background-color: #f05a28;
+  color: white;
+  font-weight: 900;
+  padding: 1rem 2.5rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  box-shadow: 0 10px 15px -3px rgb(240 90 40 / 0.3);
+
+  &:hover {
+    background-color: #d44a1d;
+    scale: 1.05;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+}
+
+@utility btn-outline {
+  border: 2px solid white;
+  color: white;
+  font-weight: 900;
+  padding: 1rem 2.5rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: white;
+    color: #0b1a33;
+    scale: 1.05;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+}
+
+/* Базовые стили */
 @layer base {
-  :root {
-    --background: 210 40% 98%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 217 64% 12%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 12 88% 55%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 12 88% 55%;
-    --radius: 1rem;
+  * {
+    border-color: hsl(214.3 31.8% 91.4%);
   }
-}
 
-@layer utilities {
-  .btn-orange {
-    @apply bg-[#f05a28] text-white font-black py-4 px-10 rounded-2xl transition-all hover:bg-[#d44a1d] hover:scale-105 active:scale-95 shadow-lg shadow-[#f05a28]/30;
+  body {
+    font-family: sans-serif;
+    background-color: #f8faff;
+    color: #0b1a33;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
   }
-  
-  .btn-outline {
-    @apply border-2 border-white text-white font-black py-4 px-10 rounded-2xl transition-all hover:bg-white hover:text-[#0b1a33] hover:scale-105 active:scale-95;
-  }
-}
-
-body {
-  @apply font-sans text-slate-900 bg-[#f8faff] antialiased;
-  overflow-x: hidden;
 }
 
 /* Custom Scrollbar */
@@ -47,13 +85,25 @@ body {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-slate-100;
+  background-color: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-slate-300 rounded-full border-2 border-slate-100 hover:bg-[#f05a28];
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f05a28;
 }
 
 /* Road Decoration */
 .road-line {
-  @apply absolute top-1/2 left-0 w-full h-1 bg-white/20 -translate-y-1/2 border-t-4 border-dashed border-white/40;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%);
+  border-top: 4px dashed rgba(255, 255, 255, 0.4);
 }
