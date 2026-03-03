@@ -96,6 +96,104 @@
   background-color: #f05a28;
 }
 
+h2 {
+  background: linear-gradient(135deg, #0b1a33 0%, #f05a28 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.btn-orange {
+  @apply relative overflow-hidden;
+}
+
+.btn-orange::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    transparent 0%,
+    rgba(255,255,255,0.2) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% { transform: translateX(-100%) rotate(25deg); }
+  20% { transform: translateX(100%) rotate(25deg); }
+  100% { transform: translateX(100%) rotate(25deg); }
+}
+
+.shimmer-img {
+  @apply relative overflow-hidden;
+}
+
+.shimmer-img::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% { left: 150%; }
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.stars::before, .stars::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(2px 2px at 10px 10px, white, rgba(0,0,0,0)),
+                    radial-gradient(2px 2px at 20px 30px, #f05a28, rgba(0,0,0,0));
+  background-size: 200px 200px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 50%, rgba(240, 90, 40, 0.03) 0%, transparent 50%),
+              radial-gradient(circle at 80% 80%, rgba(240, 90, 40, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
 /* Road Decoration */
 .road-line {
   position: absolute;
