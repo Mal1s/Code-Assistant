@@ -106,7 +106,7 @@ export default function Home() {
   ];
 
   return (
-    <div className="flex flex-col w-full bg-[#f8faff]">
+    <div className="flex flex-col w-full bg-[#f8faff] overflow-x-hidden">
       {/* SUCCESS NOTIFICATION */}
       <AnimatePresence>
         {showSuccess && (
@@ -144,13 +144,13 @@ export default function Home() {
       </AnimatePresence>
 
       {/* HEADER */}
-      <header className={`fixed top-0 left-0 w-full z-[2000] transition-all duration-300 py-4 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
-        <div className="container mx-auto px-6 flex justify-between items-center">
-          <div className="flex items-center gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
-            <div className="w-12 h-12 bg-[#f05a28] rounded-2xl flex items-center justify-center shadow-xl shadow-[#f05a28]/20">
-              <span className="text-white font-black text-2xl">A</span>
+      <header className={`fixed top-0 left-0 w-full z-[2000] transition-all duration-300 py-3 md:py-4 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
+        <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
+          <div className="flex items-center gap-2 md:gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center shadow-xl shadow-[#f05a28]/20">
+              <span className="text-white font-black text-xl md:text-2xl">A</span>
             </div>
-            <span className={`text-3xl font-black tracking-tighter ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>АЛМИК</span>
+            <span className={`text-2xl md:text-3xl font-black tracking-tighter ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>АЛМИК</span>
           </div>
 
           <nav className="hidden lg:flex gap-8 font-bold text-sm uppercase tracking-widest">
@@ -165,11 +165,11 @@ export default function Home() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-6">
-            <a href="tel:+79004746688" className={`hidden sm:block text-xl font-black transition-colors hover:text-[#f05a28] ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>
+          <div className="flex items-center gap-4 md:gap-6">
+            <a href="tel:+79004746688" className={`hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28] ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>
               +7 (900) 474-66-88
             </a>
-            <button onClick={() => setIsMenuOpen(true)} className={`lg:hidden text-4xl p-2 ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>☰</button>
+            <button onClick={() => setIsMenuOpen(true)} className={`lg:hidden text-3xl md:text-4xl p-2 ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>☰</button>
           </div>
         </div>
       </header>
@@ -180,22 +180,22 @@ export default function Home() {
           <img src={imgHero} className="w-full h-full object-cover" alt="Logistic background" />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0b1a33] via-[#0b1a33]/80 to-transparent"></div>
         </div>
-        <div className="container mx-auto px-6 relative z-10">
-          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="max-w-4xl">
-            <div className="inline-block px-5 py-2 bg-[#f05a28]/20 border border-[#f05a28]/30 rounded-full mb-8">
-              <span className="text-[#f05a28] font-black text-sm tracking-widest uppercase">Логистика высшего уровня 24/7</span>
+        <div className="container mx-auto px-4 md:px-6 relative z-10">
+          <motion.div initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.8 }} className="max-w-4xl text-center md:text-left">
+            <div className="inline-block px-4 py-2 bg-[#f05a28]/20 border border-[#f05a28]/30 rounded-full mb-6 md:mb-8">
+              <span className="text-[#f05a28] font-black text-xs md:text-sm tracking-widest uppercase">Логистика высшего уровня 24/7</span>
             </div>
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-8 leading-[1.05]">
-              ГРУЗОПЕРЕВОЗКИ <br />ПО <span className="text-[#f05a28]">РОССИИ</span>
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black text-white mb-6 md:mb-8 leading-[1.1] md:leading-[1.05]">
+              ГРУЗОПЕРЕВОЗКИ <br className="hidden md:block" />ПО <span className="text-[#f05a28]">РОССИИ</span>
             </h1>
-            <p className="text-xl md:text-2xl text-slate-300 mb-12 max-w-2xl leading-relaxed">
+            <p className="text-lg md:text-2xl text-slate-300 mb-8 md:mb-12 max-w-2xl mx-auto md:mx-0 leading-relaxed">
               Современный автопарк ТС от 2023 года. Полная страховка грузов. Команда с 15-летним экспертным опытом в логистике.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <button onClick={() => scrollTo('form')} className="btn-orange bg-[#f05a28] text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30">
+            <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 md:gap-6">
+              <button onClick={() => scrollTo('form')} className="btn-orange bg-[#f05a28] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl md:rounded-[2rem] font-black text-lg md:text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30 w-full sm:w-auto">
                 Рассчитать стоимость
               </button>
-              <button onClick={() => scrollTo('about')} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-12 py-5 rounded-[2rem] font-black text-xl hover:bg-white/20 transition-all">
+              <button onClick={() => scrollTo('about')} className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl md:rounded-[2rem] font-black text-lg md:text-xl hover:bg-white/20 transition-all w-full sm:w-auto">
                 О компании
               </button>
             </div>
@@ -206,8 +206,7 @@ export default function Home() {
       {/* ABOUT SECTION */}
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
-          {/* Цифры в цифрах */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-24">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-16 md:mb-24 px-4">
             {[
               { num: 15, text: 'лет опыта', suffix: '+' },
               { num: 5000, text: 'довольных клиентов', suffix: '+' },
@@ -221,22 +220,22 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center"
               >
-                <div className="text-5xl font-black text-[#f05a28] mb-2">
+                <div className="text-3xl md:text-5xl font-black text-[#f05a28] mb-1 md:mb-2">
                   {item.num}{item.suffix}
                 </div>
-                <div className="text-lg opacity-80 font-bold text-[#0b1a33]">{item.text}</div>
+                <div className="text-sm md:text-lg opacity-80 font-bold text-[#0b1a33]">{item.text}</div>
               </motion.div>
             ))}
           </div>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div {...fadeInUp} className="relative">
-              <div className="rounded-[4rem] overflow-hidden shadow-2xl border-[12px] border-slate-50 aspect-video lg:aspect-square shimmer-img">
+            <motion.div {...fadeInUp} className="relative mt-8 lg:mt-0">
+              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-square shimmer-img">
                 <img src={imgTrucks} alt="Trucks" className="w-full h-full object-cover" />
               </div>
-              <div className="absolute -bottom-10 -right-10 bg-[#f05a28] p-10 rounded-[3rem] shadow-2xl shadow-[#f05a28]/30 hidden md:block">
-                <span className="text-5xl font-black text-white">15+</span>
-                <p className="text-white/80 font-bold uppercase tracking-widest text-xs mt-3">лет в логистике</p>
+              <div className="absolute -bottom-6 -right-6 md:-bottom-10 md:-right-10 bg-[#f05a28] p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-[#f05a28]/30 hidden sm:block">
+                <span className="text-3xl md:text-5xl font-black text-white">15+</span>
+                <p className="text-white/80 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-1 md:mt-3">лет в логистике</p>
               </div>
             </motion.div>
             <motion.div {...fadeInUp}>
@@ -278,24 +277,24 @@ export default function Home() {
             <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-6">Наши услуги</h2>
             <div className="w-24 h-2 bg-[#f05a28] mx-auto rounded-full"></div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4">
             {[
               { title: 'Грузоперевозки', desc: 'От 1.5 до 20 тонн: Газели, 5т, 10т, Еврофуры.', icon: 'truck-moving', img: imgWarehouse },
               { title: 'Офисные и домашние переезды', desc: 'Комплексное решение для бизнеса и частных лиц. Бережная перевозка мебели и вещей.', icon: 'home', img: imgHouseholdMoving },
               { title: 'Спецтехника', desc: 'Аренда манипуляторов, погрузчиков и кранов.', icon: 'forklift', img: imgSpecTech }
             ].map((service, idx) => (
-              <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col">
-                <div className="h-48 overflow-hidden relative shimmer-img">
+              <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-3xl md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col">
+                <div className="h-40 md:h-48 overflow-hidden relative shimmer-img">
                   <img src={service.img} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" alt={service.title} />
                   <div className="absolute inset-0 bg-[#0b1a33]/20 group-hover:bg-transparent transition-colors"></div>
                 </div>
-                <div className="p-8 flex-1 flex flex-col">
-                  <div className="w-14 h-14 bg-[#f05a28] rounded-2xl flex items-center justify-center mb-6 shadow-xl shadow-[#f05a28]/30 -mt-16 relative z-10 transition-transform group-hover:scale-110">
-                    <i className={`fas fa-${service.icon} text-2xl text-white`}></i>
+                <div className="p-6 md:p-8 flex-1 flex flex-col text-center md:text-left">
+                  <div className="w-12 h-12 md:w-14 md:h-14 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center mb-4 md:mb-6 shadow-xl shadow-[#f05a28]/30 -mt-12 md:-mt-16 mx-auto md:mx-0 relative z-10 transition-transform group-hover:scale-110">
+                    <i className={`fas fa-${service.icon} text-xl md:text-2xl text-white`}></i>
                   </div>
-                  <h3 className="text-2xl font-black text-[#0b1a33] mb-4">{service.title}</h3>
-                  <p className="text-slate-600 leading-relaxed text-sm mb-6 flex-1">{service.desc}</p>
-                  <button onClick={() => scrollTo('form')} className="text-[#f05a28] font-black text-sm flex items-center gap-3 hover:gap-5 transition-all">
+                  <h3 className="text-xl md:text-2xl font-black text-[#0b1a33] mb-3 md:mb-4">{service.title}</h3>
+                  <p className="text-slate-600 leading-relaxed text-sm mb-4 md:mb-6 flex-1">{service.desc}</p>
+                  <button onClick={() => scrollTo('form')} className="text-[#f05a28] font-black text-sm flex items-center justify-center md:justify-start gap-3 hover:gap-5 transition-all">
                     Заказать услугу <i className="fas fa-arrow-right"></i>
                   </button>
                 </div>
@@ -312,7 +311,7 @@ export default function Home() {
             <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-6">Основные партнеры</h2>
             <div className="w-24 h-2 bg-[#f05a28] mx-auto rounded-full mb-8"></div>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-8 px-4">
             {partners.map((partner, index) => (
               <motion.div key={index} {...fadeInUp} transition={{ delay: index * 0.05 }}>
                 {getPartnerLogo(partner)}
@@ -323,112 +322,112 @@ export default function Home() {
       </section>
 
       {/* APPLICATION FORM */}
-      <section id="form" className="py-24 px-6 bg-[#0b1a33] relative overflow-hidden">
+      <section id="form" className="py-12 md:py-24 px-4 md:px-6 bg-[#0b1a33] relative overflow-hidden">
         <div className="stars"></div>
         <div className="container mx-auto relative z-10">
-          <div className="max-w-6xl mx-auto bg-white p-8 md:p-16 rounded-[4rem] shadow-2xl">
-            <h2 className="text-4xl md:text-5xl font-black text-[#0b1a33] mb-12 text-center uppercase tracking-tight">Оформить заявку</h2>
-            <form onSubmit={handleFormSubmit} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="max-w-6xl mx-auto bg-white p-6 md:p-16 rounded-3xl md:rounded-[4rem] shadow-2xl">
+            <h2 className="text-3xl md:text-5xl font-black text-[#0b1a33] mb-8 md:mb-12 text-center uppercase tracking-tight">Оформить заявку</h2>
+            <form onSubmit={handleFormSubmit} className="space-y-6 md:space-y-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Ваше имя *</label>
-                  <input required type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input required type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Телефон *</label>
-                  <input required type="tel" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input required type="tel" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Email</label>
-                  <input type="email" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="email" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Откуда (город, адрес)</label>
-                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Куда (город, адрес)</label>
-                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Длина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Ширина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Высота (м)</label>
-                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2 col-span-2 md:col-span-1">
                   <label className="text-sm font-bold text-slate-700">Вес (тонн)</label>
-                  <input type="number" step="0.1" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Тип груза</label>
-                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Оборудование, мебель..." />
+                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Оборудование, мебель..." />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Тип кузова</label>
-                  <input type="text" className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Тент, фургон..." />
+                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Тент, фургон..." />
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">Машин / Дата загрузки</label>
                   <div className="flex gap-2">
-                    <input type="number" defaultValue="1" className="w-20 px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
-                    <input type="date" className="flex-1 px-4 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
+                    <input type="number" defaultValue="1" className="w-16 md:w-20 px-3 md:px-4 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
+                    <input type="date" className="flex-1 px-3 md:px-4 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs md:text-base" />
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-6 py-4">
+              <div className="flex flex-col md:flex-row flex-wrap gap-4 md:gap-6 py-2 md:py-4">
                 {['Отдельной машиной (FTL)', 'Догрузом (LTL)', 'Страховка груза'].map(opt => (
                   <label key={opt} className="flex items-center gap-3 cursor-pointer group">
-                    <div className="w-6 h-6 border-2 border-slate-200 rounded-lg group-hover:border-[#f05a28] flex items-center justify-center transition-all">
+                    <div className="w-6 h-6 border-2 border-slate-200 rounded-lg group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
                       <input type="checkbox" className="hidden peer" />
                       <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
                         <i className="fas fa-check text-xs text-white"></i>
                       </div>
                     </div>
-                    <span className="font-bold text-slate-700">{opt}</span>
+                    <span className="font-bold text-slate-700 text-sm md:text-base">{opt}</span>
                   </label>
                 ))}
               </div>
 
-              <div className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-8">
-                <div className="flex-1 w-full max-w-xs">
+              <div className="bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-[2rem] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
+                <div className="flex-1 w-full max-w-full md:max-w-xs">
                   <label className="text-sm font-bold text-slate-700 block mb-2">Ставка (руб)</label>
-                  <input type="number" placeholder="0.00" className="w-full px-6 py-4 rounded-2xl border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
+                  <input type="number" placeholder="0.00" className="w-full px-5 py-4 rounded-xl md:rounded-2xl border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
                 </div>
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 w-full md:w-auto">
                   {['С НДС, безнал', 'Без НДС, безнал', 'Наличными'].map(pay => (
-                    <label key={pay} className="flex items-center gap-2 cursor-radio">
+                    <label key={pay} className="flex items-center gap-2 cursor-pointer">
                       <input type="radio" name="payment" className="w-5 h-5 accent-[#f05a28]" />
-                      <span className="font-bold text-slate-700">{pay}</span>
+                      <span className="font-bold text-slate-700 text-sm md:text-base">{pay}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <textarea rows={3} placeholder="Дополнительный комментарий..." className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold"></textarea>
+              <textarea rows={3} placeholder="Дополнительный комментарий..." className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold"></textarea>
               
               <div className="text-center">
-                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-20 py-6 rounded-[2rem] font-black text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4">
+                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-8 md:px-20 py-4 md:py-6 rounded-2xl md:rounded-[2rem] font-black text-xl md:text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4 w-full md:w-auto">
                   ОТПРАВИТЬ ЗАЯВКУ
                 </button>
-                <p className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-8">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
-                <p className="text-[#0b1a33] font-bold italic text-lg opacity-70">«Ваш надежный партнер и помощник в решении транспортных задач»</p>
+                <p className="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
+                <p className="text-[#0b1a33] font-bold italic text-base md:text-lg opacity-70 px-4">«Ваш надежный партнер и помощник в решении транспортных задач»</p>
               </div>
             </form>
           </div>
@@ -436,22 +435,22 @@ export default function Home() {
       </section>
 
       {/* CONTACTS */}
-      <section id="contacts" className="py-24 px-6 bg-white overflow-hidden">
+      <section id="contacts" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
-          <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-12 text-center">Наши контакты</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+          <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] mb-8 md:mb-12 text-center">Наши контакты</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-4">
             {[
               { label: 'Адрес офиса', val: 'Тверь, Петербургское ш. 93к1, оф. 516', sub: 'БЦ «Синтез», 5 этаж', icon: 'map-marker-alt' },
               { label: 'Юридический', val: 'Тверь, ул. Седова, 55, кв. 80', sub: 'ООО «АЛМИК»', icon: 'building' },
               { label: 'Связь', val: '+7 (900) 474-66-88', sub: 'almik69@mail.ru', icon: 'phone-alt' }
             ].map((c, i) => (
               <motion.div key={i} {...fadeInUp} className="text-center group">
-                <div className="w-20 h-20 bg-slate-50 text-[#f05a28] rounded-[2rem] flex items-center justify-center text-3xl mx-auto mb-6 group-hover:bg-[#f05a28] group-hover:text-white transition-all">
+                <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-50 text-[#f05a28] rounded-2xl md:rounded-[2rem] flex items-center justify-center text-2xl md:text-3xl mx-auto mb-4 md:mb-6 group-hover:bg-[#f05a28] group-hover:text-white transition-all">
                   <i className={`fas fa-${c.icon}`}></i>
                 </div>
-                <p className="text-[#f05a28] font-black uppercase tracking-widest text-xs mb-2">{c.label}</p>
-                <p className="text-xl font-black text-[#0b1a33] mb-1">{c.val}</p>
-                <p className="text-slate-500 font-bold">{c.sub}</p>
+                <p className="text-[#f05a28] font-black uppercase tracking-widest text-[10px] md:text-xs mb-1 md:mb-2">{c.label}</p>
+                <p className="text-lg md:text-xl font-black text-[#0b1a33] mb-1">{c.val}</p>
+                <p className="text-slate-500 font-bold text-sm md:text-base">{c.sub}</p>
               </motion.div>
             ))}
           </div>
@@ -459,31 +458,31 @@ export default function Home() {
       </section>
 
       {/* FOOTER */}
-      <footer className="bg-slate-950 pt-24 pb-32 overflow-hidden relative">
+      <footer className="bg-slate-950 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden relative">
         <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20 mb-20 border-b border-slate-900 pb-20">
-            <div>
-              <div className="flex items-center gap-3 mb-10">
-                <div className="w-16 h-16 bg-[#f05a28] rounded-2xl flex items-center justify-center"><span className="text-white font-black text-3xl">A</span></div>
-                <span className="text-5xl font-black tracking-tighter text-white">АЛМИК</span>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
+            <div className="text-center lg:text-left">
+              <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
+                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center"><span className="text-white font-black text-2xl md:text-3xl">A</span></div>
+                <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">АЛМИК</span>
               </div>
-              <p className="text-slate-500 text-2xl leading-relaxed">Надежная логистика для вашего бизнеса. Работаем на результат, ценим Ваше время.</p>
+              <p className="text-slate-500 text-lg md:text-2xl leading-relaxed max-w-md mx-auto lg:mx-0">Надежная логистика для вашего бизнеса. Работаем на результат, ценим Ваше время.</p>
             </div>
-            <div>
-              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Реквизиты</h4>
-              <ul className="space-y-4 text-slate-400 font-bold">
+            <div className="text-center lg:text-left">
+              <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest mb-6 md:mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Реквизиты</h4>
+              <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base">
                 <li>ИНН: 6900000798</li>
                 <li>ОГРН: 1236900010380</li>
                 <li>ООО «АЛМИК»</li>
               </ul>
             </div>
-            <div className="text-right lg:text-left">
-              <h4 className="text-white text-xl font-black uppercase tracking-widest mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Контакты</h4>
-              <a href="tel:+79004746688" className="text-3xl font-black text-white block mb-4 hover:text-[#f05a28]">+7 (900) 474-66-88</a>
-              <a href="mailto:almik69@mail.ru" className="text-2xl font-bold text-slate-500 hover:text-[#f05a28]">almik69@mail.ru</a>
+            <div className="text-center lg:text-left">
+              <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest mb-6 md:mb-10 border-b-2 border-[#f05a28] inline-block pb-2">Контакты</h4>
+              <a href="tel:+79004746688" className="text-2xl md:text-3xl font-black text-white block mb-3 md:mb-4 hover:text-[#f05a28]">+7 (900) 474-66-88</a>
+              <a href="mailto:almik69@mail.ru" className="text-lg md:text-2xl font-bold text-slate-500 hover:text-[#f05a28]">almik69@mail.ru</a>
             </div>
           </div>
-          <div className="flex justify-between items-center text-slate-600 font-bold tracking-widest text-sm uppercase">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 font-bold tracking-widest text-[10px] md:text-sm uppercase text-center">
             <span>© {new Date().getFullYear()} ООО «АЛМИК»</span>
             <span>Грузоперевозки по России</span>
           </div>
@@ -493,9 +492,15 @@ export default function Home() {
         <div className="fixed bottom-0 left-0 w-full h-12 bg-slate-900/80 backdrop-blur-sm pointer-events-none border-t border-white/5 z-[4000]">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10"></div>
           <motion.div
-            animate={{ x: ["-20%", "120%"] }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
-            className="h-full absolute top-[-10px]"
+            initial={{ x: "-100%" }}
+            animate={{ x: "100vw" }}
+            transition={{ 
+              duration: 8,
+              repeat: Infinity,
+              ease: "linear",
+              repeatDelay: 0
+            }}
+            className="absolute top-[-10px]"
           >
             <div className="relative">
               {/* LED Underglow */}
