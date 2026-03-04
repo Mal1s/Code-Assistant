@@ -322,112 +322,124 @@ export default function Home() {
       </section>
 
       {/* APPLICATION FORM */}
-      <section id="form" className="py-12 md:py-24 px-4 md:px-6 bg-[#0b1a33] relative overflow-hidden">
+      <section id="form" className="py-8 md:py-16 px-4 md:px-6 bg-[#0b1a33] relative overflow-hidden">
         <div className="stars"></div>
         <div className="container mx-auto relative z-10">
-          <div className="max-w-6xl mx-auto bg-white p-6 md:p-16 rounded-3xl md:rounded-[4rem] shadow-2xl">
-            <h2 className="text-3xl md:text-5xl font-black text-[#0b1a33] mb-8 md:mb-12 text-center uppercase tracking-tight">Оформить заявку</h2>
-            <form onSubmit={handleFormSubmit} className="space-y-6 md:space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Ваше имя *</label>
-                  <input required type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+          <div className="max-w-4xl mx-auto bg-white p-5 md:p-10 rounded-2xl md:rounded-[3rem] shadow-2xl">
+            <h2 className="text-2xl md:text-4xl font-black text-[#0b1a33] mb-6 md:mb-8 text-center uppercase tracking-tight">Оформить заявку</h2>
+            <form onSubmit={handleFormSubmit} className="space-y-4 md:space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Ваше имя *</label>
+                  <input required type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Телефон *</label>
-                  <input required type="tel" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Телефон *</label>
+                  <input required type="tel" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Email</label>
-                  <input type="email" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Откуда (город, адрес)</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Куда (город, адрес)</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Email</label>
+                  <input type="email" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Длина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Откуда (город, адрес)</label>
+                  <input type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Ширина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Высота (м)</label>
-                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
-                </div>
-                <div className="space-y-2 col-span-2 md:col-span-1">
-                  <label className="text-sm font-bold text-slate-700">Вес (тонн)</label>
-                  <input type="number" step="0.1" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" />
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Куда (город, адрес)</label>
+                  <input type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Тип груза</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Оборудование, мебель..." />
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Длина (м)</label>
+                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Тип кузова</label>
-                  <input type="text" className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold" placeholder="Тент, фургон..." />
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Ширина (м)</label>
+                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">Машин / Дата загрузки</label>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Высота (м)</label>
+                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                </div>
+                <div className="space-y-1 col-span-2 md:col-span-1">
+                  <label className="text-xs font-bold text-slate-700">Вес (тонн)</label>
+                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Тип груза</label>
+                  <select className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm appearance-none">
+                    <option value="">Выберите тип...</option>
+                    <option value="equipment">Оборудование</option>
+                    <option value="furniture">Мебель / Переезд</option>
+                    <option value="construction">Стройматериалы</option>
+                    <option value="food">Продукты питания</option>
+                    <option value="other">Другое</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Тип кузова</label>
+                  <select className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm appearance-none">
+                    <option value="">Выберите кузов...</option>
+                    <option value="tent">Тент</option>
+                    <option value="furgon">Фургон / Реф</option>
+                    <option value="bort">Бортовой</option>
+                    <option value="platform">Платформа</option>
+                  </select>
+                </div>
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Машин / Дата</label>
                   <div className="flex gap-2">
-                    <input type="number" defaultValue="1" className="w-16 md:w-20 px-3 md:px-4 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
-                    <input type="date" className="flex-1 px-3 md:px-4 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs md:text-base" />
+                    <input type="number" defaultValue="1" className="w-14 px-2 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
+                    <input type="date" className="flex-1 px-3 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs" />
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-col md:flex-row flex-wrap gap-4 md:gap-6 py-2 md:py-4">
-                {['Отдельной машиной (FTL)', 'Догрузом (LTL)', 'Страховка груза'].map(opt => (
-                  <label key={opt} className="flex items-center gap-3 cursor-pointer group">
-                    <div className="w-6 h-6 border-2 border-slate-200 rounded-lg group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
+              <div className="flex flex-row flex-wrap gap-x-5 gap-y-2 py-1">
+                {['Отдельная (FTL)', 'Догруз (LTL)', 'Страховка'].map(opt => (
+                  <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                    <div className="w-5 h-5 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
                       <input type="checkbox" className="hidden peer" />
                       <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
-                        <i className="fas fa-check text-xs text-white"></i>
+                        <i className="fas fa-check text-[10px] text-white"></i>
                       </div>
                     </div>
-                    <span className="font-bold text-slate-700 text-sm md:text-base">{opt}</span>
+                    <span className="font-bold text-slate-700 text-xs">{opt}</span>
                   </label>
                 ))}
               </div>
 
-              <div className="bg-slate-50 p-6 md:p-8 rounded-2xl md:rounded-[2rem] border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-8">
-                <div className="flex-1 w-full max-w-full md:max-w-xs">
-                  <label className="text-sm font-bold text-slate-700 block mb-2">Ставка (руб)</label>
-                  <input type="number" placeholder="0.00" className="w-full px-5 py-4 rounded-xl md:rounded-2xl border border-slate-200 focus:border-[#f05a28] outline-none font-bold" />
+              <div className="bg-slate-50 p-4 rounded-xl md:rounded-2xl border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div className="flex-1 w-full md:max-w-[200px]">
+                  <label className="text-xs font-bold text-slate-700 block mb-1">Ставка (руб)</label>
+                  <input type="number" placeholder="0.00" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
-                <div className="flex flex-col md:flex-row flex-wrap gap-3 md:gap-4 w-full md:w-auto">
-                  {['С НДС, безнал', 'Без НДС, безнал', 'Наличными'].map(pay => (
-                    <label key={pay} className="flex items-center gap-2 cursor-pointer">
-                      <input type="radio" name="payment" className="w-5 h-5 accent-[#f05a28]" />
-                      <span className="font-bold text-slate-700 text-sm md:text-base">{pay}</span>
+                <div className="flex flex-row flex-wrap gap-4 w-full md:w-auto justify-center md:justify-end">
+                  {['С НДС', 'Без НДС', 'Нал'].map(pay => (
+                    <label key={pay} className="flex items-center gap-1.5 cursor-pointer">
+                      <input type="radio" name="payment" className="w-4 h-4 accent-[#f05a28]" />
+                      <span className="font-bold text-slate-700 text-xs">{pay}</span>
                     </label>
                   ))}
                 </div>
               </div>
 
-              <textarea rows={3} placeholder="Дополнительный комментарий..." className="w-full px-5 py-4 rounded-xl md:rounded-2xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold"></textarea>
+              <textarea rows={2} placeholder="Комментарий..." className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm"></textarea>
               
-              <div className="text-center">
-                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-8 md:px-20 py-4 md:py-6 rounded-2xl md:rounded-[2rem] font-black text-xl md:text-2xl hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-4 w-full md:w-auto">
-                  ОТПРАВИТЬ ЗАЯВКУ
+              <div className="text-center pt-2">
+                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-10 py-3.5 rounded-xl md:rounded-2xl font-black text-lg hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-3 w-full md:w-auto">
+                  ОТПРАВИТЬ
                 </button>
-                <p className="text-slate-400 text-[10px] md:text-xs font-bold uppercase tracking-widest mb-6 md:mb-8">Нажимая кнопку, вы соглашаетесь с обработкой персональных данных</p>
-                <p className="text-[#0b1a33] font-bold italic text-base md:text-lg opacity-70 px-4">«Ваш надежный партнер и помощник в решении транспортных задач»</p>
+                <p className="text-[#0b1a33] font-bold italic text-xs opacity-70 px-4">«Ваш надежный партнер в логистике»</p>
               </div>
             </form>
           </div>
