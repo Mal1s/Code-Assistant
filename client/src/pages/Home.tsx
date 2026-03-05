@@ -17,15 +17,6 @@ import imgTrucks from "@assets/istockphoto-518279013-170667a_1772714001895.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/9ce8d2a17992f3891548dd932eb49e17_1772480373987.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import imgSmallTruck from "@assets/y91wxu8z_1772480362456.jpg";
-import imgMovingAnim from "@assets/1691346515_grizly-club-p-kartinki-gruzovik-bez-fona-47_1772523819759.png";
-import imgHouseholdMoving from "@assets/XXL_height_1772524493045.jfif";
-
-// Truck Animation Images
-import truck20t from "@assets/istockphoto-518279013-170667a_1772714001895.jpg";
-import truck5t from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1772714006121.png";
-import truckGazelle from "@assets/2_338_02_LEFT(left)_next_combi_color_03_1772714009448.jpg";
-import truckTrall from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1772714012464.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -72,7 +63,6 @@ export default function Home() {
             alt={partnerName} 
             className="max-h-16 max-w-full object-contain transition-all duration-300" 
           />
-          {/* TOOLTIP */}
           <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#0b1a33] text-white text-[10px] font-bold px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 shadow-xl">
             {partnerName}
             <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#0b1a33]"></div>
@@ -116,15 +106,52 @@ export default function Home() {
   ];
 
   const truckFleet = [
-    { img: truck20t, h: 48 },
-    { img: truck5t, h: 44 },
-    { img: truckGazelle, h: 40 },
-    { img: truckTrall, h: 42 }
+    { type: '20t', width: 120 },
+    { type: '5t', width: 80 },
+    { type: 'trall', width: 140 }
   ];
+
+  const TruckIcon = ({ type, color }: { type: string, color: string }) => {
+    if (type === '20t') {
+      return (
+        <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="10" width="30" height="20" rx="2" fill={color} />
+          <rect x="32" y="5" width="80" height="25" rx="2" fill={color} fillOpacity="0.8" />
+          <rect x="5" y="30" width="20" height="5" fill="#333" />
+          <circle cx="10" cy="35" r="4" fill="#111" />
+          <circle cx="22" cy="35" r="4" fill="#111" />
+          <circle cx="45" cy="35" r="4" fill="#111" />
+          <circle cx="95" cy="35" r="4" fill="#111" />
+          <circle cx="105" cy="35" r="4" fill="#111" />
+        </svg>
+      );
+    }
+    if (type === '5t') {
+      return (
+        <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="0" y="15" width="25" height="15" rx="2" fill={color} />
+          <rect x="27" y="10" width="50" height="20" rx="2" fill={color} fillOpacity="0.8" />
+          <circle cx="8" cy="33" r="4" fill="#111" />
+          <circle cx="65" cy="33" r="4" fill="#111" />
+        </svg>
+      );
+    }
+    return (
+      <svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="15" width="30" height="15" rx="2" fill={color} />
+        <rect x="32" y="22" width="100" height="8" rx="1" fill={color} fillOpacity="0.8" />
+        <circle cx="10" cy="33" r="4" fill="#111" />
+        <circle cx="22" cy="33" r="4" fill="#111" />
+        <circle cx="45" cy="33" r="3" fill="#111" />
+        <circle cx="60" cy="33" r="3" fill="#111" />
+        <circle cx="110" cy="33" r="3" fill="#111" />
+        <circle cx="125" cy="33" r="3" fill="#111" />
+      </svg>
+    );
+  };
 
   return (
     <div className="flex flex-col w-full bg-[#f8faff] overflow-x-hidden">
-      {/* SUCCESS NOTIFICATION */}
       <AnimatePresence>
         {showSuccess && (
           <motion.div 
@@ -139,7 +166,6 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* MOBILE MENU */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div 
@@ -160,7 +186,6 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* HEADER */}
       <header className={`fixed top-0 left-0 w-full z-[2000] transition-all duration-300 py-3 md:py-4 ${scrolled ? 'bg-white/95 backdrop-blur-md shadow-lg' : 'bg-transparent'}`}>
         <div className="container mx-auto px-4 md:px-6 flex justify-between items-center">
           <div className="flex items-center gap-2 md:gap-3 cursor-pointer" onClick={() => scrollTo('hero')}>
@@ -191,7 +216,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* HERO SECTION */}
       <section id="hero" className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img src={imgHero} className="w-full h-full object-cover" alt="Logistic background" />
@@ -220,7 +244,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ABOUT SECTION */}
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-16 md:mb-24 px-4">
@@ -286,7 +309,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SERVICES */}
       <section id="services" className="py-24 px-6 bg-[#f8faff] overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-20">
@@ -320,7 +342,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PARTNERS */}
       <section id="partners" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <div className="text-center mb-20">
@@ -337,14 +358,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* APPLICATION FORM */}
       <section id="form" className="py-8 md:py-16 px-4 md:px-6 bg-[#0b1a33] relative overflow-hidden">
         <div className="stars"></div>
         <div className="container mx-auto relative z-10">
           <div className="max-w-4xl mx-auto bg-white p-5 md:p-8 rounded-2xl md:rounded-[3rem] shadow-2xl">
             <h2 className="text-2xl md:text-4xl font-black text-[#0b1a33] mb-4 md:mb-6 text-center uppercase tracking-tight">Оформить заявку</h2>
             <form onSubmit={handleFormSubmit} className="space-y-3 md:space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Ваше имя *</label>
                   <input required type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
@@ -357,39 +377,32 @@ export default function Home() {
                   <label className="text-xs font-bold text-slate-700">Email</label>
                   <input type="email" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Откуда</label>
                   <input type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
-                <div className="space-y-1">
+                <div className="space-y-1 md:col-span-2">
                   <label className="text-xs font-bold text-slate-700">Куда</label>
                   <input type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-4 gap-2 md:gap-3">
+              <div className="grid grid-cols-3 gap-2 md:gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Дл (м)</label>
+                  <label className="text-xs font-bold text-slate-700">Длина (м)</label>
                   <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Ши (м)</label>
+                  <label className="text-xs font-bold text-slate-700">Ширина (м)</label>
                   <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Вы (м)</label>
-                  <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
-                </div>
-                <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Вес (т)</label>
+                  <label className="text-xs font-bold text-slate-700">Высота (м)</label>
                   <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
+              <div className="grid grid-cols-2 gap-2 md:gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Тип груза</label>
                   <select className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm">
@@ -402,25 +415,29 @@ export default function Home() {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Машин / Дата</label>
-                  <div className="flex gap-2">
-                    <input type="number" defaultValue="1" className="w-12 px-2 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
-                    <input type="date" className="flex-1 px-2 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs" />
-                  </div>
+                  <label className="text-xs font-bold text-slate-700">Дата загрузки</label>
+                  <input type="date" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="flex flex-row flex-wrap gap-4 py-1">
-                {['Отдельная (FTL)', 'Сборные грузы', 'Страховка'].map(opt => (
-                  <label key={opt} className="flex items-center gap-2 cursor-pointer group">
-                    <div className="w-4 h-4 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
-                      <input type="checkbox" className="hidden peer" />
-                      <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
-                        <i className="fas fa-check text-[8px] text-white"></i>
-                      </div>
+              <div className="grid grid-cols-2 gap-x-4 gap-y-1 py-1">
+                {['Отдельная (FTL)', 'Сборные грузы', 'Страховка', 'Вес (т)'].map(opt => (
+                  opt === 'Вес (т)' ? (
+                    <div key={opt} className="flex items-center gap-2">
+                      <label className="text-[10px] font-bold text-slate-700">Вес (т)</label>
+                      <input type="number" step="0.1" className="flex-1 px-2 py-1 rounded bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs" />
                     </div>
-                    <span className="font-bold text-slate-700 text-[10px]">{opt}</span>
-                  </label>
+                  ) : (
+                    <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                      <div className="w-4 h-4 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
+                        <input type="checkbox" className="hidden peer" />
+                        <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
+                          <i className="fas fa-check text-[8px] text-white"></i>
+                        </div>
+                      </div>
+                      <span className="font-bold text-slate-700 text-[10px]">{opt}</span>
+                    </label>
+                  )
                 ))}
               </div>
 
@@ -433,7 +450,7 @@ export default function Home() {
                 ))}
               </div>
 
-              <textarea rows={2} placeholder="Комментарий..." className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"></textarea>
+              <textarea rows={1} placeholder="Комментарий..." className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"></textarea>
               
               <div className="text-center pt-2">
                 <button type="submit" className="btn-orange bg-[#f05a28] text-white px-8 py-3 rounded-xl font-black text-base hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-2 w-full md:w-auto">
@@ -446,7 +463,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTACTS */}
       <section id="contacts" className="py-12 md:py-24 px-4 md:px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
           <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] mb-8 md:mb-12 text-center">Наши контакты</h2>
@@ -469,7 +485,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="bg-slate-950 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden relative">
         <div className="container mx-auto px-6 relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
@@ -500,7 +515,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* TRUCK ANIMATION - STAGGERED COLUMN */}
         <div className="fixed bottom-0 left-0 w-full h-14 bg-slate-900/90 backdrop-blur-md pointer-events-none border-t border-white/10 z-[4000] flex items-center overflow-hidden">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10"></div>
           {truckFleet.map((truck, i) => (
@@ -512,14 +526,13 @@ export default function Home() {
                 duration: 10,
                 repeat: Infinity,
                 ease: "linear",
-                delay: i * 2.2 // Intervals
+                delay: i * 3.3
               }}
               className="absolute"
-              style={{ height: truck.h }}
             >
-              <div className="relative h-full">
+              <div className="relative flex items-center">
                 <div className="absolute -bottom-1 left-2 right-2 h-2 bg-[#f05a28]/30 blur-sm rounded-full animate-pulse"></div>
-                <img src={truck.img} alt={`Truck ${i}`} className="h-full w-auto drop-shadow-lg relative z-10 rounded-sm" />
+                <TruckIcon type={truck.type} color="#f05a28" />
               </div>
             </motion.div>
           ))}
@@ -528,3 +541,42 @@ export default function Home() {
     </div>
   );
 }
+
+const TruckIcon = ({ type, color }: { type: string, color: string }) => {
+  if (type === '20t') {
+    return (
+      <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="10" width="30" height="20" rx="2" fill={color} />
+        <rect x="32" y="5" width="80" height="25" rx="2" fill={color} fillOpacity="0.8" />
+        <rect x="5" y="30" width="20" height="5" fill="#333" />
+        <circle cx="10" cy="35" r="4" fill="#111" />
+        <circle cx="22" cy="35" r="4" fill="#111" />
+        <circle cx="45" cy="35" r="4" fill="#111" />
+        <circle cx="95" cy="35" r="4" fill="#111" />
+        <circle cx="105" cy="35" r="4" fill="#111" />
+      </svg>
+    );
+  }
+  if (type === '5t') {
+    return (
+      <svg width="80" height="40" viewBox="0 0 80 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="15" width="25" height="15" rx="2" fill={color} />
+        <rect x="27" y="10" width="50" height="20" rx="2" fill={color} fillOpacity="0.8" />
+        <circle cx="8" cy="33" r="4" fill="#111" />
+        <circle cx="65" cy="33" r="4" fill="#111" />
+      </svg>
+    );
+  }
+  return (
+    <svg width="140" height="40" viewBox="0 0 140 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="15" width="30" height="15" rx="2" fill={color} />
+      <rect x="32" y="22" width="100" height="8" rx="1" fill={color} fillOpacity="0.8" />
+      <circle cx="10" cy="33" r="4" fill="#111" />
+      <circle cx="22" cy="33" r="4" fill="#111" />
+      <circle cx="45" cy="33" r="3" fill="#111" />
+      <circle cx="60" cy="33" r="3" fill="#111" />
+      <circle cx="110" cy="33" r="3" fill="#111" />
+      <circle cx="125" cy="33" r="3" fill="#111" />
+    </svg>
+  );
+};
