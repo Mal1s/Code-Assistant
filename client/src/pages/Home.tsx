@@ -13,13 +13,19 @@ import logoSalair from "@assets/888580_1772480120316.png";
 import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 
 import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
-import imgTrucks from "@assets/image_1772480282842.png";
+import imgTrucks from "@assets/istockphoto-518279013-170667a_1772714001895.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/9ce8d2a17992f3891548dd932eb49e17_1772480373987.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
 import imgSmallTruck from "@assets/y91wxu8z_1772480362456.jpg";
 import imgMovingAnim from "@assets/1691346515_grizly-club-p-kartinki-gruzovik-bez-fona-47_1772523819759.png";
 import imgHouseholdMoving from "@assets/XXL_height_1772524493045.jfif";
+
+// Truck Animation Images
+import truck20t from "@assets/istockphoto-518279013-170667a_1772714001895.jpg";
+import truck5t from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1772714006121.png";
+import truckGazelle from "@assets/2_338_02_LEFT(left)_next_combi_color_03_1772714009448.jpg";
+import truckTrall from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1772714012464.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -59,13 +65,18 @@ export default function Home() {
             borderColor: "#f05a28"
           }}
           transition={{ type: "spring", stiffness: 300 }}
-          className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-lg border-2 border-transparent group transition-all duration-300"
+          className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-lg border-2 border-transparent group transition-all duration-300 relative"
         >
           <img 
             src={logoUrl} 
             alt={partnerName} 
             className="max-h-16 max-w-full object-contain transition-all duration-300" 
           />
+          {/* TOOLTIP */}
+          <div className="absolute bottom-full mb-2 left-1/2 -translate-x-1/2 bg-[#0b1a33] text-white text-[10px] font-bold px-3 py-1.5 rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 shadow-xl">
+            {partnerName}
+            <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#0b1a33]"></div>
+          </div>
         </motion.div>
       );
     }
@@ -87,7 +98,6 @@ export default function Home() {
         block: 'start',
         inline: 'nearest'
       });
-      // Легкая вибрация при нажатии (на мобилках)
       if (navigator.vibrate) navigator.vibrate(10);
     }
   };
@@ -103,6 +113,13 @@ export default function Home() {
     'Русский Свет', 'Ozon', 'Тверской Вагоностроительный Завод',
     'Металл Профиль', 'ТехноНИКОЛЬ', 'УВМ-Сталь',
     'Wildberries', 'Мелькомбинат', 'Салаир', 'Светофор'
+  ];
+
+  const truckFleet = [
+    { img: truck20t, h: 48 },
+    { img: truck5t, h: 44 },
+    { img: truckGazelle, h: 40 },
+    { img: truckTrall, h: 42 }
   ];
 
   return (
@@ -154,7 +171,7 @@ export default function Home() {
           </div>
 
           <nav className="hidden lg:flex gap-8 font-bold text-sm uppercase tracking-widest">
-            {['hero', 'about', 'services', 'partners', 'contacts'].map((item) => (
+            {['hero', 'about', 'services', 'partners', 'form'].map((item) => (
               <button 
                 key={item}
                 onClick={() => scrollTo(item)} 
@@ -166,7 +183,7 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-4 md:gap-6">
-            <a href="tel:+79004746688" className={`hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28] ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>
+            <a href="tel:+79004746688" className={`text-lg md:text-xl font-black transition-colors hover:text-[#f05a28] ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>
               +7 (900) 474-66-88
             </a>
             <button onClick={() => setIsMenuOpen(true)} className={`lg:hidden text-3xl md:text-4xl p-2 ${scrolled ? 'text-[#0b1a33]' : 'text-white'}`}>☰</button>
@@ -189,7 +206,7 @@ export default function Home() {
               ГРУЗОПЕРЕВОЗКИ <br className="hidden md:block" />ПО <span className="text-[#f05a28]">РОССИИ</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-300 mb-8 md:mb-12 max-w-2xl mx-auto md:mx-0 leading-relaxed">
-              Современный автопарк ТС от 2023 года. Полная страховка грузов. Команда с 15-летним экспертным опытом в логистике.
+              Современный автопарк 2023 года выпуска. Полное страхование грузов. Команда с 15-летним экспертным опытом в сфере грузоперевозок.
             </p>
             <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4 md:gap-6">
               <button onClick={() => scrollTo('form')} className="btn-orange bg-[#f05a28] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl md:rounded-[2rem] font-black text-lg md:text-xl hover:bg-[#d44a1d] transition-all shadow-2xl shadow-[#f05a28]/30 w-full sm:w-auto">
@@ -206,11 +223,10 @@ export default function Home() {
       {/* ABOUT SECTION */}
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mb-16 md:mb-24 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-16 md:mb-24 px-4">
             {[
               { num: 15, text: 'лет опыта', suffix: '+' },
               { num: 5000, text: 'довольных клиентов', suffix: '+' },
-              { num: 50, text: 'единиц техники', suffix: '' },
               { num: 24, text: 'часа в сутки', suffix: '/7' }
             ].map((item, i) => (
               <motion.div
@@ -242,9 +258,9 @@ export default function Home() {
               <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-8 leading-tight">Ваш надежный <br />партнер на дороге</h2>
               <div className="space-y-6 text-slate-600 mb-12 text-lg leading-relaxed">
                 <p className="font-bold text-[#0b1a33] text-2xl">ООО «АлМик» — эксперты в области комплексных транспортных решений.</p>
-                <p>Несмотря на то, что бренд АлМик официально зарегистрирован в 2023 году, ядро нашей команды обладает более чем 15-летним опытом в сфере логистики.</p>
+                <p>ООО АлМик официально зарегистрирован в 2023 году. Путь нашей команды обладает более 15-ти лет в сфере логистики.</p>
                 <p className="bg-slate-50 p-6 rounded-[2rem] border-l-8 border-[#f05a28]">
-                  Мы используем собственный парк новых ТС 2023+ года выпуска. Все перевозки застрахованы, а каждый водитель оформлен официально. <strong>Работаем с НДС 22% (ОСНО).</strong>
+                  Мы используем новый собственный автопарк 2023+ года выпуска. Все перевозки застрахованы, каждый водитель трудоустроен официально. <strong>Работаем с НДС 22% (ОСНО).</strong>
                 </p>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -279,9 +295,9 @@ export default function Home() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 px-4">
             {[
-              { title: 'Грузоперевозки', desc: 'От 1.5 до 20 тонн: Газели, 5т, 10т, Еврофуры.', icon: 'truck-moving', img: imgWarehouse },
-              { title: 'Офисные и домашние переезды', desc: 'Комплексное решение для бизнеса и частных лиц. Бережная перевозка мебели и вещей.', icon: 'home', img: imgHouseholdMoving },
-              { title: 'Спецтехника', desc: 'Аренда манипуляторов, погрузчиков и кранов.', icon: 'forklift', img: imgSpecTech }
+              { title: 'Грузоперевозки и переезды', desc: 'От 1.5 до 20 тонн: Газели, 5т, 10т, Еврофуры. Офисные и домашние переезды с грузчиками. Бережная перевозка мебели и личных вещей.', icon: 'truck-moving', img: imgWarehouse },
+              { title: 'Грузоподъемная техника', desc: 'Аренда манипуляторов, погрузчиков, кранов-бортов. Погрузо-разгрузочные работы любой сложности.', icon: 'forklift', img: imgSpecTech },
+              { title: 'Негабаритные перевозки', desc: 'Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.', icon: 'road', img: imgLogistics }
             ].map((service, idx) => (
               <motion.div key={idx} {...fadeInUp} transition={{ delay: idx * 0.1 }} className="group relative overflow-hidden rounded-3xl md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col">
                 <div className="h-40 md:h-48 overflow-hidden relative shimmer-img">
@@ -325,58 +341,58 @@ export default function Home() {
       <section id="form" className="py-8 md:py-16 px-4 md:px-6 bg-[#0b1a33] relative overflow-hidden">
         <div className="stars"></div>
         <div className="container mx-auto relative z-10">
-          <div className="max-w-4xl mx-auto bg-white p-5 md:p-10 rounded-2xl md:rounded-[3rem] shadow-2xl">
-            <h2 className="text-2xl md:text-4xl font-black text-[#0b1a33] mb-6 md:mb-8 text-center uppercase tracking-tight">Оформить заявку</h2>
-            <form onSubmit={handleFormSubmit} className="space-y-4 md:space-y-5">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+          <div className="max-w-4xl mx-auto bg-white p-5 md:p-8 rounded-2xl md:rounded-[3rem] shadow-2xl">
+            <h2 className="text-2xl md:text-4xl font-black text-[#0b1a33] mb-4 md:mb-6 text-center uppercase tracking-tight">Оформить заявку</h2>
+            <form onSubmit={handleFormSubmit} className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Ваше имя *</label>
-                  <input required type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <input required type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Телефон *</label>
-                  <input required type="tel" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <input required type="tel" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Email</label>
-                  <input type="email" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <input type="email" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Откуда (город, адрес)</label>
-                  <input type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <label className="text-xs font-bold text-slate-700">Откуда</label>
+                  <input type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Куда (город, адрес)</label>
-                  <input type="text" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <label className="text-xs font-bold text-slate-700">Куда</label>
+                  <input type="text" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+              <div className="grid grid-cols-4 gap-2 md:gap-3">
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Длина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <label className="text-xs font-bold text-slate-700">Дл (м)</label>
+                  <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Ширина (м)</label>
-                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <label className="text-xs font-bold text-slate-700">Ши (м)</label>
+                  <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Высота (м)</label>
-                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                  <label className="text-xs font-bold text-slate-700">Вы (м)</label>
+                  <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
-                <div className="space-y-1 col-span-2 md:col-span-1">
-                  <label className="text-xs font-bold text-slate-700">Вес (тонн)</label>
-                  <input type="number" step="0.1" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm" />
+                <div className="space-y-1">
+                  <label className="text-xs font-bold text-slate-700">Вес (т)</label>
+                  <input type="number" step="0.1" className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Тип груза</label>
-                  <select className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm appearance-none">
+                  <select className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm">
                     <option value="">Выберите тип...</option>
                     <option value="equipment">Оборудование</option>
                     <option value="furniture">Мебель / Переезд</option>
@@ -386,60 +402,44 @@ export default function Home() {
                   </select>
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-bold text-slate-700">Тип кузова</label>
-                  <select className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm appearance-none">
-                    <option value="">Выберите кузов...</option>
-                    <option value="tent">Тент</option>
-                    <option value="furgon">Фургон / Реф</option>
-                    <option value="bort">Бортовой</option>
-                    <option value="platform">Платформа</option>
-                  </select>
-                </div>
-                <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">Машин / Дата</label>
                   <div className="flex gap-2">
-                    <input type="number" defaultValue="1" className="w-14 px-2 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
-                    <input type="date" className="flex-1 px-3 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs" />
+                    <input type="number" defaultValue="1" className="w-12 px-2 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
+                    <input type="date" className="flex-1 px-2 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-xs" />
                   </div>
                 </div>
               </div>
 
-              <div className="flex flex-row flex-wrap gap-x-5 gap-y-2 py-1">
-                {['Отдельная (FTL)', 'Догруз (LTL)', 'Страховка'].map(opt => (
+              <div className="flex flex-row flex-wrap gap-4 py-1">
+                {['Отдельная (FTL)', 'Сборные грузы', 'Страховка'].map(opt => (
                   <label key={opt} className="flex items-center gap-2 cursor-pointer group">
-                    <div className="w-5 h-5 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
+                    <div className="w-4 h-4 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
                       <input type="checkbox" className="hidden peer" />
                       <div className="w-full h-full bg-[#f05a28] rounded-sm flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-all">
-                        <i className="fas fa-check text-[10px] text-white"></i>
+                        <i className="fas fa-check text-[8px] text-white"></i>
                       </div>
                     </div>
-                    <span className="font-bold text-slate-700 text-xs">{opt}</span>
+                    <span className="font-bold text-slate-700 text-[10px]">{opt}</span>
                   </label>
                 ))}
               </div>
 
-              <div className="bg-slate-50 p-4 rounded-xl md:rounded-2xl border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div className="flex-1 w-full md:max-w-[200px]">
-                  <label className="text-xs font-bold text-slate-700 block mb-1">Ставка (руб)</label>
-                  <input type="number" placeholder="0.00" className="w-full px-4 py-2.5 rounded-lg md:rounded-xl border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm" />
-                </div>
-                <div className="flex flex-row flex-wrap gap-4 w-full md:w-auto justify-center md:justify-end">
-                  {['С НДС', 'Без НДС', 'Нал'].map(pay => (
-                    <label key={pay} className="flex items-center gap-1.5 cursor-pointer">
-                      <input type="radio" name="payment" className="w-4 h-4 accent-[#f05a28]" />
-                      <span className="font-bold text-slate-700 text-xs">{pay}</span>
-                    </label>
-                  ))}
-                </div>
+              <div className="flex flex-row flex-wrap gap-4 py-1">
+                {['С НДС', 'Без НДС'].map(pay => (
+                  <label key={pay} className="flex items-center gap-2 cursor-pointer">
+                    <input type="radio" name="payment" className="w-3 h-3 accent-[#f05a28]" />
+                    <span className="font-bold text-slate-700 text-[10px]">{pay}</span>
+                  </label>
+                ))}
               </div>
 
-              <textarea rows={2} placeholder="Комментарий..." className="w-full px-4 py-2.5 rounded-lg md:rounded-xl bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none transition-all font-bold text-sm"></textarea>
+              <textarea rows={2} placeholder="Комментарий..." className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"></textarea>
               
               <div className="text-center pt-2">
-                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-10 py-3.5 rounded-xl md:rounded-2xl font-black text-lg hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-3 w-full md:w-auto">
+                <button type="submit" className="btn-orange bg-[#f05a28] text-white px-8 py-3 rounded-xl font-black text-base hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-2 w-full md:w-auto">
                   ОТПРАВИТЬ
                 </button>
-                <p className="text-[#0b1a33] font-bold italic text-xs opacity-70 px-4">«Ваш надежный партнер в логистике»</p>
+                <p className="text-[#0b1a33] font-bold italic text-[10px] opacity-70 px-4">«ООО АлМик — Ваш надежный партнер и помощник в решении транспортных задач»</p>
               </div>
             </form>
           </div>
@@ -500,26 +500,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* TRUCK ANIMATION */}
-        <div className="fixed bottom-0 left-0 w-full h-12 bg-slate-900/80 backdrop-blur-sm pointer-events-none border-t border-white/5 z-[4000]">
+        {/* TRUCK ANIMATION - STAGGERED COLUMN */}
+        <div className="fixed bottom-0 left-0 w-full h-14 bg-slate-900/90 backdrop-blur-md pointer-events-none border-t border-white/10 z-[4000] flex items-center overflow-hidden">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white/10"></div>
-          <motion.div
-            initial={{ x: "-100%" }}
-            animate={{ x: "100vw" }}
-            transition={{ 
-              duration: 8,
-              repeat: Infinity,
-              ease: "linear",
-              repeatDelay: 0
-            }}
-            className="absolute top-[-10px]"
-          >
-            <div className="relative">
-              {/* LED Underglow */}
-              <div className="absolute -bottom-2 left-4 right-4 h-4 bg-[#f05a28]/40 blur-md rounded-full animate-pulse"></div>
-              <img src={imgMovingAnim} alt="Truck Anim" className="h-14 w-auto drop-shadow-[0_5px_5px_rgba(0,0,0,0.3)] relative z-10" />
-            </div>
-          </motion.div>
+          {truckFleet.map((truck, i) => (
+            <motion.div
+              key={i}
+              initial={{ x: "-100%" }}
+              animate={{ x: "100vw" }}
+              transition={{ 
+                duration: 10,
+                repeat: Infinity,
+                ease: "linear",
+                delay: i * 2.2 // Intervals
+              }}
+              className="absolute"
+              style={{ height: truck.h }}
+            >
+              <div className="relative h-full">
+                <div className="absolute -bottom-1 left-2 right-2 h-2 bg-[#f05a28]/30 blur-sm rounded-full animate-pulse"></div>
+                <img src={truck.img} alt={`Truck ${i}`} className="h-full w-auto drop-shadow-lg relative z-10 rounded-sm" />
+              </div>
+            </motion.div>
+          ))}
         </div>
       </footer>
     </div>
