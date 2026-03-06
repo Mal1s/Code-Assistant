@@ -13,7 +13,7 @@ import logoSalair from "@assets/888580_1772480120316.png";
 import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 
 import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
-import imgTrucks from "@assets/istockphoto-518279013-170667a_1772714001895.jpg";
+import imgTrucks from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1772714012464.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/9ce8d2a17992f3891548dd932eb49e17_1772480373987.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
@@ -124,37 +124,60 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 }
   ];
 
-  const TruckIcon = ({ type, color }: { type: string; color: string }) => {
+  const TruckIcon = ({ type }: { type: string }) => {
     if (type === "20t") {
       return (
         <svg width="120" height="45" viewBox="0 0 120 45" fill="none">
-          <rect x="10" y="10" width="35" height="20" rx="3" fill={color} />
-          <rect x="45" y="5" width="60" height="25" rx="3" fill={color} fillOpacity="0.9" />
-          <circle cx="20" cy="35" r="8" fill="#222" />
-          <circle cx="90" cy="35" r="8" fill="#222" />
-          <circle cx="20" cy="35" r="4" fill="#666" />
-          <circle cx="90" cy="35" r="4" fill="#666" />
+          {/* Кабина */}
+          <rect x="10" y="10" width="30" height="20" rx="3" fill="#4A5568" />
+          {/* Тент (кузов) */}
+          <rect x="40" y="5" width="65" height="25" rx="3" fill="#718096" />
+          {/* Окна */}
+          <rect x="15" y="13" width="12" height="8" fill="#2D3748" />
+          {/* Колеса */}
+          <circle cx="20" cy="35" r="8" fill="#1A202C" />
+          <circle cx="90" cy="35" r="8" fill="#1A202C" />
+          {/* Диски */}
+          <circle cx="20" cy="35" r="4" fill="#A0AEC0" />
+          <circle cx="90" cy="35" r="4" fill="#A0AEC0" />
+          {/* Фары */}
+          <circle cx="12" cy="18" r="2" fill="#FBD38D" />
         </svg>
       );
     }
     if (type === "5t") {
       return (
         <svg width="100" height="45" viewBox="0 0 100 45" fill="none">
-          <rect x="5" y="12" width="30" height="18" rx="3" fill={color} />
-          <rect x="35" y="8" width="50" height="22" rx="3" fill={color} fillOpacity="0.9" />
-          <circle cx="15" cy="35" r="7" fill="#222" />
-          <circle cx="70" cy="35" r="7" fill="#222" />
+          {/* Кабина */}
+          <rect x="5" y="12" width="25" height="18" rx="3" fill="#4A5568" />
+          {/* Кузов */}
+          <rect x="30" y="8" width="55" height="22" rx="3" fill="#718096" />
+          {/* Окна */}
+          <rect x="8" y="15" width="10" height="7" fill="#2D3748" />
+          {/* Колеса */}
+          <circle cx="15" cy="35" r="7" fill="#1A202C" />
+          <circle cx="75" cy="35" r="7" fill="#1A202C" />
+          {/* Диски */}
+          <circle cx="15" cy="35" r="3.5" fill="#A0AEC0" />
+          <circle cx="75" cy="35" r="3.5" fill="#A0AEC0" />
         </svg>
       );
     }
     return (
       <svg width="140" height="45" viewBox="0 0 140 45" fill="none">
-        <rect x="5" y="20" width="30" height="10" rx="2" fill={color} />
-        <rect x="35" y="18" width="90" height="12" rx="2" fill={color} fillOpacity="0.8" />
-        <circle cx="15" cy="35" r="7" fill="#222" />
-        <circle cx="25" cy="35" r="7" fill="#222" />
-        <circle cx="100" cy="35" r="7" fill="#222" />
-        <circle cx="115" cy="35" r="7" fill="#222" />
+        {/* Тягач трала */}
+        <rect x="5" y="15" width="25" height="15" rx="3" fill="#4A5568" />
+        {/* Платформа */}
+        <rect x="30" y="20" width="90" height="8" rx="2" fill="#718096" />
+        {/* Окна */}
+        <rect x="8" y="18" width="10" height="7" fill="#2D3748" />
+        {/* Колеса тягача */}
+        <circle cx="15" cy="35" r="7" fill="#1A202C" />
+        <circle cx="25" cy="35" r="7" fill="#1A202C" />
+        {/* Колеса платформы */}
+        <circle cx="60" cy="35" r="6" fill="#1A202C" />
+        <circle cx="100" cy="35" r="6" fill="#1A202C" />
+        <circle cx="115" cy="35" r="6" fill="#1A202C" />
       </svg>
     );
   };
@@ -482,7 +505,7 @@ export default function Home() {
               {
                 title: "Негабаритные перевозки",
                 desc: "Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.",
-                icon: "road",
+                icon: "trailer",
                 img: imgLogistics,
               },
             ].map((service, idx) => (
@@ -557,8 +580,8 @@ export default function Home() {
             <h2 className="text-2xl md:text-4xl font-black text-[#0b1a33] mb-4 md:mb-6 text-center uppercase tracking-tight">
               Оформить заявку
             </h2>
-            <form onSubmit={handleFormSubmit} className="space-y-3 md:space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+            <form onSubmit={handleFormSubmit} className="space-y-1.5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-1.5">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">
                     Ваше имя *
@@ -566,7 +589,7 @@ export default function Home() {
                   <input
                     required
                     type="text"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1">
@@ -576,7 +599,7 @@ export default function Home() {
                   <input
                     required
                     type="tel"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1">
@@ -585,7 +608,7 @@ export default function Home() {
                   </label>
                   <input
                     type="email"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1">
@@ -594,7 +617,7 @@ export default function Home() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1 md:col-span-2">
@@ -603,12 +626,12 @@ export default function Home() {
                   </label>
                   <input
                     type="text"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-2 md:gap-3">
+              <div className="grid grid-cols-3 gap-1.5">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">
                     Длина (м)
@@ -617,7 +640,7 @@ export default function Home() {
                     type="number"
                     step="0.1"
                     placeholder="Длина (м)"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1">
@@ -628,7 +651,7 @@ export default function Home() {
                     type="number"
                     step="0.1"
                     placeholder="Ширина (м)"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
                 <div className="space-y-1">
@@ -639,18 +662,18 @@ export default function Home() {
                     type="number"
                     step="0.1"
                     placeholder="Высота (м)"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
               </div>
-              <p className="text-[8px] text-slate-400 mt-1">Укажите габариты в метрах</p>
+              <p className="text-[8px] text-slate-400 mt-0.5">Укажите габариты в метрах</p>
 
-              <div className="grid grid-cols-2 gap-2 md:gap-3">
+              <div className="grid grid-cols-2 gap-1.5">
                 <div className="space-y-1">
                   <label className="text-xs font-bold text-slate-700">
                     Тип груза
                   </label>
-                  <select className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm">
+                  <select className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm">
                     <option value="">Выберите тип...</option>
                     <option value="equipment">Оборудование</option>
                     <option value="furniture">Мебель / Переезд</option>
@@ -665,16 +688,16 @@ export default function Home() {
                   </label>
                   <input
                     type="date"
-                    className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                    className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-4 gap-y-1 py-1">
+              <div className="grid grid-cols-2 gap-x-3 gap-y-1 py-0.5">
                 {["Отдельная (FTL)", "Сборные грузы", "Страховка", "Вес (т)"].map(
                   (opt) =>
                     opt === "Вес (т)" ? (
-                      <div key={opt} className="flex items-center gap-2">
+                      <div key={opt} className="flex items-center gap-1.5">
                         <label className="text-[10px] font-bold text-slate-700">
                           Вес (т)
                         </label>
@@ -687,7 +710,7 @@ export default function Home() {
                     ) : (
                       <label
                         key={opt}
-                        className="flex items-center gap-2 cursor-pointer group"
+                        className="flex items-center gap-1.5 cursor-pointer group"
                       >
                         <div className="w-4 h-4 border-2 border-slate-200 rounded group-hover:border-[#f05a28] flex items-center justify-center transition-all shrink-0">
                           <input type="checkbox" className="hidden peer" />
@@ -703,11 +726,11 @@ export default function Home() {
                 )}
               </div>
 
-              <div className="flex flex-row flex-wrap gap-4 py-1">
+              <div className="flex flex-row flex-wrap gap-3 py-0.5">
                 {["С НДС", "Без НДС"].map((pay) => (
                   <label
                     key={pay}
-                    className="flex items-center gap-2 cursor-pointer"
+                    className="flex items-center gap-1.5 cursor-pointer"
                   >
                     <input
                       type="radio"
@@ -724,13 +747,13 @@ export default function Home() {
               <textarea
                 rows={1}
                 placeholder="Комментарий..."
-                className="w-full px-3 py-2 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
+                className="w-full px-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 focus:border-[#f05a28] outline-none font-bold text-sm"
               ></textarea>
 
-              <div className="text-center pt-2">
+              <div className="text-center pt-1">
                 <button
                   type="submit"
-                  className="btn-orange bg-[#f05a28] text-white px-8 py-3 rounded-xl font-black text-base hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-2 w-full md:w-auto"
+                  className="btn-orange bg-[#f05a28] text-white px-8 py-2 rounded-xl font-black text-base hover:bg-[#d44a1d] transition-all shadow-xl shadow-[#f05a28]/40 mb-1 w-full md:w-auto"
                 >
                   ОТПРАВИТЬ
                 </button>
@@ -851,18 +874,18 @@ export default function Home() {
             <motion.div
               key={i}
               initial={{ x: "-300px" }}
-              animate={{ x: "100vw" }}
+              animate={{ x: "calc(100vw + 300px)" }}
               transition={{
                 duration: 12,
                 repeat: Infinity,
                 ease: "linear",
                 delay: truck.delay,
               }}
-              className="absolute bottom-1"
+              className="absolute bottom-2"
             >
               <div className="relative">
-                <div className="absolute -bottom-2 left-5 right-5 h-3 bg-[#f05a28]/30 blur-md rounded-full"></div>
-                <TruckIcon type={truck.type} color="#f05a28" />
+                <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+                <TruckIcon type={truck.type} />
               </div>
             </motion.div>
           ))}
