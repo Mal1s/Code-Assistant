@@ -2,34 +2,65 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5" />
+    
+    <!-- ========== САМОЕ ВАЖНОЕ ДЛЯ ТЕЛЕФОНОВ ========== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- ПРИНУДИТЕЛЬНОЕ ОПРЕДЕЛЕНИЕ ТЕЛЕФОНА -->
+    <script>
+        (function() {
+            // Проверяем, правильно ли определилось устройство
+            var screenWidth = window.screen.width;
+            var windowWidth = window.innerWidth;
+            
+            // Если браузер ошибается и думает что это ПК
+            if(windowWidth > 768 && screenWidth <= 768) {
+                // Создаем новый правильный viewport
+                var meta = document.createElement('meta');
+                meta.name = 'viewport';
+                meta.content = 'width=' + screenWidth + ', initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+                document.head.appendChild(meta);
+            }
+        })();
+    </script>
 
-    <title>Грузоперевозки по России | ООО «АЛМИК» Тверь | Собственный автопарк 2023</title>
-    <meta name="description" content="Транспортная компания «АЛМИК»: грузоперевозки по России и дружественным странам. Собственный автопарк 2023+ года выпуска, полное страхование грузов, НДС 22%. Офисные и домашние переезды, грузоподъемная техника, негабаритные перевозки с сопровождением. Доставка под ключ.">
-    <meta name="keywords" content="грузоперевозки Тверь, транспортная компания, перевозки по России, логистическая компания, автопарк 2023, фуры, газели, манипулятор, негабаритные грузы, НДС 22, ОСНО, АлМик, ALMIK">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- ========== ЗАГОЛОВОК ========== -->
+    <title>🚚 Грузоперевозки по России | Транспортная компания «АЛМИК» Тверь | Собственный автопарк 2023+</title>
+    
+    <!-- ========== ОПИСАНИЕ ДЛЯ ЛЮДЕЙ (то, что увидят в поиске) ========== -->
+    <meta name="description" content="🚚 Транспортная компания «АЛМИК» в Твери — это современный автопарк 2023+ года (Газели, 5т, 10т, Еврофуры, манипуляторы). Мы перевозим любые грузы по России: негабарит с сопровождением, офисные и домашние переезды с грузчиками. ✅ Полная страховка груза ✅ Работаем с НДС 22% (ОСНО) ✅ 15+ лет опыта команды ✅ Доставка под ключ. Нам доверяют Wildberries, Ozon, ТВЗ и другие крупные компании. Звоните!">
+    
+    <!-- ========== КЛЮЧЕВЫЕ СЛОВА ========== -->
+    <meta name="keywords" content="грузоперевозки Тверь, транспортная компания Тверь, перевозки по России, логистическая компания, автопарк 2023, фуры, газели, манипулятор, аренда манипулятора, негабаритные перевозки, переезды с грузчиками, офисный переезд, домашний переезд, НДС 22, ОСНО, ООО АлМик, ALMIK, перевозка оборудования, доставка стройматериалов, Петербургское шоссе 93к1, Тверь грузоперевозки">
+    
+    <!-- ========== ТЕХНИЧЕСКИЕ МЕТА-ТЕГИ ========== -->
     <meta name="robots" content="index, follow">
     <meta name="author" content="ООО «АЛМИК»">
     <meta name="geo.region" content="RU-TVE">
     <meta name="geo.placename" content="Тверь">
     <meta name="geo.position" content="56.8587;35.9176">
     <meta name="ICBM" content="56.8587, 35.9176">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="theme-color" content="#0b1a33">
 
-    <!-- Open Graph (для соцсетей и мессенджеров) -->
-    <meta property="og:title" content="Грузоперевозки по России | ООО «АЛМИК»">
-    <meta property="og:description" content="Современный автопарк 2023+ года. Полное страхование грузов. Перевозки под ключ по РФ и дружественным странам. Офисные и домашние переезды, спецтехника, негабарит. Работаем с НДС 22%.">
+    <!-- ========== OPEN GRAPH - ДЛЯ СОЦСЕТЕЙ (ВК, Telegram, WhatsApp) ========== -->
+    <meta property="og:title" content="🚚 Грузоперевозки по России | ООО «АЛМИК» Тверь">
+    <meta property="og:description" content="🔥 СВЕЖИЙ АВТОПАРК 2023+ • Газели, фуры, манипуляторы • Переезды с грузчиками • Негабарит с сопровождением • НДС 22% • Страховка • 15+ лет опыта. Работаем с Wildberries, Ozon, ТВЗ. Звоните!">
     <meta property="og:image" content="https://almiк.ru/images/preview.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
     <meta property="og:url" content="https://almiк.ru">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="АЛМИК - грузоперевозки">
     <meta property="og:locale" content="ru_RU">
 
-    <!-- Twitter Card -->
+    <!-- ========== TWITTER / X ========== -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Грузоперевозки по России | ООО «АЛМИК»">
-    <meta name="twitter:description" content="Собственный автопарк 2023+, полная страховка, НДС 22%. Перевозки под ключ.">
+    <meta name="twitter:title" content="Грузоперевозки по России | ООО «АЛМИК» Тверь">
+    <meta name="twitter:description" content="Автопарк 2023+ • Газели, фуры, манипуляторы • Переезды • Негабарит • НДС 22% • Страховка. Работаем с Wildberries и Ozon">
     <meta name="twitter:image" content="https://almiк.ru/images/preview.jpg">
 
+    <!-- ========== СТРУКТУРИРОВАННЫЕ ДАННЫЕ (ДЛЯ ЯНДЕКСА И GOOGLE) ========== -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -37,31 +68,78 @@
       "name": "АЛМИК",
       "url": "https://almiк.ru",
       "logo": "https://almiк.ru/logo.png",
+      "description": "Транспортная компания с собственным автопарком 2023+ года. Грузоперевозки по России, негабаритные перевозки, офисные и домашние переезды с грузчиками.",
+      "foundingDate": "2023",
+      "numberOfEmployees": "15",
+      "vatID": "6900000798",
+      "taxID": "6900000798",
+      "legalName": "ООО «АЛМИК»",
       "contactPoint": {
         "@type": "ContactPoint",
         "telephone": "+7-900-474-66-88",
         "contactType": "customer service",
         "areaServed": "RU",
-        "availableLanguage": "Russian"
+        "availableLanguage": ["Russian"],
+        "hoursAvailable": {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          "opens": "00:00",
+          "closes": "23:59"
+        }
       },
       "address": {
         "@type": "PostalAddress",
         "addressLocality": "Тверь",
         "streetAddress": "Петербургское шоссе 93к1, офис 516",
-        "postalCode": "170036"
-      },
-      "description": "Транспортная компания с собственным автопарком 2023+ года. Грузоперевозки по России и дружественным странам."
+        "postalCode": "170036",
+        "addressCountry": "RU"
+      }
     }
     </script>
 
+    <!-- ========== ПОДКЛЮЧЕНИЕ ШРИФТОВ И ИКОНОК ========== -->
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- ========== СТРАХОВКА ОТ СБОЯ АДАПТАЦИИ ========== -->
+    <style>
+        /* Базовая защита */
+        html, body {
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        
+        * {
+            box-sizing: border-box;
+            max-width: 100vw;
+        }
+        
+        /* Явное указание для мобильных */
+        @media screen and (max-width: 768px) {
+            html, body {
+                width: 100% !important;
+            }
+            
+            .container {
+                width: 100% !important;
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- КОРНЕВОЙ ЭЛЕМЕНТ ДЛЯ REACT -->
     <div id="root"></div>
+    
+    <!-- ЗАГРУЗКА REACT-ПРИЛОЖЕНИЯ -->
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>
