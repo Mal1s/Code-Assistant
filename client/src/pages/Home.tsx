@@ -15,12 +15,12 @@ import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
 import imgTrucks from "@assets/photo_2026-03-08_12-17-44_1773057952108.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
-import imgLogistics from "@assets/istockphoto-518279013-170667a_1772960086988.jpg";
+import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
 
-import imgAboutSection from "@assets/photo_2026-03-08_12-17-44_1773057952108.jpg";
-import imgTechIcon from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import imgNegabOriginal from "@assets/istockphoto-518279013-170667a_1772960086988.jpg";
+import truckSmall from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1773061572914.png";
+import truckMedium from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
+import truckLarge from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1773061578615.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -33,7 +33,6 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [activePartner, setActivePartner] = useState<string | null>(null);
 
   const getPartnerLogo = (partnerName: string) => {
     const logoMap: { [key: string]: string } = {
@@ -95,10 +94,6 @@ export default function Home() {
             borderColor: "#f05a28",
           }}
           whileTap={{ scale: 0.95 }}
-          onClick={() => {
-            setActivePartner(partnerName);
-            setTimeout(() => setActivePartner(null), 2000);
-          }}
           transition={{ type: "spring", stiffness: 300 }}
           // КВАДРАТИКИ ОДИНАКОВЫЕ ДЛЯ ВСЕХ!
           className="h-24 w-full flex items-center justify-center p-4 bg-white rounded-2xl shadow-lg border-2 border-transparent group transition-all duration-300 relative cursor-pointer"
@@ -110,20 +105,6 @@ export default function Home() {
             className={`${logoSize} max-w-full object-contain transition-all duration-300`}
           />
 
-          {/* Анимация при нажатии на телефоне */}
-          <AnimatePresence>
-            {activePartner === partnerName && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                className="absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white text-sm font-bold px-4 py-2 rounded-xl whitespace-nowrap z-30 shadow-xl"
-              >
-                {partnerName}
-                <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#f05a28]"></div>
-              </motion.div>
-            )}
-          </AnimatePresence>
 
           {/* Для ПК - подсказка при наведении */}
           <div className="hidden sm:block absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white text-sm font-bold px-4 py-2 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-20 shadow-xl">
@@ -182,54 +163,23 @@ export default function Home() {
   ];
 
   const TruckIcon = ({ type }: { type: string }) => {
-    if (type === "20t") {
-      return (
-        <svg width="120" height="45" viewBox="0 0 120 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M15 25h20v12h-20z" fill="#1a1a1a" />
-          <path d="M18 23v2h4v-2z" fill="#1a1a1a" />
-          <path d="M28 23v2h4v-2z" fill="#1a1a1a" />
-          <path d="M35 20h50v17h-50z" fill="#1a1a1a" />
-          <circle cx="20" cy="37" r="6" fill="#1a1a1a" />
-          <circle cx="20" cy="37" r="2" fill="#333" />
-          <circle cx="85" cy="37" r="6" fill="#1a1a1a" />
-          <circle cx="85" cy="37" r="2" fill="#333" />
-          <path d="M15 25l-2 3h2v-3z" fill="#1a1a1a" />
-        </svg>
-      );
-    }
-    if (type === "5t") {
-      return (
-        <svg width="100" height="45" viewBox="0 0 100 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M10 24h18v13h-18z" fill="#1a1a1a" />
-          <path d="M13 22v2h3v-2z" fill="#1a1a1a" />
-          <path d="M22 22v2h3v-2z" fill="#1a1a1a" />
-          <path d="M28 19h45v18h-45z" fill="#1a1a1a" />
-          <circle cx="15" cy="37" r="6" fill="#1a1a1a" />
-          <circle cx="15" cy="37" r="2" fill="#333" />
-          <circle cx="70" cy="37" r="6" fill="#1a1a1a" />
-          <circle cx="70" cy="37" r="2" fill="#333" />
-          <path d="M10 24l-1.5 2.5h1.5v-2.5z" fill="#1a1a1a" />
-        </svg>
-      );
-    }
+    const truckMap: { [key: string]: string } = {
+      "20t": truckSmall,
+      "5t": truckMedium,
+      "trall": truckLarge,
+    };
+
     return (
-      <svg width="140" height="45" viewBox="0 0 140 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M8 23h17v14h-17z" fill="#1a1a1a" />
-        <path d="M11 21v2h3v-2z" fill="#1a1a1a" />
-        <path d="M20 21v2h3v-2z" fill="#1a1a1a" />
-        <path d="M25 25h95v12h-95z" fill="#1a1a1a" />
-        <circle cx="13" cy="37" r="6" fill="#1a1a1a" />
-        <circle cx="13" cy="37" r="2" fill="#333" />
-        <circle cx="23" cy="37" r="6" fill="#1a1a1a" />
-        <circle cx="23" cy="37" r="2" fill="#333" />
-        <circle cx="60" cy="37" r="5" fill="#1a1a1a" />
-        <circle cx="60" cy="37" r="1.5" fill="#333" />
-        <circle cx="100" cy="37" r="5" fill="#1a1a1a" />
-        <circle cx="100" cy="37" r="1.5" fill="#333" />
-        <circle cx="115" cy="37" r="5" fill="#1a1a1a" />
-        <circle cx="115" cy="37" r="1.5" fill="#333" />
-        <path d="M8 23l-1.5 2h1.5v-2z" fill="#1a1a1a" />
-      </svg>
+      <img
+        src={truckMap[type]}
+        alt={type}
+        style={{
+          height: "50px",
+          width: "auto",
+          objectFit: "contain",
+          objectPosition: "center"
+        }}
+      />
     );
   };
 
@@ -561,14 +511,14 @@ export default function Home() {
               {
                 title: "Грузоподъемная техника",
                 desc: "Аренда манипуляторов, погрузчиков, кранов-бортов. Погрузо-разгрузочные работы любой сложности.",
-                icon: imgTechIcon,
+                icon: imgSpecTech,
                 isImage: true,
                 img: imgSpecTech,
               },
               {
                 title: "Негабаритные перевозки",
                 desc: "Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.",
-                icon: imgNegabOriginal,
+                icon: imgLogistics,
                 isImage: true,
                 img: imgLogistics,
               },
