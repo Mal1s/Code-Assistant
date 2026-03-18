@@ -196,21 +196,24 @@ export default function Home() {
   ];
 
   const TruckIcon = ({ type }: { type: string }) => {
-    const truckMap: { [key: string]: string } = {
-      "20t": truckSmall,
-      "5t": truckMedium,
-      trall: truckLarge,
+    const truckMap: { [key: string]: { src: string; blendMode: string } } = {
+      "20t": { src: truckSmall, blendMode: "screen" },
+      "5t":  { src: truckMedium, blendMode: "multiply" },
+      trall: { src: truckLarge, blendMode: "screen" },
     };
+
+    const truck = truckMap[type];
 
     return (
       <img
-        src={truckMap[type]}
+        src={truck.src}
         alt={type}
         style={{
-          height: "50px",
+          height: "60px",
           width: "auto",
           objectFit: "contain",
           objectPosition: "center",
+          mixBlendMode: truck.blendMode as React.CSSProperties["mixBlendMode"],
         }}
       />
     );
