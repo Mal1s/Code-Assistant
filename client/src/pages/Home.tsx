@@ -207,7 +207,7 @@ export default function Home() {
         src={truckMap[type]}
         alt={type}
         style={{
-          height: "60px",
+          height: "80px",
           width: "auto",
           objectFit: "contain",
           objectPosition: "center",
