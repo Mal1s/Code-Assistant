@@ -554,7 +554,7 @@ export default function Home() {
                 desc: "Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.",
                 icon: thirdIcon,
                 isImage: true,
-                img: newPhoto,
+                img: imgLogistics,
                 imgScale: "scale-125",
               },
             ].map((service, idx) => (
