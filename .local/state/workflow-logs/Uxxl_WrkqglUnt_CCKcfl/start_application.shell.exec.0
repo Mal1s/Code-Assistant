@@ -1,0 +1,7 @@
+
+> rest-express@1.0.0 dev
+> NODE_ENV=development tsx server/index.ts
+
+[1G[0K5:49:13 PM [express] serving on port 5000
+[RUNTIME_ERROR]{"type":"runtime-error","timestamp":1773856174502,"name":"Error","message":"newPhoto is not defined","stack":"    at Home /home/runner/workspace/client/src/pages/Home.tsx:557:22\n\n\n\n\n\n\n\n\n","loc":{"line":557,"column":22,"file":"/home/runner/workspace/client/src/pages/Home.tsx"},"frame":"555|                  icon: thirdIcon,\n556|                  isImage: true,\n557|                  img: newPhoto,\n   |                       ^\n558|                  imgScale: \"scale-125\",\n559|                },"}
+[1G[0K⠙[1G[0K
