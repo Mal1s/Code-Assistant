@@ -18,9 +18,9 @@ import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import truckSmall from "@assets/photo_2026-03-18_20-45-08_1773855941958.jpg";
-import truckMedium from "@assets/photo_2026-03-18_20-45-16_1773855941954.jpg";
-import truckLarge from "@assets/photo_2026-03-18_20-45-24_1773855941959.jpg";
+import truckSmall from "@assets/truck_van.png";
+import truckMedium from "@assets/truck_orange.png";
+import truckLarge from "@assets/truck_flatbed.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -196,24 +196,21 @@ export default function Home() {
   ];
 
   const TruckIcon = ({ type }: { type: string }) => {
-    const truckMap: { [key: string]: { src: string; blendMode: string } } = {
-      "20t": { src: truckSmall, blendMode: "screen" },
-      "5t":  { src: truckMedium, blendMode: "multiply" },
-      trall: { src: truckLarge, blendMode: "screen" },
+    const truckMap: { [key: string]: string } = {
+      "20t": truckSmall,
+      "5t":  truckMedium,
+      trall: truckLarge,
     };
-
-    const truck = truckMap[type];
 
     return (
       <img
-        src={truck.src}
+        src={truckMap[type]}
         alt={type}
         style={{
           height: "60px",
           width: "auto",
           objectFit: "contain",
           objectPosition: "center",
-          mixBlendMode: truck.blendMode as React.CSSProperties["mixBlendMode"],
         }}
       />
     );
