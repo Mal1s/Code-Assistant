@@ -17,12 +17,10 @@ import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-
 import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import photo_2026 from "@assets/photo_2026.jpg";  // или любое другое имя переменной
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import newPhoto from "@assets/newPhoto.jpg";
-import truckSmall from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1773061572914.png";
-import truckMedium from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import truckLarge from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1773061578615.jpg";
+import truckSmall from "@assets/truck_van.png";
+import truckMedium from "@assets/truck_orange.png";
+import truckLarge from "@assets/truck_flatbed.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -200,7 +198,7 @@ export default function Home() {
   const TruckIcon = ({ type }: { type: string }) => {
     const truckMap: { [key: string]: string } = {
       "20t": truckSmall,
-      "5t": truckMedium,
+      "5t":  truckMedium,
       trall: truckLarge,
     };
 
@@ -209,7 +207,7 @@ export default function Home() {
         src={truckMap[type]}
         alt={type}
         style={{
-          height: "50px",
+          height: "60px",
           width: "auto",
           objectFit: "contain",
           objectPosition: "center",
@@ -556,7 +554,7 @@ export default function Home() {
                 desc: "Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.",
                 icon: thirdIcon,
                 isImage: true,
-                img: newPhoto,
+                img: imgLogistics,
                 imgScale: "scale-125",
               },
             ].map((service, idx) => (
