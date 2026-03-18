@@ -17,12 +17,10 @@ import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-
 import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import photo_2026 from "@assets/photo_2026.jpg";  // или любое другое имя переменной
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import newPhoto from "@assets/newPhoto.jpg";
-import truckSmall from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1773061572914.png";
-import truckMedium from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import truckLarge from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1773061578615.jpg";
+import truckSmall from "@assets/photo_2026-03-18_20-45-08_1773855941958.jpg";
+import truckMedium from "@assets/photo_2026-03-18_20-45-16_1773855941954.jpg";
+import truckLarge from "@assets/photo_2026-03-18_20-45-24_1773855941959.jpg";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
