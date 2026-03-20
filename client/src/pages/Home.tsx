@@ -193,12 +193,11 @@ export default function Home() {
       submitBtn.setAttribute("disabled", "true");
     }
 
-    emailjs
-      .sendForm(
-        "service_n8f9xkm",
-        "template_yn56h0q",
+      emailjs.sendForm(
+        'service_7pkg0hu' ,     // ← новый Service ID
+        'template_q692thu',     // ← новый Template ID
         e.target as HTMLFormElement,
-        "NtVl5WnbuBxR_EQNl",
+        'NtVl5WnbuBxR_EQNl'     // ← Public Key остается тем же
       )
       .then(
         () => {
