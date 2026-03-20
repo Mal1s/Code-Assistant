@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import emailjs from "@emailjs/browser";
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import thirdIcon from "@assets/photo_2026.jpg";
@@ -36,6 +39,7 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activePartner, setActivePartner] = useState<string | null>(null); // ← ДОБАВЬ ЭТУ СТРОКУ
+  const formRef = useRef<HTMLFormElement>(null); //
 
   const getPartnerLogo = (partnerName: string) => {
     const logoMap: { [key: string]: string } = {
@@ -179,9 +183,40 @@ export default function Home() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowSuccess(true);
-    (e.target as HTMLFormElement).reset();
-    setTimeout(() => setShowSuccess(false), 4000);
+
+    const submitBtn = (e.target as HTMLFormElement).querySelector(
+      'button[type="submit"]',
+    );
+    const originalText = submitBtn?.innerHTML;
+    if (submitBtn) {
+      submitBtn.innerHTML = "⏳ Отправка...";
+      submitBtn.setAttribute("disabled", "true");
+    }
+
+    emailjs
+      .sendForm(
+        "service_n8f9xkm",
+        "template_yn56h0q",
+        e.target as HTMLFormElement,
+        "NtVl5WnbuBxR_EQNl",
+      )
+      .then(
+        () => {
+          setShowSuccess(true);
+          (e.target as HTMLFormElement).reset();
+          setTimeout(() => setShowSuccess(false), 4000);
+        },
+        (error) => {
+          console.error("Ошибка отправки:", error);
+          alert("❌ Ошибка отправки. Позвоните нам +7 (900) 474-66-88");
+        },
+      )
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
+          submitBtn.removeAttribute("disabled");
+        }
+      });
   };
 
   const partners = [
@@ -278,12 +313,12 @@ export default function Home() {
               onClick={() => scrollTo("geography")}
               className="text-2xl font-bold"
             >
-               География
-              </button>
-              <button
-                onClick={() => scrollTo("partners")}
-                className="text-2xl font-bold"
-              >
+              География
+            </button>
+            <button
+              onClick={() => scrollTo("partners")}
+              className="text-2xl font-bold"
+            >
               Партнеры
             </button>
             <button
@@ -334,7 +369,7 @@ export default function Home() {
               { id: "hero", label: "Главная" },
               { id: "about", label: "О компании" },
               { id: "services", label: "Услуги" },
-        { id: "geography", label: "География" },
+              { id: "geography", label: "География" },
               { id: "partners", label: "Партнеры" },
               { id: "form", label: "Заявка" }, // Добавлено!
               { id: "contacts", label: "Контакты" },
@@ -354,9 +389,9 @@ export default function Home() {
             <a
               href="tel:+79004746688"
               className={`
-                block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
-                ${scrolled ? "text-[#0b1a33]" : "text-white"}
-              `}
+                  block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
+                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
+                `}
             >
               +7 (900) 474-66-88
             </a>
@@ -364,9 +399,9 @@ export default function Home() {
             <a
               href="tel:+79004746688"
               className={`
-                hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
-                ${scrolled ? "text-[#0b1a33]" : "text-white"}
-              `}
+                  hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
+                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
+                `}
             >
               +7 (900) 474-66-88
             </a>
@@ -620,11 +655,11 @@ export default function Home() {
           </div>
         </div>
       </section>
-          {/* ТРАССА М8 "АЛМИК" - С АНИМАЦИЕЙ ФОНА */}
-          <section 
-            id="geography"  // ← ID СТАВИМ ЗДЕСЬ!
-            className="relative py-16 overflow-hidden bg-[#0b1a33]"
-          >
+      {/* ТРАССА М8 "АЛМИК" - С АНИМАЦИЕЙ ФОНА */}
+      <section
+        id="geography" // ← ID СТАВИМ ЗДЕСЬ!
+        className="relative py-16 overflow-hidden bg-[#0b1a33]"
+      >
         {/* ===== АНИМИРОВАННЫЙ ФОН ===== */}
 
         {/* 1. ДВИЖУЩИЕСЯ ТОЧКИ */}
@@ -636,8 +671,8 @@ export default function Home() {
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                background: '#ff9f4b',
-                filter: 'blur(1px)',
+                background: "#ff9f4b",
+                filter: "blur(1px)",
               }}
               animate={{
                 y: [0, -100, 0],
@@ -663,10 +698,10 @@ export default function Home() {
               style={{
                 top: `${i * 12}%`,
                 background: `linear-gradient(90deg, transparent, #ff9f4b, #ffb347, #ff9f4b, transparent)`,
-                filter: 'blur(2px)',
+                filter: "blur(2px)",
               }}
               animate={{
-                x: ['-100%', '100%'],
+                x: ["-100%", "100%"],
                 opacity: [0.2, 0.8, 0.2],
               }}
               transition={{
@@ -683,9 +718,9 @@ export default function Home() {
         <motion.div
           animate={{
             background: [
-              'radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 70% 60%, rgba(255,159,75,0.3) 0%, transparent 50%)',
-              'radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)',
+              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 70% 60%, rgba(255,159,75,0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
             ],
           }}
           transition={{ duration: 10, repeat: Infinity }}
@@ -701,8 +736,8 @@ export default function Home() {
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
-                background: '#ff9f4b',
-                boxShadow: '0 0 10px #ff9f4b',
+                background: "#ff9f4b",
+                boxShadow: "0 0 10px #ff9f4b",
               }}
               animate={{
                 scale: [0, 3, 0],
@@ -724,10 +759,10 @@ export default function Home() {
           className="absolute inset-0"
           style={{
             backgroundImage: `
-              linear-gradient(45deg, #ff9f4b 1px, transparent 1px),
-              linear-gradient(-45deg, #ff9f4b 1px, transparent 1px)
-            `,
-            backgroundSize: '60px 60px',
+                linear-gradient(45deg, #ff9f4b 1px, transparent 1px),
+                linear-gradient(-45deg, #ff9f4b 1px, transparent 1px)
+              `,
+            backgroundSize: "60px 60px",
           }}
         />
 
@@ -743,10 +778,14 @@ export default function Home() {
 
         {/* 7. ДОРОЖНАЯ РАЗМЕТКА */}
         <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: 'repeating-linear-gradient(90deg, #ff9f4b 0px, #ff9f4b 10px, transparent 10px, transparent 20px)',
-            backgroundSize: '20px 100%'
-          }}></div>
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg, #ff9f4b 0px, #ff9f4b 10px, transparent 10px, transparent 20px)",
+              backgroundSize: "20px 100%",
+            }}
+          ></div>
         </div>
 
         {/* КОНТЕНТ */}
@@ -774,13 +813,33 @@ export default function Home() {
 
             {/* Города на трассе */}
             {[
-              { km: "0", city: "ТВЕРЬ", desc: "ЦЕНТРАЛЬНЫЙ ОФИС", type: "start" },
+              {
+                km: "0",
+                city: "ТВЕРЬ",
+                desc: "ЦЕНТРАЛЬНЫЙ ОФИС",
+                type: "start",
+              },
               { km: "168", city: "МОСКВА", desc: "СТОЛИЦА", type: "capital" },
-              { km: "714", city: "С.-ПЕТЕРБУРГ", desc: "СЕВЕРНАЯ СТОЛИЦА", type: "major" },
+              {
+                km: "714",
+                city: "С.-ПЕТЕРБУРГ",
+                desc: "СЕВЕРНАЯ СТОЛИЦА",
+                type: "major",
+              },
               { km: "1540", city: "МУРМАНСК", desc: "АРКТИКА", type: "north" },
-              { km: "3340", city: "НОВЫЙ УРЕНГОЙ", desc: "ГАЗ", type: "extreme" },
+              {
+                km: "3340",
+                city: "НОВЫЙ УРЕНГОЙ",
+                desc: "ГАЗ",
+                type: "extreme",
+              },
               { km: "5180", city: "ЯКУТСК", desc: "АЛМАЗЫ", type: "extreme" },
-              { km: "7520", city: "ВЛАДИВОСТОК", desc: "ТИХИЙ ОКЕАН", type: "finish" },
+              {
+                km: "7520",
+                city: "ВЛАДИВОСТОК",
+                desc: "ТИХИЙ ОКЕАН",
+                type: "finish",
+              },
             ].map((point, index) => (
               <motion.div
                 key={point.city}
@@ -792,11 +851,19 @@ export default function Home() {
               >
                 {/* Км столб */}
                 <div className="relative z-20 w-12 flex-shrink-0">
-                  <div className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow
-                    ${point.type === 'capital' ? 'bg-yellow-500/80' : 
-                      point.type === 'extreme' ? 'bg-purple-600/80' :
-                      point.type === 'north' ? 'bg-blue-500/80' :
-                      point.type === 'finish' ? 'bg-green-600/80' : 'bg-[#ff9f4b]/80'}`}
+                  <div
+                    className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow
+                      ${
+                        point.type === "capital"
+                          ? "bg-yellow-500/80"
+                          : point.type === "extreme"
+                            ? "bg-purple-600/80"
+                            : point.type === "north"
+                              ? "bg-blue-500/80"
+                              : point.type === "finish"
+                                ? "bg-green-600/80"
+                                : "bg-[#ff9f4b]/80"
+                      }`}
                   >
                     {point.km}
                   </div>
@@ -828,9 +895,9 @@ export default function Home() {
                   "Полный пакет документов",
                   "Отсутствие штрафов у юр.лиц",
                   "Налогообложение по закону РФ",
-                  "Страхование каждого груза"
+                  "Страхование каждого груза",
                 ],
-                color: "#ff9f4b"
+                color: "#ff9f4b",
               },
               {
                 sign: "⚠️",
@@ -840,9 +907,9 @@ export default function Home() {
                   "Труднодоступные месторождения",
                   "Драгоценные ископаемые",
                   "Такелажные работы (станки, оборудование)",
-                  "Монтаж тяжеловесных грузов"
+                  "Монтаж тяжеловесных грузов",
                 ],
-                color: "#ffaa00"
+                color: "#ffaa00",
               },
               {
                 sign: "⛽",
@@ -852,10 +919,10 @@ export default function Home() {
                   "Краны различной тоннажности",
                   "Лебедки и домкраты",
                   "Стропы и такелаж",
-                  "Сопровождение (ГИБДД)"
+                  "Сопровождение (ГИБДД)",
                 ],
-                color: "#00cc88"
-              }
+                color: "#00cc88",
+              },
             ].map((block, i) => (
               <motion.div
                 key={i}
@@ -864,11 +931,19 @@ export default function Home() {
               >
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-2xl">{block.sign}</span>
-                  <h4 className="text-base font-bold text-white" style={{ color: block.color }}>{block.title}</h4>
+                  <h4
+                    className="text-base font-bold text-white"
+                    style={{ color: block.color }}
+                  >
+                    {block.title}
+                  </h4>
                 </div>
                 <ul className="space-y-1.5">
                   {block.items.map((item, j) => (
-                    <li key={j} className="text-white/80 text-xs flex items-start gap-2">
+                    <li
+                      key={j}
+                      className="text-white/80 text-xs flex items-start gap-2"
+                    >
                       <span className="text-[#ff9f4b] text-sm">•</span>
                       {item}
                     </li>
@@ -877,14 +952,11 @@ export default function Home() {
               </motion.div>
             ))}
           </div>
-
-         
         </div>
       </section>
 
       {/* ГЕОГРАФИЯ ПРИСУТСТВИЯ - ПИЗДАТЫЙ ПЕПЕЛЬНЫЙ ФОН */}
       <motion.div
-        
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
@@ -962,11 +1034,11 @@ export default function Home() {
                 opacity: [0, 1, 0.5, 1, 0],
                 scale: [1, 2.5, 1.5, 2, 1],
                 boxShadow: [
-                  '0 0 0px rgba(240,90,40,0)',
-                  '0 0 20px rgba(240,90,40,0.9)',
-                  '0 0 10px rgba(240,90,40,0.5)',
-                  '0 0 25px rgba(240,90,40,1)',
-                  '0 0 0px rgba(240,90,40,0)',
+                  "0 0 0px rgba(240,90,40,0)",
+                  "0 0 20px rgba(240,90,40,0.9)",
+                  "0 0 10px rgba(240,90,40,0.5)",
+                  "0 0 25px rgba(240,90,40,1)",
+                  "0 0 0px rgba(240,90,40,0)",
                 ],
               }}
               transition={{
@@ -980,13 +1052,13 @@ export default function Home() {
 
           {/* ГУСТОЙ ДЫМ */}
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1, 1.4, 1],
               rotate: [0, 10, -10, 0],
               opacity: [0.2, 0.4, 0.2],
             }}
-            transition={{ 
-              duration: 30, 
+            transition={{
+              duration: 30,
               repeat: Infinity,
               ease: "linear",
             }}
@@ -995,13 +1067,13 @@ export default function Home() {
 
           {/* ДЫМ С ОРАНЖЕВЫМ ОТТЕНКОМ */}
           <motion.div
-            animate={{ 
+            animate={{
               scale: [1.1, 1.5, 1.1],
               rotate: [0, -15, 15, 0],
               opacity: [0.1, 0.3, 0.1],
             }}
-            transition={{ 
-              duration: 35, 
+            transition={{
+              duration: 35,
               repeat: Infinity,
               ease: "linear",
               delay: 5,
@@ -1010,14 +1082,14 @@ export default function Home() {
           />
 
           {/* ТЕКСТУРА ПЕПЛА */}
-          <div 
+          <div
             className="absolute inset-0 opacity-40 mix-blend-overlay"
             style={{
               backgroundImage: `
-                radial-gradient(circle at 5px 5px, rgba(255,255,255,0.3) 1px, transparent 1px),
-                radial-gradient(circle at 15px 25px, rgba(255,255,255,0.2) 1px, transparent 1px)
-              `,
-              backgroundSize: '30px 30px, 50px 50px',
+                  radial-gradient(circle at 5px 5px, rgba(255,255,255,0.3) 1px, transparent 1px),
+                  radial-gradient(circle at 15px 25px, rgba(255,255,255,0.2) 1px, transparent 1px)
+                `,
+              backgroundSize: "30px 30px, 50px 50px",
             }}
           />
         </div>
@@ -1027,43 +1099,114 @@ export default function Home() {
           <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-orange-300 to-[#f05a28]"></div>
 
           <div className="px-6 pt-6 pb-2 flex items-center justify-center gap-3">
-            <motion.div animate={{ rotate: [0, 10, -10, 0] }} transition={{ duration: 2, repeat: Infinity }} className="text-3xl">🗺️</motion.div>
-            <h4 className="text-2xl font-black text-white tracking-tight">ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span></h4>
-            <motion.div animate={{ rotate: [0, -10, 10, 0] }} transition={{ duration: 2, repeat: Infinity, delay: 0.5 }} className="text-3xl">🌍</motion.div>
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-3xl"
+            >
+              🗺️
+            </motion.div>
+            <h4 className="text-2xl font-black text-white tracking-tight">
+              ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span>
+            </h4>
+            <motion.div
+              animate={{ rotate: [0, -10, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              className="text-3xl"
+            >
+              🌍
+            </motion.div>
           </div>
 
-          <p className="text-center text-white/70 text-xs mb-4">от Калининграда до Сахалина • 8 стран Таможенного союза</p>
+          <p className="text-center text-white/70 text-xs mb-4">
+            от Калининграда до Сахалина • 8 стран Таможенного союза
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-4">
             {/* Блоки с городами - без изменений */}
-            <motion.div whileHover={{ scale: 1.02, y: -2 }} className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group">
-              <div className="flex items-center gap-2 mb-2"><span className="text-[#f05a28] text-lg">🏛️</span><h5 className="text-[#f05a28] font-black text-xs tracking-wider">ЦЕНТР • СЗФО</h5></div>
-              <p className="text-white/80 text-[11px] leading-relaxed"><span className="text-white font-bold">Москва</span> • Санкт-Петербург • <span className="text-[#f05a28] font-bold"> Тверь</span> • Псков • Великий Новгород • Петрозаводск • Мурманск • Архангельск • Вологда • Калининград</p>
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🏛️</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ЦЕНТР • СЗФО
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                <span className="text-white font-bold">Москва</span> •
+                Санкт-Петербург •{" "}
+                <span className="text-[#f05a28] font-bold"> Тверь</span> • Псков
+                • Великий Новгород • Петрозаводск • Мурманск • Архангельск •
+                Вологда • Калининград
+              </p>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02, y: -2 }} className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group">
-              <div className="flex items-center gap-2 mb-2"><span className="text-[#f05a28] text-lg">🌴</span><h5 className="text-[#f05a28] font-black text-xs tracking-wider">ЮГ • КАВКАЗ</h5></div>
-              <p className="text-white/80 text-[11px] leading-relaxed">Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону • Волгоград • Астрахань • Махачкала • Владикавказ • Грозный</p>
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🌴</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ЮГ • КАВКАЗ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону •
+                Волгоград • Астрахань • Махачкала • Владикавказ • Грозный
+              </p>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02, y: -2 }} className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group">
-              <div className="flex items-center gap-2 mb-2"><span className="text-[#f05a28] text-lg">⛰️</span><h5 className="text-[#f05a28] font-black text-xs tracking-wider">УРАЛ • СИБИРЬ</h5></div>
-              <p className="text-white/80 text-[11px] leading-relaxed">Екатеринбург • Тюмень • <span className="text-white font-bold">Новый Уренгой</span> • Салехард • Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск • Красноярск • Иркутск</p>
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">⛰️</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  УРАЛ • СИБИРЬ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Екатеринбург • Тюмень •{" "}
+                <span className="text-white font-bold">Новый Уренгой</span> •
+                Салехард • Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск
+                • Красноярск • Иркутск
+              </p>
             </motion.div>
 
-            <motion.div whileHover={{ scale: 1.02, y: -2 }} className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group">
-              <div className="flex items-center gap-2 mb-2"><span className="text-[#f05a28] text-lg">🌏</span><h5 className="text-[#f05a28] font-black text-xs tracking-wider">ВОСТОК • СНГ</h5></div>
-              <p className="text-white/80 text-[11px] leading-relaxed">Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск • Минск • Баку • Ереван • Алматы • Ташкент • Бишкек • Астана</p>
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🌏</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ВОСТОК • СНГ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск •
+                Минск • Баку • Ереван • Алматы • Ташкент • Бишкек • Астана
+              </p>
             </motion.div>
           </div>
 
-          <motion.div animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }} transition={{ duration: 3, repeat: Infinity }} className="mt-2 p-2 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center" style={{ backgroundSize: '200% 100%' }}>
-            <p className="text-white/70 text-[10px] font-bold tracking-wider">⚡ БОЛЕЕ 200 ГОРОДОВ • 15 ЛЕТ НА РЫНКЕ • 5000+ ПЕРЕВОЗОК ⚡</p>
+          <motion.div
+            animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="mt-2 p-2 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center"
+            style={{ backgroundSize: "200% 100%" }}
+          >
+            <p className="text-white/70 text-[10px] font-bold tracking-wider">
+              ⚡ БОЛЕЕ 200 ГОРОДОВ • 15 ЛЕТ НА РЫНКЕ • 5000+ ПЕРЕВОЗОК ⚡
+            </p>
           </motion.div>
         </div>
       </motion.div>
-      
-      
+
       {/* FORM SECTION */}
       <section
         id="form"
@@ -1108,23 +1251,23 @@ export default function Home() {
             <div className="hidden md:block text-center mb-10">
               {/* Иконки с анимацией - ЗАКОММЕНТИРОВАНО */}
               {/*
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1, type: "spring" }}
-                className="flex items-center justify-center gap-4 mb-6"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                  <span className="text-4xl">🤝</span>
-                </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm transform -rotate-3 hover:-rotate-6 transition-transform">
-                  <span className="text-4xl">✨</span>
-                </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-pink-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                  <span className="text-4xl">🚀</span>
-                </div>
-              </motion.div>
-              */}
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1, type: "spring" }}
+                  className="flex items-center justify-center gap-4 mb-6"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
+                    <span className="text-4xl">🤝</span>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm transform -rotate-3 hover:-rotate-6 transition-transform">
+                    <span className="text-4xl">✨</span>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-pink-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
+                    <span className="text-4xl">🚀</span>
+                  </div>
+                </motion.div>
+                */}
               {/* "НАЧНЕМ" - остальное без изменений */}
               ...
               {/* "НАЧНЕМ" - персиковый градиент с эффектом */}
@@ -1233,7 +1376,11 @@ export default function Home() {
             >
               <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-blue-500"></div>
               <div className="p-4 md:p-6">
-                <form onSubmit={handleFormSubmit} className="space-y-3">
+                <form
+                  onSubmit={handleFormSubmit}
+                  className="space-y-3"
+                  ref={formRef}
+                >
                   {/* Поля формы (без изменений, но с улучшенным фокусом) */}
                   <div className="grid grid-cols-2 gap-2">
                     <div>
@@ -1243,6 +1390,7 @@ export default function Home() {
                       <input
                         required
                         type="text"
+                        name="name"
                         placeholder="Александр"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1254,10 +1402,23 @@ export default function Home() {
                       <input
                         required
                         type="tel"
+                        name="user_phone"
                         placeholder="+7 (900) 123-45-67"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
                     </div>
+                  </div>
+                  {/* ПОЛЕ EMAIL - ДОБАВИТЬ */}
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
+                      <span className="mr-1">📧</span> Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="example@mail.ru"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                    />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -1267,6 +1428,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
+                        name="from_city"
                         placeholder="Москва"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1277,6 +1439,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
+                        name="to_city"
                         placeholder="Тверь"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1290,6 +1453,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
+                        name="weight"
                         placeholder="5.0"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1300,6 +1464,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
+                        name="cargo_type"
                         placeholder="Оборудование, мебель..."
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1313,16 +1478,19 @@ export default function Home() {
                     <div className="grid grid-cols-3 gap-1">
                       <input
                         type="text"
+                        name="length"
                         placeholder="Длина"
                         className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
                       <input
                         type="text"
+                        name="width"
                         placeholder="Ширина"
                         className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
                       <input
                         type="text"
+                        name="height"
                         placeholder="Высота"
                         className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1336,6 +1504,7 @@ export default function Home() {
                       </label>
                       <input
                         type="text"
+                        name="date"
                         placeholder="ДД.ММ.ГГГГ"
                         className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
                       />
@@ -1352,7 +1521,8 @@ export default function Home() {
                           <label key={pay} className="flex items-center gap-1">
                             <input
                               type="radio"
-                              name="payment"
+                              name="nds"
+                              value={pay}
                               className="w-3 h-3 accent-[#f05a28]"
                             />
                             <span className="text-[10px] text-slate-700">
@@ -1370,6 +1540,7 @@ export default function Home() {
                     </label>
                     <textarea
                       rows={2}
+                      name="comment"
                       placeholder="Дополнительная информация..."
                       className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all resize-none"
                     ></textarea>
