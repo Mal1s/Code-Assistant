@@ -1,3 +1,6 @@
+import { useRef } from "react";
+import emailjs from "@emailjs/browser";
+
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import thirdIcon from "@assets/photo_2026.jpg";
@@ -6,10 +9,12 @@ import logoOzon from "@assets/1200x630wa_1772480091883.png";
 import logoTvz from "@assets/ТВЗ_1772480095190.png";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
+
 import logoUvmStal from "@assets/____________1772480110697.png";
 import logoWb from "@assets/1irjwkgp3m2z5rszv972wbwxjhjjl2kx_1772480113923.png";
 import logoMelkom from "@assets/tild3031-6237-4533-b534-613333326531__photo_1772480116794.png";
 import manipulatorIcon from "@assets/photo_2026-03-09_23-29-36.jpg";
+import imgNewPhoto from "@assets/newPhoto.jpg";
 import logoSalair from "@assets/888580_1772480120316.png";
 import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 import truckIcon1 from "@assets/black-silhouette-truck-logo-icon-car-cargo-cabin-vector-illustration-truck-vector_769314-4443.jpg";
@@ -17,12 +22,10 @@ import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-
 import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import photo_2026 from "@assets/photo_2026.jpg";  // или любое другое имя переменной
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import newPhoto from "@assets/newPhoto.jpg";
-import truckSmall from "@assets/truck-mobile-adsmobile-ads-home-mobile-ads-22_1773061572914.png";
-import truckMedium from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
-import truckLarge from "@assets/truck-semi-trailer-for-transportation-of-car-vector-illustrati_1773061578615.jpg";
+import truckSmall from "@assets/truck_van.png";
+import truckMedium from "@assets/truck_orange.png";
+import truckLarge from "@assets/truck_flatbed.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -35,7 +38,8 @@ export default function Home() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-   const [activePartner, setActivePartner] = useState<string | null>(null);  // ← ДОБАВЬ ЭТУ СТРОКУ
+  const [activePartner, setActivePartner] = useState<string | null>(null); // ← ДОБАВЬ ЭТУ СТРОКУ
+  const formRef = useRef<HTMLFormElement>(null); //
 
   const getPartnerLogo = (partnerName: string) => {
     const logoMap: { [key: string]: string } = {
@@ -57,12 +61,12 @@ export default function Home() {
       let logoSize = "";
 
       switch (partnerName) {
-          case "Ozon":
+        case "Ozon":
           logoSize = "max-h-16 md:max-h-20"; // ВЕРНУЛ КАК БЫЛО
           break;
-          case "Wildberries":
-            logoSize = "max-h-20 md:max-h-20"; // Wildberries без изменений
-            break;
+        case "Wildberries":
+          logoSize = "max-h-20 md:max-h-20"; // Wildberries без изменений
+          break;
         case "ТехноНИКОЛЬ":
           logoSize = "max-h-20 md:max-h-24";
           break;
@@ -87,11 +91,15 @@ export default function Home() {
 
       // Классы для подсказки (чтобы длинные названия помещались)
       const getTooltipClasses = (name: string, isMobile: boolean) => {
-        let baseClasses = "absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white font-bold px-3 py-1.5 rounded-xl z-30 shadow-xl";
+        let baseClasses =
+          "absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white font-bold px-3 py-1.5 rounded-xl z-30 shadow-xl";
 
         if (name === "Тверской Вагоностроительный Завод") {
           if (isMobile) {
-            return baseClasses + " text-[9px] max-w-[150px] text-center whitespace-normal break-words";
+            return (
+              baseClasses +
+              " text-[9px] max-w-[150px] text-center whitespace-normal break-words"
+            );
           } else {
             return baseClasses + " text-xs md:text-sm whitespace-nowrap";
           }
@@ -123,7 +131,7 @@ export default function Home() {
             className={`${logoSize} max-w-full object-contain transition-all duration-300 ${
               // На телефоне Ozon чуть-чуть уменьшаем ширину (на 5%)
               partnerName === "Ozon" ? "scale-[0.95] md:scale-100" : ""
-          } `}
+            } `}
           />
 
           {/* Подсказка при клике (телефон) */}
@@ -142,7 +150,9 @@ export default function Home() {
           </AnimatePresence>
 
           {/* Подсказка при наведении (ПК) */}
-          <div className={`hidden sm:block ${getTooltipClasses(partnerName, false)} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none`}>
+          <div
+            className={`hidden sm:block ${getTooltipClasses(partnerName, false)} opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none`}
+          >
             {partnerName}
             <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-[#f05a28]"></div>
           </div>
@@ -173,9 +183,39 @@ export default function Home() {
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setShowSuccess(true);
-    (e.target as HTMLFormElement).reset();
-    setTimeout(() => setShowSuccess(false), 4000);
+
+    const submitBtn = (e.target as HTMLFormElement).querySelector(
+      'button[type="submit"]',
+    );
+    const originalText = submitBtn?.innerHTML;
+    if (submitBtn) {
+      submitBtn.innerHTML = "⏳ Отправка...";
+      submitBtn.setAttribute("disabled", "true");
+    }
+
+      emailjs.sendForm(
+        'service_7pkg0hu' ,     // ← новый Service ID
+        'template_q692thu',     // ← новый Template ID
+        e.target as HTMLFormElement,
+        'NtVl5WnbuBxR_EQNl'     // ← Public Key остается тем же
+      )
+      .then(
+        () => {
+          setShowSuccess(true);
+          (e.target as HTMLFormElement).reset();
+          setTimeout(() => setShowSuccess(false), 4000);
+        },
+        (error) => {
+          console.error("Ошибка отправки:", error);
+          alert("❌ Ошибка отправки. Позвоните нам +7 (900) 474-66-88");
+        },
+      )
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
+          submitBtn.removeAttribute("disabled");
+        }
+      });
   };
 
   const partners = [
@@ -197,7 +237,7 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 },
   ];
 
-  const TruckIcon = ({ type }: { type: string }) => {
+  const TruckIcon = ({ type, height }: { type: string; height: string }) => {
     const truckMap: { [key: string]: string } = {
       "20t": truckSmall,
       "5t": truckMedium,
@@ -209,7 +249,7 @@ export default function Home() {
         src={truckMap[type]}
         alt={type}
         style={{
-          height: "50px",
+          height: height, // ← теперь высота приходит из параметра
           width: "auto",
           objectFit: "contain",
           objectPosition: "center",
@@ -269,6 +309,12 @@ export default function Home() {
               Услуги
             </button>
             <button
+              onClick={() => scrollTo("geography")}
+              className="text-2xl font-bold"
+            >
+              География
+            </button>
+            <button
               onClick={() => scrollTo("partners")}
               className="text-2xl font-bold"
             >
@@ -322,6 +368,7 @@ export default function Home() {
               { id: "hero", label: "Главная" },
               { id: "about", label: "О компании" },
               { id: "services", label: "Услуги" },
+              { id: "geography", label: "География" },
               { id: "partners", label: "Партнеры" },
               { id: "form", label: "Заявка" }, // Добавлено!
               { id: "contacts", label: "Контакты" },
@@ -341,9 +388,9 @@ export default function Home() {
             <a
               href="tel:+79004746688"
               className={`
-                block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
-                ${scrolled ? "text-[#0b1a33]" : "text-white"}
-              `}
+                  block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
+                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
+                `}
             >
               +7 (900) 474-66-88
             </a>
@@ -351,9 +398,9 @@ export default function Home() {
             <a
               href="tel:+79004746688"
               className={`
-                hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
-                ${scrolled ? "text-[#0b1a33]" : "text-white"}
-              `}
+                  hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
+                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
+                `}
             >
               +7 (900) 474-66-88
             </a>
@@ -397,8 +444,8 @@ export default function Home() {
               ПО <span className="text-[#f05a28]">РОССИИ</span>
             </h1>
             <p className="text-lg md:text-2xl text-slate-300 mb-8 md:mb-12 max-w-2xl leading-relaxed">
-              Современный автопарк 2023 года выпуска.
-              Полное страхование грузов.<br />
+              Современный автопарк 2023 года выпуска. Полное страхование грузов.
+              <br />
               Команда с 15-летним экспертным опытом в сфере грузоперевозок.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 md:gap-6">
@@ -478,8 +525,7 @@ export default function Home() {
                   Наша команда обладает более чем 15‑летним опытом в сфере
                   логистики.
                 </p>
-                
-              
+
                 <p className="bg-slate-50 p-6 rounded-[2rem] border-l-8 border-[#f05a28]">
                   Мы используем новый собственный автопарк 2023+ года выпуска.
                   Все перевозки застрахованы, каждый водитель трудоустроен
@@ -556,7 +602,7 @@ export default function Home() {
                 desc: "Перевозка крупногабаритных грузов с сопровождением. Разработка маршрута, получение разрешений, безопасная доставка.",
                 icon: thirdIcon,
                 isImage: true,
-                img: newPhoto,
+                img: imgNewPhoto,
                 imgScale: "scale-125",
               },
             ].map((service, idx) => (
@@ -566,7 +612,7 @@ export default function Home() {
                 transition={{ delay: idx * 0.1 }}
                 className="group relative overflow-hidden rounded-3xl md:rounded-[2.5rem] bg-white border border-slate-100 shadow-xl hover:shadow-2xl transition-all duration-500 flex flex-col"
               >
-                  <div className="h-50 md:h-80 overflow-hidden relative shimmer-img bg-gradient-to-br from-[#f05a28]/10 via-[#f05a28]/5 to-blue-500/10 flex items-center justify-center">
+                <div className="h-50 md:h-80 overflow-hidden relative shimmer-img bg-gradient-to-br from-[#f05a28]/10 via-[#f05a28]/5 to-blue-500/10 flex items-center justify-center">
                   <img
                     src={service.img}
                     className={`w-full h-full object-contain ${service.imgScale} relative z-10`}
@@ -581,13 +627,13 @@ export default function Home() {
                         src={service.icon}
                         alt={service.title}
                         className={`w-full h-full object-cover ${
-                          idx === 1 ? 'scale-70 object-[60%]' : ''
-                        } ${
-                          idx === 2 ? 'scale-90 object-right' : ''
-                        }`}
+                          idx === 1 ? "scale-70 object-[60%]" : ""
+                        } ${idx === 2 ? "scale-90 object-right" : ""}`}
                       />
                     ) : (
-                      <i className={`fas fa-${service.icon} text-xl md:text-2xl text-[#f05a28]`}></i>
+                      <i
+                        className={`fas fa-${service.icon} text-xl md:text-2xl text-[#f05a28]`}
+                      ></i>
                     )}
                   </div>
                   <h3 className="text-xl md:text-2xl font-black text-[#0b1a33] mb-3 md:mb-4">
@@ -608,27 +654,585 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* ТРАССА М8 "АЛМИК" - С АНИМАЦИЕЙ ФОНА */}
+      <section
+        id="geography" // ← ID СТАВИМ ЗДЕСЬ!
+        className="relative py-16 overflow-hidden bg-[#0b1a33]"
+      >
+        {/* ===== АНИМИРОВАННЫЙ ФОН ===== */}
+
+        {/* 1. ДВИЖУЩИЕСЯ ТОЧКИ */}
+        <div className="absolute inset-0">
+          {[...Array(100)].map((_, i) => (
+            <motion.div
+              key={`dot-${i}`}
+              className="absolute w-0.5 h-0.5 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                background: "#ff9f4b",
+                filter: "blur(1px)",
+              }}
+              animate={{
+                y: [0, -100, 0],
+                x: [0, Math.random() * 50 - 25, 0],
+                opacity: [0.1, 0.8, 0.1],
+                scale: [1, 2, 1],
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                delay: Math.random() * 5,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* 2. ПЛЫВУЩИЕ ЛИНИИ */}
+        <div className="absolute inset-0">
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={`line-${i}`}
+              className="absolute h-px w-full"
+              style={{
+                top: `${i * 12}%`,
+                background: `linear-gradient(90deg, transparent, #ff9f4b, #ffb347, #ff9f4b, transparent)`,
+                filter: "blur(2px)",
+              }}
+              animate={{
+                x: ["-100%", "100%"],
+                opacity: [0.2, 0.8, 0.2],
+              }}
+              transition={{
+                duration: 8 + i * 2,
+                repeat: Infinity,
+                delay: i * 0.5,
+                ease: "linear",
+              }}
+            />
+          ))}
+        </div>
+
+        {/* 3. ПУЛЬСИРУЮЩИЙ ГРАДИЕНТ */}
+        <motion.div
+          animate={{
+            background: [
+              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 70% 60%, rgba(255,159,75,0.3) 0%, transparent 50%)",
+              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
+            ],
+          }}
+          transition={{ duration: 10, repeat: Infinity }}
+          className="absolute inset-0 opacity-30 blur-3xl"
+        />
+
+        {/* 4. СВЕТЯЩИЕСЯ ЧАСТИЦЫ */}
+        <div className="absolute inset-0">
+          {[...Array(30)].map((_, i) => (
+            <motion.div
+              key={`glow-${i}`}
+              className="absolute w-1 h-1 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                background: "#ff9f4b",
+                boxShadow: "0 0 10px #ff9f4b",
+              }}
+              animate={{
+                scale: [0, 3, 0],
+                opacity: [0, 1, 0],
+              }}
+              transition={{
+                duration: Math.random() * 4 + 3,
+                repeat: Infinity,
+                delay: Math.random() * 2,
+              }}
+            />
+          ))}
+        </div>
+
+        {/* 5. МЕРЦАЮЩАЯ СЕТКА */}
+        <motion.div
+          animate={{ opacity: [0.05, 0.15, 0.05] }}
+          transition={{ duration: 3, repeat: Infinity }}
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `
+                linear-gradient(45deg, #ff9f4b 1px, transparent 1px),
+                linear-gradient(-45deg, #ff9f4b 1px, transparent 1px)
+              `,
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        {/* 6. ДЫМ */}
+        <motion.div
+          animate={{
+            x: [-100, 100, -100],
+            opacity: [0.1, 0.3, 0.1],
+          }}
+          transition={{ duration: 20, repeat: Infinity }}
+          className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ff9f4b]/20 to-transparent blur-3xl"
+        />
+
+        {/* 7. ДОРОЖНАЯ РАЗМЕТКА */}
+        <div className="absolute inset-0 opacity-5">
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage:
+                "repeating-linear-gradient(90deg, #ff9f4b 0px, #ff9f4b 10px, transparent 10px, transparent 20px)",
+              backgroundSize: "20px 100%",
+            }}
+          ></div>
+        </div>
+
+        {/* КОНТЕНТ */}
+        <div className="container mx-auto px-4 relative z-10">
+          {/* Заголовок - ПЕРСИКОВЫЙ ГРАДИЕНТ */}
+          <motion.div
+            initial={{ scale: 0 }}
+            whileInView={{ scale: 1 }}
+            className="relative w-fit mx-auto mb-12"
+          >
+            <div className="bg-[#0b1a33] border-2 border-[#ff9f4b] rounded-2xl p-4 shadow-lg rotate-[-2deg] hover:rotate-0 transition-transform">
+              <h2 className="text-3xl md:text-5xl font-bold text-center">
+                <span className="bg-gradient-to-r from-[#ff9f4b] via-[#ffb347] to-[#ffcc99] bg-clip-text text-transparent">
+                  М8 "АЛМИК"
+                </span>
+              </h2>
+              <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-12 h-4 bg-gradient-to-r from-[#ff9f4b] to-[#ffb347] clip-triangle"></div>
+            </div>
+          </motion.div>
+
+          {/* КИЛОМЕТРОВЫЕ СТОЛБЫ */}
+          <div className="space-y-2 relative">
+            {/* Линия трассы */}
+            <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
+
+            {/* Города на трассе */}
+            {[
+              {
+                km: "0",
+                city: "ТВЕРЬ",
+                desc: "ЦЕНТРАЛЬНЫЙ ОФИС",
+                type: "start",
+              },
+              { km: "168", city: "МОСКВА", desc: "СТОЛИЦА", type: "capital" },
+              {
+                km: "714",
+                city: "С.-ПЕТЕРБУРГ",
+                desc: "СЕВЕРНАЯ СТОЛИЦА",
+                type: "major",
+              },
+              { km: "1540", city: "МУРМАНСК", desc: "АРКТИКА", type: "north" },
+              {
+                km: "3340",
+                city: "НОВЫЙ УРЕНГОЙ",
+                desc: "ГАЗ",
+                type: "extreme",
+              },
+              { km: "5180", city: "ЯКУТСК", desc: "АЛМАЗЫ", type: "extreme" },
+              {
+                km: "7520",
+                city: "ВЛАДИВОСТОК",
+                desc: "ТИХИЙ ОКЕАН",
+                type: "finish",
+              },
+            ].map((point, index) => (
+              <motion.div
+                key={point.city}
+                initial={{ x: -100, opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ x: 5 }}
+                className="relative flex items-start gap-3 group"
+              >
+                {/* Км столб */}
+                <div className="relative z-20 w-12 flex-shrink-0">
+                  <div
+                    className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow
+                      ${
+                        point.type === "capital"
+                          ? "bg-yellow-500/80"
+                          : point.type === "extreme"
+                            ? "bg-purple-600/80"
+                            : point.type === "north"
+                              ? "bg-blue-500/80"
+                              : point.type === "finish"
+                                ? "bg-green-600/80"
+                                : "bg-[#ff9f4b]/80"
+                      }`}
+                  >
+                    {point.km}
+                  </div>
+                </div>
+
+                {/* Город */}
+                <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
+                  <div>
+                    <h3 className="text-base md:text-lg font-bold text-white">
+                      {point.city}
+                    </h3>
+                    <p className="text-white/60 text-[10px] font-normal">
+                      {point.desc}
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* ТРИ ТАБЛИЧКИ */}
+          <div className="mt-12 grid md:grid-cols-3 gap-3">
+            {[
+              {
+                sign: "🛑",
+                title: "ДОКУМЕНТЫ",
+                items: [
+                  "Устав автомобильного транспорта (УАТ РФ)",
+                  "Полный пакет документов",
+                  "Отсутствие штрафов у юр.лиц",
+                  "Налогообложение по закону РФ",
+                  "Страхование каждого груза",
+                ],
+                color: "#ff9f4b",
+              },
+              {
+                sign: "⚠️",
+                title: "ОСОБЫЕ УСЛОВИЯ",
+                items: [
+                  "Зимники и паромы",
+                  "Труднодоступные месторождения",
+                  "Драгоценные ископаемые",
+                  "Такелажные работы (станки, оборудование)",
+                  "Монтаж тяжеловесных грузов",
+                ],
+                color: "#ffaa00",
+              },
+              {
+                sign: "⛽",
+                title: "СПЕЦТЕХНИКА",
+                items: [
+                  "Манипуляторы",
+                  "Краны различной тоннажности",
+                  "Лебедки и домкраты",
+                  "Стропы и такелаж",
+                  "Сопровождение (ГИБДД)",
+                ],
+                color: "#00cc88",
+              },
+            ].map((block, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -2 }}
+                className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
+              >
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="text-2xl">{block.sign}</span>
+                  <h4
+                    className="text-base font-bold text-white"
+                    style={{ color: block.color }}
+                  >
+                    {block.title}
+                  </h4>
+                </div>
+                <ul className="space-y-1.5">
+                  {block.items.map((item, j) => (
+                    <li
+                      key={j}
+                      className="text-white/80 text-xs flex items-start gap-2"
+                    >
+                      <span className="text-[#ff9f4b] text-sm">•</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ГЕОГРАФИЯ ПРИСУТСТВИЯ - ПИЗДАТЫЙ ПЕПЕЛЬНЫЙ ФОН */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative w-full"
+      >
+        {/* ПИЗДАТЫЙ ПЕПЕЛЬНЫЙ ФОН С АНИМАЦИЕЙ */}
+        <div className="absolute inset-0 rounded-2xl overflow-hidden">
+          {/* Базовый пепельный градиент */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#4a4a4a] via-[#6d6d6d] to-[#2a2a2a]"></div>
+
+          {/* ПЕПЕЛ - МЕЛКИЕ ЧАСТИЦЫ */}
+          {[...Array(120)].map((_, i) => (
+            <motion.div
+              key={`ash-${i}`}
+              className="absolute w-0.5 h-0.5 bg-white/60 rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+              }}
+              animate={{
+                y: [0, -80, 0],
+                x: [0, Math.random() * 40 - 20, 0],
+                opacity: [0.2, 0.8, 0.2],
+                scale: [1, 2, 1],
+              }}
+              transition={{
+                duration: Math.random() * 20 + 15,
+                repeat: Infinity,
+                delay: Math.random() * 8,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* ПЕПЕЛ - КРУПНЫЕ ХЛОПЬЯ */}
+          {[...Array(40)].map((_, i) => (
+            <motion.div
+              key={`flakes-${i}`}
+              className="absolute rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${Math.random() * 6 + 2}px`,
+                height: `${Math.random() * 6 + 2}px`,
+                background: `radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(200,200,200,0.4) 70%)`,
+              }}
+              animate={{
+                y: [0, -150, 0],
+                x: [0, Math.random() * 60 - 30, 0],
+                opacity: [0.2, 0.6, 0.2],
+                rotate: [0, 360],
+              }}
+              transition={{
+                duration: Math.random() * 30 + 20,
+                repeat: Infinity,
+                delay: Math.random() * 10,
+                ease: "linear",
+              }}
+            />
+          ))}
+
+          {/* ТЛЕЮЩИЕ УГОЛЬКИ */}
+          {[...Array(25)].map((_, i) => (
+            <motion.div
+              key={`ember-${i}`}
+              className="absolute rounded-full"
+              style={{
+                left: `${Math.random() * 100}%`,
+                top: `${Math.random() * 100}%`,
+                width: `${Math.random() * 4 + 1}px`,
+                height: `${Math.random() * 4 + 1}px`,
+                background: `radial-gradient(circle, #f05a28 0%, #ff4500 70%, transparent 100%)`,
+              }}
+              animate={{
+                opacity: [0, 1, 0.5, 1, 0],
+                scale: [1, 2.5, 1.5, 2, 1],
+                boxShadow: [
+                  "0 0 0px rgba(240,90,40,0)",
+                  "0 0 20px rgba(240,90,40,0.9)",
+                  "0 0 10px rgba(240,90,40,0.5)",
+                  "0 0 25px rgba(240,90,40,1)",
+                  "0 0 0px rgba(240,90,40,0)",
+                ],
+              }}
+              transition={{
+                duration: Math.random() * 8 + 5,
+                repeat: Infinity,
+                delay: Math.random() * 4,
+                ease: "easeInOut",
+              }}
+            />
+          ))}
+
+          {/* ГУСТОЙ ДЫМ */}
+          <motion.div
+            animate={{
+              scale: [1, 1.4, 1],
+              rotate: [0, 10, -10, 0],
+              opacity: [0.2, 0.4, 0.2],
+            }}
+            transition={{
+              duration: 30,
+              repeat: Infinity,
+              ease: "linear",
+            }}
+            className="absolute -inset-40 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-3xl"
+          />
+
+          {/* ДЫМ С ОРАНЖЕВЫМ ОТТЕНКОМ */}
+          <motion.div
+            animate={{
+              scale: [1.1, 1.5, 1.1],
+              rotate: [0, -15, 15, 0],
+              opacity: [0.1, 0.3, 0.1],
+            }}
+            transition={{
+              duration: 35,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 5,
+            }}
+            className="absolute -inset-40 bg-gradient-to-l from-transparent via-[#f05a28]/20 to-transparent blur-3xl"
+          />
+
+          {/* ТЕКСТУРА ПЕПЛА */}
+          <div
+            className="absolute inset-0 opacity-40 mix-blend-overlay"
+            style={{
+              backgroundImage: `
+                  radial-gradient(circle at 5px 5px, rgba(255,255,255,0.3) 1px, transparent 1px),
+                  radial-gradient(circle at 15px 25px, rgba(255,255,255,0.2) 1px, transparent 1px)
+                `,
+              backgroundSize: "30px 30px, 50px 50px",
+            }}
+          />
+        </div>
+
+        {/* Основной контейнер */}
+        <div className="relative z-10 bg-black/40 backdrop-blur-[1px] rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+          <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-orange-300 to-[#f05a28]"></div>
+
+          <div className="px-6 pt-6 pb-2 flex items-center justify-center gap-3">
+            <motion.div
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-3xl"
+            >
+              🗺️
+            </motion.div>
+            <h4 className="text-2xl font-black text-white tracking-tight">
+              ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span>
+            </h4>
+            <motion.div
+              animate={{ rotate: [0, -10, 10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
+              className="text-3xl"
+            >
+              🌍
+            </motion.div>
+          </div>
+
+          <p className="text-center text-white/70 text-xs mb-4">
+            от Калининграда до Сахалина • 8 стран Таможенного союза
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-4">
+            {/* Блоки с городами - без изменений */}
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🏛️</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ЦЕНТР • СЗФО
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                <span className="text-white font-bold">Москва</span> •
+                Санкт-Петербург •{" "}
+                <span className="text-[#f05a28] font-bold"> Тверь</span> • Псков
+                • Великий Новгород • Петрозаводск • Мурманск • Архангельск •
+                Вологда • Калининград
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🌴</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ЮГ • КАВКАЗ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону •
+                Волгоград • Астрахань • Махачкала • Владикавказ • Грозный
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">⛰️</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  УРАЛ • СИБИРЬ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Екатеринбург • Тюмень •{" "}
+                <span className="text-white font-bold">Новый Уренгой</span> •
+                Салехард • Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск
+                • Красноярск • Иркутск
+              </p>
+            </motion.div>
+
+            <motion.div
+              whileHover={{ scale: 1.02, y: -2 }}
+              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
+            >
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[#f05a28] text-lg">🌏</span>
+                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+                  ВОСТОК • СНГ
+                </h5>
+              </div>
+              <p className="text-white/80 text-[11px] leading-relaxed">
+                Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск •
+                Минск • Баку • Ереван • Алматы • Ташкент • Бишкек • Астана
+              </p>
+            </motion.div>
+          </div>
+
+          <motion.div
+            animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="mt-2 p-2 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center"
+            style={{ backgroundSize: "200% 100%" }}
+          >
+            <p className="text-white/70 text-[10px] font-bold tracking-wider">
+              ⚡ БОЛЕЕ 200 ГОРОДОВ • 15 ЛЕТ НА РЫНКЕ • 5000+ ПЕРЕВОЗОК ⚡
+            </p>
+          </motion.div>
+        </div>
+      </motion.div>
 
       {/* FORM SECTION */}
       <section
         id="form"
         className="py-12 md:py-16 px-4 md:px-6 relative overflow-hidden"
         style={{
-          background: 'linear-gradient(135deg, #0b1a33 0%, #1a2b45 100%)'
+          background: "linear-gradient(135deg, #0b1a33 0%, #1a2b45 100%)",
         }}
       >
         {/* Декоративные элементы */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-0 left-0 w-96 h-96 bg-[#f05a28] rounded-full filter blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse" style={{ animationDelay: '1s' }}></div>
+          <div
+            className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse"
+            style={{ animationDelay: "1s" }}
+          ></div>
         </div>
 
         {/* Сетка для текстуры */}
         <div className="absolute inset-0 opacity-5">
-          <div className="w-full h-full" style={{
-            backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
-            backgroundSize: '40px 40px'
-          }}></div>
+          <div
+            className="w-full h-full"
+            style={{
+              backgroundImage:
+                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          ></div>
         </div>
 
         {/* Дополнительные декоративные линии для ПК */}
@@ -646,27 +1250,25 @@ export default function Home() {
             <div className="hidden md:block text-center mb-10">
               {/* Иконки с анимацией - ЗАКОММЕНТИРОВАНО */}
               {/*
-              <motion.div
-                initial={{ opacity: 0, scale: 0.5 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1, type: "spring" }}
-                className="flex items-center justify-center gap-4 mb-6"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                  <span className="text-4xl">🤝</span>
-                </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm transform -rotate-3 hover:-rotate-6 transition-transform">
-                  <span className="text-4xl">✨</span>
-                </div>
-                <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-pink-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                  <span className="text-4xl">🚀</span>
-                </div>
-              </motion.div>
-              */}
-
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ delay: 0.1, type: "spring" }}
+                  className="flex items-center justify-center gap-4 mb-6"
+                >
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
+                    <span className="text-4xl">🤝</span>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm transform -rotate-3 hover:-rotate-6 transition-transform">
+                    <span className="text-4xl">✨</span>
+                  </div>
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-pink-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
+                    <span className="text-4xl">🚀</span>
+                  </div>
+                </motion.div>
+                */}
               {/* "НАЧНЕМ" - остальное без изменений */}
               ...
-
               {/* "НАЧНЕМ" - персиковый градиент с эффектом */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
@@ -680,14 +1282,13 @@ export default function Home() {
                   </span>
                 </h2>
                 {/* Декоративная линия под текстом */}
-                <motion.div 
+                <motion.div
                   initial={{ width: 0 }}
-                  whileInView={{ width: '100%' }}
+                  whileInView={{ width: "100%" }}
                   transition={{ delay: 0.5, duration: 0.6 }}
                   className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-[#f05a28] to-transparent rounded-full"
                 ></motion.div>
               </motion.div>
-
               {/* "СОТРУДНИЧЕСТВО" - еще более яркий градиент */}
               <motion.h3
                 initial={{ opacity: 0, y: 30 }}
@@ -699,7 +1300,6 @@ export default function Home() {
                   СОТРУДНИЧЕСТВО
                 </span>
               </motion.h3>
-
               {/* Украшение - вращающиеся точки */}
               <motion.div
                 initial={{ opacity: 0 }}
@@ -711,13 +1311,16 @@ export default function Home() {
                   <motion.div
                     key={i}
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
                     className="w-2 h-2 rounded-full bg-gradient-to-r from-[#f05a28] to-orange-400"
                     style={{ animationDelay: `${i * 0.3}s` }}
                   ></motion.div>
                 ))}
               </motion.div>
-
               {/* Подзаголовок с бликом */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -733,7 +1336,7 @@ export default function Home() {
 
             {/* ===== ДЛЯ ТЕЛЕФОНА (КАК БЫЛО) ===== */}
             <div className="block md:hidden text-center mb-6">
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
@@ -742,7 +1345,7 @@ export default function Home() {
                 Начнем сотрудничество
               </motion.span>
 
-              <motion.h2 
+              <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}
@@ -753,7 +1356,7 @@ export default function Home() {
                 </span>
               </motion.h2>
 
-              <motion.p 
+              <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 }}
@@ -772,21 +1375,49 @@ export default function Home() {
             >
               <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-blue-500"></div>
               <div className="p-4 md:p-6">
-                <form onSubmit={handleFormSubmit} className="space-y-3">
+                <form
+                  onSubmit={handleFormSubmit}
+                  className="space-y-3"
+                  ref={formRef}
+                >
                   {/* Поля формы (без изменений, но с улучшенным фокусом) */}
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">👤</span> Имя *
                       </label>
-                      <input required type="text" placeholder="Александр" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        required
+                        type="text"
+                        name="name"
+                        placeholder="Александр"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">📞</span> Телефон *
                       </label>
-                      <input required type="tel" placeholder="+7 (900) 123-45-67" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        required
+                        type="tel"
+                        name="user_phone"
+                        placeholder="+7 (900) 123-45-67"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
+                  </div>
+                  {/* ПОЛЕ EMAIL - ДОБАВИТЬ */}
+                  <div>
+                    <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
+                      <span className="mr-1">📧</span> Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="example@mail.ru"
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                    />
                   </div>
 
                   <div className="grid grid-cols-2 gap-2">
@@ -794,13 +1425,23 @@ export default function Home() {
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">📍</span> Откуда
                       </label>
-                      <input type="text" placeholder="Москва" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        type="text"
+                        name="from_city"
+                        placeholder="Москва"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">📍</span> Куда
                       </label>
-                      <input type="text" placeholder="Тверь" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        type="text"
+                        name="to_city"
+                        placeholder="Тверь"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                   </div>
 
@@ -809,13 +1450,23 @@ export default function Home() {
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">⚖️</span> Вес (т)
                       </label>
-                      <input type="text" placeholder="5.0" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        type="text"
+                        name="weight"
+                        placeholder="5.0"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">📦</span> Тип груза
                       </label>
-                      <input type="text" placeholder="Оборудование, мебель..." className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        type="text"
+                        name="cargo_type"
+                        placeholder="Оборудование, мебель..."
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                   </div>
 
@@ -824,9 +1475,24 @@ export default function Home() {
                       <span className="mr-1">📏</span> Габариты (м)
                     </label>
                     <div className="grid grid-cols-3 gap-1">
-                      <input type="text" placeholder="Длина" className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
-                      <input type="text" placeholder="Ширина" className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
-                      <input type="text" placeholder="Высота" className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
+                      <input
+                        type="text"
+                        name="length"
+                        placeholder="Длина"
+                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
+                      <input
+                        type="text"
+                        name="width"
+                        placeholder="Ширина"
+                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
+                      <input
+                        type="text"
+                        name="height"
+                        placeholder="Высота"
+                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
                     </div>
                   </div>
 
@@ -835,8 +1501,15 @@ export default function Home() {
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                         <span className="mr-1">📅</span> Дата
                       </label>
-                      <input type="text" placeholder="ДД.ММ.ГГГГ" className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all" />
-                      <p className="text-[8px] text-slate-400 mt-1">Например: 25.12.2024</p>
+                      <input
+                        type="text"
+                        name="date"
+                        placeholder="ДД.ММ.ГГГГ"
+                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      />
+                      <p className="text-[8px] text-slate-400 mt-1">
+                        Например: 25.12.2024
+                      </p>
                     </div>
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
@@ -845,8 +1518,15 @@ export default function Home() {
                       <div className="flex gap-3 bg-white rounded-lg border border-slate-200 p-2">
                         {["С НДС", "Без НДС"].map((pay) => (
                           <label key={pay} className="flex items-center gap-1">
-                            <input type="radio" name="payment" className="w-3 h-3 accent-[#f05a28]" />
-                            <span className="text-[10px] text-slate-700">{pay}</span>
+                            <input
+                              type="radio"
+                              name="nds"
+                              value={pay}
+                              className="w-3 h-3 accent-[#f05a28]"
+                            />
+                            <span className="text-[10px] text-slate-700">
+                              {pay}
+                            </span>
                           </label>
                         ))}
                       </div>
@@ -857,15 +1537,24 @@ export default function Home() {
                     <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                       <span className="mr-1">💬</span> Комментарий
                     </label>
-                    <textarea rows={2} placeholder="Дополнительная информация..." className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all resize-none"></textarea>
+                    <textarea
+                      rows={2}
+                      name="comment"
+                      placeholder="Дополнительная информация..."
+                      className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all resize-none"
+                    ></textarea>
                   </div>
 
-                  <button type="submit" className="w-full bg-gradient-to-r from-[#f05a28] to-[#ff9f4b] text-white py-3 rounded-lg font-bold text-xs uppercase hover:from-[#d44a1d] hover:to-[#f05a28] transition-all shadow-lg hover:shadow-xl">
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-[#f05a28] to-[#ff9f4b] text-white py-3 rounded-lg font-bold text-xs uppercase hover:from-[#d44a1d] hover:to-[#f05a28] transition-all shadow-lg hover:shadow-xl"
+                  >
                     ✉️ Отправить заявку
                   </button>
 
                   <p className="text-center text-slate-400 text-[8px] mt-2">
-                    🔒 Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+                    🔒 Нажимая кнопку, вы соглашаетесь с обработкой персональных
+                    данных
                   </p>
                 </form>
               </div>
@@ -998,13 +1687,12 @@ export default function Home() {
             <span>Грузоперевозки по России</span>
           </div>
         </div>
-
         {/* TRUCK ANIMATION */}
         <div className="fixed bottom-0 left-0 w-full h-16 bg-slate-900/90 backdrop-blur-sm pointer-events-none border-t border-white/10 z-[4000] overflow-hidden">
           <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white/10"></div>
 
           {/* ПК версия - большие экраны */}
-          {/* Первый грузовик (20т) */}
+          {/* Первый грузовик (20т) - ПК */}
           <motion.div
             initial={{ x: "-300px" }}
             animate={{ x: "calc(100vw + 300px)" }}
@@ -1014,12 +1702,12 @@ export default function Home() {
               ease: "linear",
               delay: 0,
             }}
-            className="absolute bottom-2 hidden sm:block"
+            className="absolute bottom--1 hidden sm:block"
             style={{ zIndex: 3 }}
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" />
+              <TruckIcon type="20t" height="85px" />
             </div>
           </motion.div>
 
@@ -1031,14 +1719,14 @@ export default function Home() {
               duration: 25,
               repeat: Infinity,
               ease: "linear",
-              delay: 7, // БЫЛО 8, СТАЛО 3
+              delay: 7,
             }}
-            className="absolute bottom-2 hidden sm:block"
+            className="absolute bottom--0,5 hidden sm:block"
             style={{ zIndex: 2 }}
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" />
+              <TruckIcon type="5t" height="90px" />
             </div>
           </motion.div>
 
@@ -1050,14 +1738,14 @@ export default function Home() {
               duration: 25,
               repeat: Infinity,
               ease: "linear",
-              delay: 14, // БЫЛО 16, СТАЛО 6
+              delay: 14,
             }}
-            className="absolute bottom-2 hidden sm:block"
+            className="absolute bottom--1 hidden sm:block"
             style={{ zIndex: 1 }}
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" />
+              <TruckIcon type="trall" height="90px" />
             </div>
           </motion.div>
 
@@ -1119,7 +1807,62 @@ export default function Home() {
               <TruckIcon type="trall" />
             </div>
           </motion.div>
-        </div>
+        </div>{" "}
+        {/* МОБИЛЬНАЯ ВЕРСИЯ - БЕСКОНЕЧНЫЙ ПОТОК С РАССТОЯНИЕМ 4.5 */}
+        {/* Первая машина (20т) */}
+        <motion.div
+          initial={{ x: "-300px" }}
+          animate={{ x: "calc(100vw + 300px)" }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 0,
+          }}
+          className="absolute bottom-2 block sm:hidden"
+          style={{ zIndex: 3 }}
+        >
+          <div className="relative">
+            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+            <TruckIcon type="20t" height="50px" />
+          </div>
+        </motion.div>
+        {/* Вторая машина (5т) - через 4.5 сек после первой */}
+        <motion.div
+          initial={{ x: "-300px" }}
+          animate={{ x: "calc(100vw + 300px)" }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 4.5,
+          }}
+          className="absolute bottom-2 block sm:hidden"
+          style={{ zIndex: 2 }}
+        >
+          <div className="relative">
+            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+            <TruckIcon type="5t" height="60px" />
+          </div>
+        </motion.div>
+        {/* Третья машина (trall) - через 9.0 сек после первой (4.5 + 4.5) */}
+        <motion.div
+          initial={{ x: "-300px" }}
+          animate={{ x: "calc(100vw + 300px)" }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "linear",
+            delay: 9.0,
+          }}
+          className="absolute bottom-2 block sm:hidden"
+          style={{ zIndex: 1 }}
+        >
+          <div className="relative">
+            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+            <TruckIcon type="trall" height="70px" />
+          </div>
+        </motion.div>
       </footer>
     </div>
   );
