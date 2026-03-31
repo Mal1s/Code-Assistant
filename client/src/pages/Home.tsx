@@ -277,7 +277,7 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 },
   ];
 
-  const TruckIcon = ({ type, height }: { type: string; height: string }) => {
+  const TruckIcon = ({ type, height = "80px" }: { type: string; height?: string }) => {
     const truckMap: { [key: string]: string } = {
       "20t": truckSmall,
       "5t": truckMedium,
@@ -289,10 +289,12 @@ export default function Home() {
         src={truckMap[type]}
         alt={type}
         style={{
-          height: height, // ← теперь высота приходит из параметра
+          height,
           width: "auto",
+          maxWidth: "none",
           objectFit: "contain",
-          objectPosition: "center",
+          objectPosition: "bottom",
+          display: "block",
         }}
       />
     );
@@ -1605,7 +1607,7 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="85px" />
+              <TruckIcon type="20t" height="90px" />
             </div>
           </motion.div>
 
@@ -1619,7 +1621,7 @@ export default function Home() {
               ease: "linear",
               delay: 7,
             }}
-            className="absolute bottom--0,5 hidden sm:block"
+            className="absolute bottom-0 hidden sm:block"
             style={{ zIndex: 2 }}
           >
             <div className="relative">
@@ -1638,7 +1640,7 @@ export default function Home() {
               ease: "linear",
               delay: 14,
             }}
-            className="absolute bottom--1 hidden sm:block"
+            className="absolute bottom-0 hidden sm:block"
             style={{ zIndex: 1 }}
           >
             <div className="relative">
@@ -1663,8 +1665,8 @@ export default function Home() {
             style={{ zIndex: 3 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" />
+              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="20t" height="65px" />
             </div>
           </motion.div>
 
@@ -1682,8 +1684,8 @@ export default function Home() {
             style={{ zIndex: 2 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" />
+              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="5t" height="65px" />
             </div>
           </motion.div>
 
@@ -1701,66 +1703,11 @@ export default function Home() {
             style={{ zIndex: 1 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" />
+              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="trall" height="65px" />
             </div>
           </motion.div>
         </div>{" "}
-        {/* МОБИЛЬНАЯ ВЕРСИЯ - БЕСКОНЕЧНЫЙ ПОТОК С РАССТОЯНИЕМ 4.5 */}
-        {/* Первая машина (20т) */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 0,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 3 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="20t" height="50px" />
-          </div>
-        </motion.div>
-        {/* Вторая машина (5т) - через 4.5 сек после первой */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 4.5,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 2 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="5t" height="60px" />
-          </div>
-        </motion.div>
-        {/* Третья машина (trall) - через 9.0 сек после первой (4.5 + 4.5) */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 9.0,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 1 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="trall" height="70px" />
-          </div>
-        </motion.div>
       </footer>
     </div>
   );
