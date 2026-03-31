@@ -26,9 +26,6 @@ import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79
 import truckSmall from "@assets/truck_van.png";
 import truckMedium from "@assets/truck_orange.png";
 import truckLarge from "@assets/truck_flatbed.png";
-import truckSmallMobile from "@assets/truck_van_mobile.png";
-import truckMediumMobile from "@assets/truck_orange_mobile.png";
-import truckLargeMobile from "@assets/truck_flatbed_mobile.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -71,7 +68,7 @@ export default function Home() {
           logoSize = "max-h-20 md:max-h-20"; // Wildberries без изменений
           break;
         case "ТехноНИКОЛЬ":
-          logoSize = "max-h-20 md:max-h-24";
+          logoSize = "max-h-14 md:max-h-16";
           break;
         case "Тверской Вагоностроительный Завод":
           logoSize = "max-h-16 md:max-h-20"; // на телефоне поменьше
@@ -131,10 +128,8 @@ export default function Home() {
           <img
             src={logoUrl}
             alt={partnerName}
-            className={`${logoSize} max-w-full object-contain transition-all duration-300 ${
-              // На телефоне Ozon чуть-чуть уменьшаем ширину (на 5%)
-              partnerName === "Ozon" ? "scale-[0.95] md:scale-100" : ""
-            } `}
+            className={`${logoSize} max-w-full object-contain transition-all duration-300`}
+            style={partnerName === "Ozon" ? { background: "#fff", borderRadius: 6, padding: 4 } : {}}
           />
 
           {/* Подсказка при клике (телефон) */}
@@ -280,31 +275,22 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 },
   ];
 
-  const TruckIcon = ({ type, height = "80px", mobile = false }: { type: string; height?: string; mobile?: boolean }) => {
-    const desktopMap: { [key: string]: string } = {
+  const TruckIcon = ({ type, height }: { type: string; height: string }) => {
+    const truckMap: { [key: string]: string } = {
       "20t": truckSmall,
       "5t": truckMedium,
       trall: truckLarge,
     };
-    const mobileMap: { [key: string]: string } = {
-      "20t": truckSmallMobile,
-      "5t": truckMediumMobile,
-      trall: truckLargeMobile,
-    };
-
-    const src = mobile ? mobileMap[type] : desktopMap[type];
 
     return (
       <img
-        src={src}
+        src={truckMap[type]}
         alt={type}
         style={{
-          height,
+          height: height, // ← теперь высота приходит из параметра
           width: "auto",
-          maxWidth: "none",
           objectFit: "contain",
-          objectPosition: "bottom",
-          display: "block",
+          objectPosition: "center",
         }}
       />
     );
@@ -547,7 +533,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeInUp} className="relative mt-8 lg:mt-0">
-              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-square shimmer-img">
+              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-[5/4] shimmer-img">
                 <img
                   src={imgTrucks}
                   alt="Trucks"
@@ -857,151 +843,113 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* КИЛОМЕТРОВЫЕ СТОЛБЫ */}
-          <div className="space-y-2 relative">
-            {/* Линия трассы */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
+          {/* ДВУХКОЛОНОЧНЫЙ МАКЕТ: ГОРОДА СЛЕВА, ТАБЛИЧКИ СПРАВА */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-            {/* Города на трассе */}
-            {[
-              {
-                km: "0",
-                city: "ТВЕРЬ",
-                desc: "ЦЕНТРАЛЬНЫЙ ОФИС",
-                type: "start",
-              },
-              { km: "168", city: "МОСКВА", desc: "СТОЛИЦА", type: "capital" },
-              {
-                km: "714",
-                city: "С.-ПЕТЕРБУРГ",
-                desc: "СЕВЕРНАЯ СТОЛИЦА",
-                type: "major",
-              },
-              { km: "1540", city: "МУРМАНСК", desc: "АРКТИКА", type: "north" },
-              {
-                km: "3340",
-                city: "НОВЫЙ УРЕНГОЙ",
-                desc: "ГАЗ",
-                type: "extreme",
-              },
-              { km: "5180", city: "ЯКУТСК", desc: "АЛМАЗЫ", type: "extreme" },
-              {
-                km: "7520",
-                city: "ВЛАДИВОСТОК",
-                desc: "ТИХИЙ ОКЕАН",
-                type: "finish",
-              },
-            ].map((point, index) => (
-              <motion.div
-                key={point.city}
-                initial={{ x: -100, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ x: 5 }}
-                className="relative flex items-start gap-3 group"
-              >
-                {/* Км столб */}
-                <div className="relative z-20 w-12 flex-shrink-0">
-                  <div
-                    className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow
-                      ${
-                        point.type === "capital"
-                          ? "bg-yellow-500/80"
-                          : point.type === "extreme"
-                            ? "bg-purple-600/80"
-                            : point.type === "north"
-                              ? "bg-blue-500/80"
-                              : point.type === "finish"
-                                ? "bg-green-600/80"
-                                : "bg-[#ff9f4b]/80"
-                      }`}
-                  >
-                    {point.km}
+            {/* ЛЕВАЯ КОЛОНКА — КИЛОМЕТРОВЫЕ СТОЛБЫ */}
+            <div className="space-y-2 relative">
+              {/* Линия трассы */}
+              <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
+
+              {[
+                { km: "0",    city: "ТВЕРЬ",          desc: "ЦЕНТРАЛЬНЫЙ ОФИС",  type: "start"   },
+                { km: "168",  city: "МОСКВА",          desc: "СТОЛИЦА",           type: "capital" },
+                { km: "714",  city: "С.-ПЕТЕРБУРГ",    desc: "СЕВЕРНАЯ СТОЛИЦА",  type: "major"   },
+                { km: "1540", city: "МУРМАНСК",        desc: "АРКТИКА",           type: "north"   },
+                { km: "3340", city: "НОВЫЙ УРЕНГОЙ",   desc: "ГАЗ",              type: "extreme" },
+                { km: "5180", city: "ЯКУТСК",          desc: "АЛМАЗЫ",            type: "extreme" },
+                { km: "7520", city: "ВЛАДИВОСТОК",     desc: "ТИХИЙ ОКЕАН",       type: "finish"  },
+              ].map((point, index) => (
+                <motion.div
+                  key={point.city}
+                  initial={{ x: -100, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ x: 5 }}
+                  className="relative flex items-start gap-3 group"
+                >
+                  <div className="relative z-20 w-12 flex-shrink-0">
+                    <div className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow ${
+                      point.type === "capital" ? "bg-yellow-500/80"
+                      : point.type === "extreme" ? "bg-purple-600/80"
+                      : point.type === "north" ? "bg-blue-500/80"
+                      : point.type === "finish" ? "bg-green-600/80"
+                      : "bg-[#ff9f4b]/80"
+                    }`}>
+                      {point.km}
+                    </div>
                   </div>
-                </div>
-
-                {/* Город */}
-                <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
-                  <div>
-                    <h3 className="text-base md:text-lg font-bold text-white">
-                      {point.city}
-                    </h3>
-                    <p className="text-white/60 text-[10px] font-normal">
-                      {point.desc}
-                    </p>
+                  <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
+                    <h3 className="text-base md:text-lg font-bold text-white">{point.city}</h3>
+                    <p className="text-white/60 text-[10px] font-normal">{point.desc}</p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
 
-          {/* ТРИ ТАБЛИЧКИ */}
-          <div className="mt-12 grid md:grid-cols-3 gap-3">
-            {[
-              {
-                sign: "🛑",
-                title: "ДОКУМЕНТЫ",
-                items: [
-                  "Устав автомобильного транспорта (УАТ РФ)",
-                  "Полный пакет документов",
-                  "Отсутствие штрафов у юр.лиц",
-                  "Налогообложение по закону РФ",
-                  "Страхование каждого груза",
-                ],
-                color: "#ff9f4b",
-              },
-              {
-                sign: "⚠️",
-                title: "ОСОБЫЕ УСЛОВИЯ",
-                items: [
-                  "Зимники и паромы",
-                  "Труднодоступные месторождения",
-                  "Драгоценные ископаемые",
-                  "Такелажные работы (станки, оборудование)",
-                  "Монтаж тяжеловесных грузов",
-                ],
-                color: "#ffaa00",
-              },
-              {
-                sign: "⛽",
-                title: "СПЕЦТЕХНИКА",
-                items: [
-                  "Манипуляторы",
-                  "Краны различной тоннажности",
-                  "Лебедки и домкраты",
-                  "Стропы и такелаж",
-                  "Сопровождение (ГИБДД)",
-                ],
-                color: "#00cc88",
-              },
-            ].map((block, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -2 }}
-                className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">{block.sign}</span>
-                  <h4
-                    className="text-base font-bold text-white"
-                    style={{ color: block.color }}
-                  >
-                    {block.title}
-                  </h4>
-                </div>
-                <ul className="space-y-1.5">
-                  {block.items.map((item, j) => (
-                    <li
-                      key={j}
-                      className="text-white/80 text-xs flex items-start gap-2"
-                    >
-                      <span className="text-[#ff9f4b] text-sm">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+            {/* ПРАВАЯ КОЛОНКА — ТРИ ТАБЛИЧКИ */}
+            <div className="flex flex-col gap-3 lg:items-end">
+              {[
+                {
+                  sign: "🛑",
+                  title: "ДОКУМЕНТЫ",
+                  items: [
+                    "Устав автомобильного транспорта (УАТ РФ)",
+                    "Полный пакет документов",
+                    "Отсутствие штрафов у юр.лиц",
+                    "Налогообложение по закону РФ",
+                    "Страхование каждого груза",
+                  ],
+                  color: "#ff9f4b",
+                },
+                {
+                  sign: "⚠️",
+                  title: "ОСОБЫЕ УСЛОВИЯ",
+                  items: [
+                    "Зимники и паромы",
+                    "Труднодоступные месторождения",
+                    "Драгоценные ископаемые",
+                    "Такелажные работы (станки, оборудование)",
+                    "Монтаж тяжеловесных грузов",
+                  ],
+                  color: "#ffaa00",
+                },
+                {
+                  sign: "⛽",
+                  title: "СПЕЦТЕХНИКА",
+                  items: [
+                    "Манипуляторы",
+                    "Краны различной тоннажности",
+                    "Лебедки и домкраты",
+                    "Стропы и такелаж",
+                    "Сопровождение (ГИБДД)",
+                  ],
+                  color: "#00cc88",
+                },
+              ].map((block, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  className="w-full bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl">{block.sign}</span>
+                    <h4 className="text-base font-bold" style={{ color: block.color }}>
+                      {block.title}
+                    </h4>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {block.items.map((item, j) => (
+                      <li key={j} className="text-white/80 text-xs flex items-start gap-2">
+                        <span className="text-[#ff9f4b] text-sm">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
@@ -1501,7 +1449,7 @@ export default function Home() {
         className="pt-8 md:pt-12 pb-12 md:pb-16 px-4 md:px-6 bg-white overflow-hidden"
       >
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] pl-8 md:pl-115 text-center md:text-center mb-6 md:mb-8">
+          <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] text-center mb-6 md:mb-8">
             Наши контакты
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-4">
@@ -1631,7 +1579,7 @@ export default function Home() {
               ease: "linear",
               delay: 7,
             }}
-            className="absolute bottom-0 hidden sm:block"
+            className="absolute bottom--0,5 hidden sm:block"
             style={{ zIndex: 2 }}
           >
             <div className="relative">
@@ -1650,7 +1598,7 @@ export default function Home() {
               ease: "linear",
               delay: 14,
             }}
-            className="absolute bottom-0 hidden sm:block"
+            className="absolute bottom--1 hidden sm:block"
             style={{ zIndex: 1 }}
           >
             <div className="relative">
@@ -1675,8 +1623,8 @@ export default function Home() {
             style={{ zIndex: 3 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="65px" mobile />
+              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="20t" />
             </div>
           </motion.div>
 
@@ -1694,8 +1642,8 @@ export default function Home() {
             style={{ zIndex: 2 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" height="65px" mobile />
+              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="5t" />
             </div>
           </motion.div>
 
@@ -1713,11 +1661,12 @@ export default function Home() {
             style={{ zIndex: 1 }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" height="65px" mobile />
+              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
+              <TruckIcon type="trall" />
             </div>
           </motion.div>
         </div>{" "}
+
       </footer>
     </div>
   );

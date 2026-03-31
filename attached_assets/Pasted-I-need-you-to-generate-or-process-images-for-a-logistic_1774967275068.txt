@@ -1,0 +1,62 @@
+I need you to generate or process images for a logistics company website. There are TWO SEPARATE VERSIONS: one for DESKTOP and one for MOBILE. Do NOT change the overall layout or style globally. Apply ONLY the specific fixes listed below. Be precise.
+
+---
+
+## 1. SECTION: "Ваш надежный партнер" (Your Reliable Partner)
+- There is an image on the left side (trucks on the road).
+- Reduce its height VERY SLIGHTLY — just make it a little more compact. Do not change width. Keep proportions.
+- Desktop and mobile: both should have the same slight reduction.
+
+---
+
+## 2. SECTION: "Наши контакты" (Our Contacts)
+- The heading "Наши контакты" is currently not centered.
+- It MUST be centered on ALL devices: mobile, tablet, desktop.
+- Center it horizontally. Keep the same font, color, and style.
+
+---
+
+## 3. SECTION: ГЕОГРАФИЯ — М8 "АЛМИК" (Geography — M8 "ALMIK")
+This section has two main parts:
+- LEFT SIDE: list of cities with kilometer markers (ТВЕРЬ, МОСКВА, С.-ПЕТЕРБУРГ, etc.)
+- RIGHT SIDE: three blocks — "ДОКУМЕНТЫ", "ОСОБЫЕ УСЛОВИЯ", "СПЕЦТЕХНИКА"
+
+### FIXES:
+- LEFT SIDE (cities): Align the entire city list to the LEFT. Currently it may be centered or shifted. Move it to the left edge of the container. Keep the kilometer markers and city names readable.
+- RIGHT SIDE (three blocks): Position them beautifully to the RIGHT. They should be aligned to the right edge, with proper spacing between them.
+- IMPORTANT: The layout must be clean, stable, and not lag. No overlapping elements. Maintain the same background animations (dots, glowing particles, road lines) but ensure they don't interfere with the text.
+- Both desktop and mobile versions should respect left/right alignment accordingly.
+
+---
+
+## 4. SECTION: "Основные партнеры" (Main Partners)
+- OZON logo: currently has a DARK BACKGROUND. Change it to WHITE background, exactly like all other partner logos (Русский Свет, Тверской Вагоностроительный Завод, etc.).
+- TECHNONICOL logo: reduce its size SLIGHTLY — just a little smaller, so it matches the visual balance of other logos.
+- All other partner logos: keep exactly as they are. Do not change their backgrounds or sizes.
+
+---
+
+## 5. SECTION: TRUCKS ANIMATION (Moving trucks at the bottom of the page)
+This is a horizontal scrolling animation of trucks at the very bottom of the page. There are three types: 20t, 5t, and trall.
+
+### CRITICAL FIXES:
+- ALL TRUCKS must be CROPPED TIGHTLY — remove ALL empty space around each truck. No background, no shadows, no reflections. Only the truck silhouette with transparent background.
+- ALL TRUCKS must be the SAME HEIGHT. No truck should be taller or shorter than another. Uniform size across all three types.
+- ALL TRUCKS must be positioned at the BOTTOM EDGE of the image — wheels should touch the very bottom of the frame. No empty space below the wheels.
+- The animation should be smooth with no lag. Trucks should move from left to right in a continuous loop.
+- Apply this to BOTH desktop and mobile versions:
+  - DESKTOP: trucks slightly larger, smooth animation
+  - MOBILE: trucks slightly smaller but still SAME HEIGHT across all types, also positioned at bottom edge
+- IMPORTANT: No distortion, no cropping of truck parts. The truck should be fully visible from side view, tightly cropped, bottom-aligned, and uniform in size.
+
+---
+
+## OUTPUT REQUIREMENTS:
+- Generate TWO SEPARATE IMAGE SETS:
+  - Set A: optimized for DESKTOP (larger screens, higher resolution)
+  - Set B: optimized for MOBILE (smaller screens, compact layout)
+- Apply ALL fixes above (1–5) to BOTH versions.
+- Do not change colors, fonts, or overall design style — only apply the specific fixes described.
+- Output format: PNG with transparent background where applicable.
+
+Be careful and precise. Do not add extra elements or remove existing ones. Only apply the requested fixes.
