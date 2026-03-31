@@ -26,6 +26,9 @@ import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79
 import truckSmall from "@assets/truck_van.png";
 import truckMedium from "@assets/truck_orange.png";
 import truckLarge from "@assets/truck_flatbed.png";
+import truckSmallMobile from "@assets/truck_van_mobile.png";
+import truckMediumMobile from "@assets/truck_orange_mobile.png";
+import truckLargeMobile from "@assets/truck_flatbed_mobile.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -277,16 +280,23 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 },
   ];
 
-  const TruckIcon = ({ type, height = "80px" }: { type: string; height?: string }) => {
-    const truckMap: { [key: string]: string } = {
+  const TruckIcon = ({ type, height = "80px", mobile = false }: { type: string; height?: string; mobile?: boolean }) => {
+    const desktopMap: { [key: string]: string } = {
       "20t": truckSmall,
       "5t": truckMedium,
       trall: truckLarge,
     };
+    const mobileMap: { [key: string]: string } = {
+      "20t": truckSmallMobile,
+      "5t": truckMediumMobile,
+      trall: truckLargeMobile,
+    };
+
+    const src = mobile ? mobileMap[type] : desktopMap[type];
 
     return (
       <img
-        src={truckMap[type]}
+        src={src}
         alt={type}
         style={{
           height,
@@ -1607,7 +1617,7 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="90px" />
+              <TruckIcon type="20t" height="85px" />
             </div>
           </motion.div>
 
@@ -1666,7 +1676,7 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="65px" />
+              <TruckIcon type="20t" height="65px" mobile />
             </div>
           </motion.div>
 
@@ -1685,7 +1695,7 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" height="65px" />
+              <TruckIcon type="5t" height="65px" mobile />
             </div>
           </motion.div>
 
@@ -1704,7 +1714,7 @@ export default function Home() {
           >
             <div className="relative">
               <div className="absolute -bottom-2 left-5 right-5 h-2 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" height="65px" />
+              <TruckIcon type="trall" height="65px" mobile />
             </div>
           </motion.div>
         </div>{" "}
