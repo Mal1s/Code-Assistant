@@ -68,7 +68,7 @@ export default function Home() {
           logoSize = "max-h-20 md:max-h-20"; // Wildberries без изменений
           break;
         case "ТехноНИКОЛЬ":
-          logoSize = "max-h-20 md:max-h-24";
+          logoSize = "max-h-14 md:max-h-16";
           break;
         case "Тверской Вагоностроительный Завод":
           logoSize = "max-h-16 md:max-h-20"; // на телефоне поменьше
@@ -128,10 +128,8 @@ export default function Home() {
           <img
             src={logoUrl}
             alt={partnerName}
-            className={`${logoSize} max-w-full object-contain transition-all duration-300 ${
-              // На телефоне Ozon чуть-чуть уменьшаем ширину (на 5%)
-              partnerName === "Ozon" ? "scale-[0.95] md:scale-100" : ""
-            } `}
+            className={`${logoSize} max-w-full object-contain transition-all duration-300`}
+            style={partnerName === "Ozon" ? { background: "#fff", borderRadius: 6, padding: 4 } : {}}
           />
 
           {/* Подсказка при клике (телефон) */}
@@ -193,29 +191,69 @@ export default function Home() {
       submitBtn.setAttribute("disabled", "true");
     }
 
-      emailjs.sendForm(
-        'service_7pkg0hu' ,     // ← новый Service ID
-        'template_q692thu',     // ← новый Template ID
-        e.target as HTMLFormElement,
-        'NtVl5WnbuBxR_EQNl'     // ← Public Key остается тем же
-      )
-      .then(
-        () => {
-          setShowSuccess(true);
-          (e.target as HTMLFormElement).reset();
-          setTimeout(() => setShowSuccess(false), 4000);
-        },
-        (error) => {
-          console.error("Ошибка отправки:", error);
-          alert("❌ Ошибка отправки. Позвоните нам +7 (900) 474-66-88");
-        },
-      )
-      .finally(() => {
-        if (submitBtn) {
-          submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
-          submitBtn.removeAttribute("disabled");
-        }
-      });
+    // Собираем данные из формы
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = Object.fromEntries(formData.entries());
+
+    // 1. Отправка в EmailJS (письмо менеджеру)
+    emailjs.sendForm(
+      'service_7pkg0hu',
+      'template_q692thu',
+      e.target as HTMLFormElement,
+      'NtVl5WnbuBxR_EQNl'
+    )
+    .then(
+      () => {
+        setShowSuccess(true);
+        (e.target as HTMLFormElement).reset();
+        setTimeout(() => setShowSuccess(false), 4000);
+      },
+      (error) => {
+        console.error("Ошибка отправки EmailJS:", error);
+        alert("❌ Ошибка отправки. Позвоните нам +7 (900) 474-66-88");
+      },
+    )
+    .finally(() => {
+      if (submitBtn) {
+        submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
+        submitBtn.removeAttribute("disabled");
+      }
+    });
+
+    // 2. Отправка в OkoCRM (создание сделки)
+    const formDataOko = new FormData();
+    formDataOko.append('cf_16', data.name);           // ФИО
+    formDataOko.append('cf_2', data.user_phone);      // Телефон
+    formDataOko.append('cf_64', data.email || '');    // Email
+    formDataOko.append('cf_62', data.from_city || ''); // Откуда
+    formDataOko.append('cf_114', data.to_city || '');  // Куда
+    formDataOko.append('page_url', window.location.href); // Ссылка на страницу
+    // Дополнительные поля (если есть в форме OkoCRM, нужно добавить)
+    if (data.weight) formDataOko.append('weight', data.weight);
+    if (data.cargo_type) formDataOko.append('cargo_type', data.cargo_type);
+    if (data.length) formDataOko.append('length', data.length);
+    if (data.width) formDataOko.append('width', data.width);
+    if (data.height) formDataOko.append('height', data.height);
+    if (data.date) formDataOko.append('date', data.date);
+    if (data.nds) formDataOko.append('nds', data.nds);
+    if (data.comment) formDataOko.append('comment', data.comment);
+
+    fetch('https://forms.okocrm.com/fc11522e-e4d6-4c9c-b4fa-28d8f8b26d0a', {
+      method: 'POST',
+      body: formDataOko
+    })
+    .then(async response => {
+      const text = await response.text(); // Читаем ответ сервера
+      console.log("Статус OkoCRM:", response.status);
+      console.log("Ответ OkoCRM:", text);
+
+      if (!response.ok) {
+        console.error("Ошибка OkoCRM:", response.status, text);
+      } else {
+        console.log("Заявка отправлена в OkoCRM");
+      }
+    })
+    .catch(error => console.error("Ошибка отправки в OkoCRM:", error));
   };
 
   const partners = [
@@ -237,11 +275,25 @@ export default function Home() {
     { type: "trall", width: 140, delay: 8 },
   ];
 
-  const TruckIcon = ({ type, height }: { type: string; height: string }) => {
+  const TruckIcon = ({ type, height, bottomOffset, widthScale, clipPath }: { type: string; height?: string; bottomOffset?: string; widthScale?: number; clipPath?: string }) => {
     const truckMap: { [key: string]: string } = {
       "20t": truckSmall,
       "5t": truckMedium,
       trall: truckLarge,
+    };
+
+    const getHeight = () => {
+      if (height) return height;
+      switch (type) {
+        case "20t":
+          return "45px";
+        case "5t":
+          return "72px";
+        case "trall":
+          return "78px";
+        default:
+          return "70px";
+      }
     };
 
     return (
@@ -249,10 +301,13 @@ export default function Home() {
         src={truckMap[type]}
         alt={type}
         style={{
-          height: height, // ← теперь высота приходит из параметра
-          width: "auto",
+          height: getHeight(),
+          width: widthScale ? `calc(${getHeight()} * ${widthScale})` : "auto",
           objectFit: "contain",
-          objectPosition: "center",
+          objectPosition: "bottom",
+          display: "block",
+          transform: `translateY(${bottomOffset || '0px'})`,
+          clipPath: clipPath,
         }}
       />
     );
@@ -276,7 +331,6 @@ export default function Home() {
       </AnimatePresence>
 
       {/* MOBILE MENU */}
-      
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -496,7 +550,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
             <motion.div {...fadeInUp} className="relative mt-8 lg:mt-0">
-              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-square shimmer-img">
+              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-[5/4] shimmer-img">
                 <img
                   src={imgTrucks}
                   alt="Trucks"
@@ -806,404 +860,224 @@ export default function Home() {
             </div>
           </motion.div>
 
-          {/* КИЛОМЕТРОВЫЕ СТОЛБЫ */}
-          <div className="space-y-2 relative">
-            {/* Линия трассы */}
-            <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
+          {/* ДВУХКОЛОНОЧНЫЙ МАКЕТ: ГОРОДА СЛЕВА, ТАБЛИЧКИ СПРАВА */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
 
-            {/* Города на трассе */}
-            {[
-              {
-                km: "0",
-                city: "ТВЕРЬ",
-                desc: "ЦЕНТРАЛЬНЫЙ ОФИС",
-                type: "start",
-              },
-              { km: "168", city: "МОСКВА", desc: "СТОЛИЦА", type: "capital" },
-              {
-                km: "714",
-                city: "С.-ПЕТЕРБУРГ",
-                desc: "СЕВЕРНАЯ СТОЛИЦА",
-                type: "major",
-              },
-              { km: "1540", city: "МУРМАНСК", desc: "АРКТИКА", type: "north" },
-              {
-                km: "3340",
-                city: "НОВЫЙ УРЕНГОЙ",
-                desc: "ГАЗ",
-                type: "extreme",
-              },
-              { km: "5180", city: "ЯКУТСК", desc: "АЛМАЗЫ", type: "extreme" },
-              {
-                km: "7520",
-                city: "ВЛАДИВОСТОК",
-                desc: "ТИХИЙ ОКЕАН",
-                type: "finish",
-              },
-            ].map((point, index) => (
-              <motion.div
-                key={point.city}
-                initial={{ x: -100, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ x: 5 }}
-                className="relative flex items-start gap-3 group"
-              >
-                {/* Км столб */}
-                <div className="relative z-20 w-12 flex-shrink-0">
-                  <div
-                    className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow
-                      ${
-                        point.type === "capital"
-                          ? "bg-yellow-500/80"
-                          : point.type === "extreme"
-                            ? "bg-purple-600/80"
-                            : point.type === "north"
-                              ? "bg-blue-500/80"
-                              : point.type === "finish"
-                                ? "bg-green-600/80"
-                                : "bg-[#ff9f4b]/80"
-                      }`}
-                  >
-                    {point.km}
+            {/* ЛЕВАЯ КОЛОНКА — КИЛОМЕТРОВЫЕ СТОЛБЫ */}
+            <div className="space-y-2 relative">
+              {/* Линия трассы */}
+              <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
+
+              {[
+                { km: "0",    city: "ТВЕРЬ",          desc: "ЦЕНТРАЛЬНЫЙ ОФИС",  type: "start"   },
+                { km: "168",  city: "МОСКВА",          desc: "СТОЛИЦА",           type: "capital" },
+                { km: "714",  city: "С.-ПЕТЕРБУРГ",    desc: "СЕВЕРНАЯ СТОЛИЦА",  type: "major"   },
+                { km: "1540", city: "МУРМАНСК",        desc: "АРКТИКА",           type: "north"   },
+                { km: "3340", city: "НОВЫЙ УРЕНГОЙ",   desc: "ГАЗ",              type: "extreme" },
+                { km: "5180", city: "ЯКУТСК",          desc: "АЛМАЗЫ",            type: "extreme" },
+                { km: "7520", city: "ВЛАДИВОСТОК",     desc: "ТИХИЙ ОКЕАН",       type: "finish"  },
+              ].map((point, index) => (
+                <motion.div
+                  key={point.city}
+                  initial={{ x: -100, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ x: 5 }}
+                  className="relative flex items-start gap-3 group"
+                >
+                  <div className="relative z-20 w-12 flex-shrink-0">
+                    <div className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow ${
+                      point.type === "capital" ? "bg-yellow-500/80"
+                      : point.type === "extreme" ? "bg-purple-600/80"
+                      : point.type === "north" ? "bg-blue-500/80"
+                      : point.type === "finish" ? "bg-green-600/80"
+                      : "bg-[#ff9f4b]/80"
+                    }`}>
+                      {point.km}
+                    </div>
                   </div>
-                </div>
-
-                {/* Город */}
-                <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
-                  <div>
-                    <h3 className="text-base md:text-lg font-bold text-white">
-                      {point.city}
-                    </h3>
-                    <p className="text-white/60 text-[10px] font-normal">
-                      {point.desc}
-                    </p>
+                  <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
+                    <h3 className="text-base md:text-lg font-bold text-white">{point.city}</h3>
+                    <p className="text-white/60 text-[10px] font-normal">{point.desc}</p>
                   </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+                </motion.div>
+              ))}
+            </div>
 
-          {/* ТРИ ТАБЛИЧКИ */}
-          <div className="mt-12 grid md:grid-cols-3 gap-3">
-            {[
-              {
-                sign: "🛑",
-                title: "ДОКУМЕНТЫ",
-                items: [
-                  "Устав автомобильного транспорта (УАТ РФ)",
-                  "Полный пакет документов",
-                  "Отсутствие штрафов у юр.лиц",
-                  "Налогообложение по закону РФ",
-                  "Страхование каждого груза",
-                ],
-                color: "#ff9f4b",
-              },
-              {
-                sign: "⚠️",
-                title: "ОСОБЫЕ УСЛОВИЯ",
-                items: [
-                  "Зимники и паромы",
-                  "Труднодоступные месторождения",
-                  "Драгоценные ископаемые",
-                  "Такелажные работы (станки, оборудование)",
-                  "Монтаж тяжеловесных грузов",
-                ],
-                color: "#ffaa00",
-              },
-              {
-                sign: "⛽",
-                title: "СПЕЦТЕХНИКА",
-                items: [
-                  "Манипуляторы",
-                  "Краны различной тоннажности",
-                  "Лебедки и домкраты",
-                  "Стропы и такелаж",
-                  "Сопровождение (ГИБДД)",
-                ],
-                color: "#00cc88",
-              },
-            ].map((block, i) => (
-              <motion.div
-                key={i}
-                whileHover={{ y: -2 }}
-                className="bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">{block.sign}</span>
-                  <h4
-                    className="text-base font-bold text-white"
-                    style={{ color: block.color }}
-                  >
-                    {block.title}
-                  </h4>
-                </div>
-                <ul className="space-y-1.5">
-                  {block.items.map((item, j) => (
-                    <li
-                      key={j}
-                      className="text-white/80 text-xs flex items-start gap-2"
-                    >
-                      <span className="text-[#ff9f4b] text-sm">•</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
+            {/* ПРАВАЯ КОЛОНКА — ТРИ ТАБЛИЧКИ */}
+            <div className="flex flex-col gap-3 lg:items-end">
+              {[
+                {
+                  sign: "🛑",
+                  title: "ДОКУМЕНТЫ",
+                  items: [
+                    "Устав автомобильного транспорта (УАТ РФ)",
+                    "Полный пакет документов",
+                    "Отсутствие штрафов у юр.лиц",
+                    "Налогообложение по закону РФ",
+                    "Страхование каждого груза",
+                  ],
+                  color: "#ff9f4b",
+                },
+                {
+                  sign: "⚠️",
+                  title: "ОСОБЫЕ УСЛОВИЯ",
+                  items: [
+                    "Зимники и паромы",
+                    "Труднодоступные месторождения",
+                    "Драгоценные ископаемые",
+                    "Такелажные работы (станки, оборудование)",
+                    "Монтаж тяжеловесных грузов",
+                  ],
+                  color: "#ffaa00",
+                },
+                {
+                  sign: "⛽",
+                  title: "СПЕЦТЕХНИКА",
+                  items: [
+                    "Манипуляторы",
+                    "Краны различной тоннажности",
+                    "Лебедки и домкраты",
+                    "Стропы и такелаж",
+                    "Сопровождение (ГИБДД)",
+                  ],
+                  color: "#00cc88",
+                },
+              ].map((block, i) => (
+                <motion.div
+                  key={i}
+                  whileHover={{ y: -2 }}
+                  className="w-full bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-2xl">{block.sign}</span>
+                    <h4 className="text-base font-bold" style={{ color: block.color }}>
+                      {block.title}
+                    </h4>
+                  </div>
+                  <ul className="space-y-1.5">
+                    {block.items.map((item, j) => (
+                      <li key={j} className="text-white/80 text-xs flex items-start gap-2">
+                        <span className="text-[#ff9f4b] text-sm">•</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </motion.div>
+              ))}
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ГЕОГРАФИЯ ПРИСУТСТВИЯ - ПИЗДАТЫЙ ПЕПЕЛЬНЫЙ ФОН */}
+      {/* ГЕОГРАФИЯ ПРИСУТСТВИЯ - АДАПТИВНАЯ ВЕРСИЯ */}
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
         className="relative w-full"
       >
-        {/* ПИЗДАТЫЙ ПЕПЕЛЬНЫЙ ФОН С АНИМАЦИЕЙ */}
+        {/* Градиентный фон */}
         <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          {/* Базовый пепельный градиент */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#4a4a4a] via-[#6d6d6d] to-[#2a2a2a]"></div>
-
-          {/* ПЕПЕЛ - МЕЛКИЕ ЧАСТИЦЫ */}
-          {[...Array(120)].map((_, i) => (
-            <motion.div
-              key={`ash-${i}`}
-              className="absolute w-0.5 h-0.5 bg-white/60 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -80, 0],
-                x: [0, Math.random() * 40 - 20, 0],
-                opacity: [0.2, 0.8, 0.2],
-                scale: [1, 2, 1],
-              }}
-              transition={{
-                duration: Math.random() * 20 + 15,
-                repeat: Infinity,
-                delay: Math.random() * 8,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-
-          {/* ПЕПЕЛ - КРУПНЫЕ ХЛОПЬЯ */}
-          {[...Array(40)].map((_, i) => (
-            <motion.div
-              key={`flakes-${i}`}
-              className="absolute rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 6 + 2}px`,
-                height: `${Math.random() * 6 + 2}px`,
-                background: `radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(200,200,200,0.4) 70%)`,
-              }}
-              animate={{
-                y: [0, -150, 0],
-                x: [0, Math.random() * 60 - 30, 0],
-                opacity: [0.2, 0.6, 0.2],
-                rotate: [0, 360],
-              }}
-              transition={{
-                duration: Math.random() * 30 + 20,
-                repeat: Infinity,
-                delay: Math.random() * 10,
-                ease: "linear",
-              }}
-            />
-          ))}
-
-          {/* ТЛЕЮЩИЕ УГОЛЬКИ */}
-          {[...Array(25)].map((_, i) => (
-            <motion.div
-              key={`ember-${i}`}
-              className="absolute rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                width: `${Math.random() * 4 + 1}px`,
-                height: `${Math.random() * 4 + 1}px`,
-                background: `radial-gradient(circle, #f05a28 0%, #ff4500 70%, transparent 100%)`,
-              }}
-              animate={{
-                opacity: [0, 1, 0.5, 1, 0],
-                scale: [1, 2.5, 1.5, 2, 1],
-                boxShadow: [
-                  "0 0 0px rgba(240,90,40,0)",
-                  "0 0 20px rgba(240,90,40,0.9)",
-                  "0 0 10px rgba(240,90,40,0.5)",
-                  "0 0 25px rgba(240,90,40,1)",
-                  "0 0 0px rgba(240,90,40,0)",
-                ],
-              }}
-              transition={{
-                duration: Math.random() * 8 + 5,
-                repeat: Infinity,
-                delay: Math.random() * 4,
-                ease: "easeInOut",
-              }}
-            />
-          ))}
-
-          {/* ГУСТОЙ ДЫМ */}
-          <motion.div
-            animate={{
-              scale: [1, 1.4, 1],
-              rotate: [0, 10, -10, 0],
-              opacity: [0.2, 0.4, 0.2],
-            }}
-            transition={{
-              duration: 30,
-              repeat: Infinity,
-              ease: "linear",
-            }}
-            className="absolute -inset-40 bg-gradient-to-r from-transparent via-white/20 to-transparent blur-3xl"
-          />
-
-          {/* ДЫМ С ОРАНЖЕВЫМ ОТТЕНКОМ */}
-          <motion.div
-            animate={{
-              scale: [1.1, 1.5, 1.1],
-              rotate: [0, -15, 15, 0],
-              opacity: [0.1, 0.3, 0.1],
-            }}
-            transition={{
-              duration: 35,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 5,
-            }}
-            className="absolute -inset-40 bg-gradient-to-l from-transparent via-[#f05a28]/20 to-transparent blur-3xl"
-          />
-
-          {/* ТЕКСТУРА ПЕПЛА */}
+          <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a] via-[#4a4a4a] to-[#1a1a1a]"></div>
+          {/* Статичная текстура */}
           <div
-            className="absolute inset-0 opacity-40 mix-blend-overlay"
+            className="absolute inset-0 opacity-30"
             style={{
-              backgroundImage: `
-                  radial-gradient(circle at 5px 5px, rgba(255,255,255,0.3) 1px, transparent 1px),
-                  radial-gradient(circle at 15px 25px, rgba(255,255,255,0.2) 1px, transparent 1px)
-                `,
-              backgroundSize: "30px 30px, 50px 50px",
+              backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 1px)`,
+              backgroundSize: "40px 40px",
             }}
           />
         </div>
 
         {/* Основной контейнер */}
-        <div className="relative z-10 bg-black/40 backdrop-blur-[1px] rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-orange-300 to-[#f05a28]"></div>
+        <div className="relative z-10 bg-black/30 backdrop-blur-sm rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+          <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-orange-400 to-[#f05a28]"></div>
 
-          <div className="px-6 pt-6 pb-2 flex items-center justify-center gap-3">
-            <motion.div
-              animate={{ rotate: [0, 10, -10, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="text-3xl"
-            >
-              🗺️
-            </motion.div>
-            <h4 className="text-2xl font-black text-white tracking-tight">
-              ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span>
-            </h4>
-            <motion.div
-              animate={{ rotate: [0, -10, 10, 0] }}
-              transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-              className="text-3xl"
-            >
-              🌍
-            </motion.div>
+          {/* Заголовок */}
+          <div className="px-4 sm:px-6 pt-6 sm:pt-8 pb-3 sm:pb-4 text-center">
+            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-1 sm:mb-2">
+              <span className="text-2xl sm:text-4xl">🗺️</span>
+              <h4 className="text-xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
+                ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span>
+              </h4>
+              <span className="text-2xl sm:text-4xl">🌍</span>
+            </div>
+            <p className="text-white/70 text-[10px] sm:text-sm">
+              от Калининграда до Сахалина • 8 стран Таможенного союза
+            </p>
           </div>
 
-          <p className="text-center text-white/70 text-xs mb-4">
-            от Калининграда до Сахалина • 8 стран Таможенного союза
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-4">
-            {/* Блоки с городами - без изменений */}
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#f05a28] text-lg">🏛️</span>
-                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+          {/* Карточки регионов - адаптивная сетка */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 p-3 sm:p-6">
+            {/* Центр • СЗФО */}
+            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <span className="text-xl sm:text-2xl">🏛️</span>
+                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
                   ЦЕНТР • СЗФО
                 </h5>
               </div>
-              <p className="text-white/80 text-[11px] leading-relaxed">
-                <span className="text-white font-bold">Москва</span> •
-                Санкт-Петербург •{" "}
-                <span className="text-[#f05a28] font-bold"> Тверь</span> • Псков
-                • Великий Новгород • Петрозаводск • Мурманск • Архангельск •
-                Вологда • Калининград
+              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
+                <span className="text-white font-bold">Москва</span> • Санкт-Петербург •{" "}
+                <span className="text-[#f05a28] font-bold">Тверь</span> • Псков • 
+                Великий Новгород • Петрозаводск • Мурманск • Архангельск • Вологда • 
+                Калининград
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#f05a28] text-lg">🌴</span>
-                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+            {/* Юг • Кавказ */}
+            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <span className="text-xl sm:text-2xl">🌴</span>
+                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
                   ЮГ • КАВКАЗ
                 </h5>
               </div>
-              <p className="text-white/80 text-[11px] leading-relaxed">
-                Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону •
+              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
+                Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону • 
                 Волгоград • Астрахань • Махачкала • Владикавказ • Грозный
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#f05a28] text-lg">⛰️</span>
-                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+            {/* Урал • Сибирь */}
+            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <span className="text-xl sm:text-2xl">⛰️</span>
+                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
                   УРАЛ • СИБИРЬ
                 </h5>
               </div>
-              <p className="text-white/80 text-[11px] leading-relaxed">
+              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
                 Екатеринбург • Тюмень •{" "}
-                <span className="text-white font-bold">Новый Уренгой</span> •
-                Салехард • Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск
-                • Красноярск • Иркутск
+                <span className="text-white font-bold">Новый Уренгой</span> • Салехард • 
+                Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск • Красноярск • 
+                Иркутск
               </p>
-            </motion.div>
+            </div>
 
-            <motion.div
-              whileHover={{ scale: 1.02, y: -2 }}
-              className="bg-white/10 backdrop-blur rounded-xl p-3 border border-white/20 hover:border-[#f05a28] transition-all group"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[#f05a28] text-lg">🌏</span>
-                <h5 className="text-[#f05a28] font-black text-xs tracking-wider">
+            {/* Восток • СНГ */}
+            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <span className="text-xl sm:text-2xl">🌏</span>
+                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
                   ВОСТОК • СНГ
                 </h5>
               </div>
-              <p className="text-white/80 text-[11px] leading-relaxed">
-                Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск •
-                Минск • Баку • Ереван • Алматы • Ташкент • Бишкек • Астана
+              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
+                Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск • Минск • 
+                Баку • Ереван • Алматы • Ташкент • Бишкек • Астана
               </p>
-            </motion.div>
+            </div>
           </div>
 
-          <motion.div
-            animate={{ backgroundPosition: ["0% 0%", "100% 0%"] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="mt-2 p-2 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center"
-            style={{ backgroundSize: "200% 100%" }}
-          >
-            <p className="text-white/70 text-[10px] font-bold tracking-wider">
+          {/* Статистика */}
+          <div className="mt-1 sm:mt-2 mb-3 sm:mb-4 p-2 sm:p-3 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center">
+            <p className="text-white/70 text-[8px] sm:text-xs font-bold tracking-wider">
               ⚡ БОЛЕЕ 200 ГОРОДОВ • 15 ЛЕТ НА РЫНКЕ • 5000+ ПЕРЕВОЗОК ⚡
             </p>
-          </motion.div>
+          </div>
         </div>
       </motion.div>
 
@@ -1224,53 +1098,16 @@ export default function Home() {
           ></div>
         </div>
 
-        {/* Сетка для текстуры */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-              backgroundSize: "40px 40px",
-            }}
-          ></div>
-        </div>
-
-        {/* Дополнительные декоративные линии для ПК */}
-        <div className="hidden md:block absolute top-20 left-10 w-40 h-40 border border-white/5 rounded-full"></div>
-        <div className="hidden md:block absolute bottom-20 right-10 w-60 h-60 border border-white/5 rounded-full"></div>
-
         <div className="container mx-auto relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="max-w-xl mx-auto"
-          >
-            {/* ===== ДЛЯ ПК (НОВЫЙ УЛУЧШЕННЫЙ ДИЗАЙН) ===== */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="mx-auto"
+              style={{ maxWidth: "1300px" }}  // ← ЗДЕСЬ МЕНЯЙ ЦИФРУ
+            >
+            {/* Заголовок для ПК */}
             <div className="hidden md:block text-center mb-10">
-              {/* Иконки с анимацией - ЗАКОММЕНТИРОВАНО */}
-              {/*
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.1, type: "spring" }}
-                  className="flex items-center justify-center gap-4 mb-6"
-                >
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-orange-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                    <span className="text-4xl">🤝</span>
-                  </div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-purple-500/20 rounded-2xl flex items-center justify-center border border-blue-500/30 backdrop-blur-sm transform -rotate-3 hover:-rotate-6 transition-transform">
-                    <span className="text-4xl">✨</span>
-                  </div>
-                  <div className="w-16 h-16 bg-gradient-to-br from-[#f05a28]/20 to-pink-500/20 rounded-2xl flex items-center justify-center border border-[#f05a28]/30 backdrop-blur-sm transform rotate-3 hover:rotate-6 transition-transform">
-                    <span className="text-4xl">🚀</span>
-                  </div>
-                </motion.div>
-                */}
-              {/* "НАЧНЕМ" - остальное без изменений */}
-              ...
-              {/* "НАЧНЕМ" - персиковый градиент с эффектом */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1282,7 +1119,6 @@ export default function Home() {
                     НАЧНЕМ
                   </span>
                 </h2>
-                {/* Декоративная линия под текстом */}
                 <motion.div
                   initial={{ width: 0 }}
                   whileInView={{ width: "100%" }}
@@ -1290,7 +1126,6 @@ export default function Home() {
                   className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-[#f05a28] to-transparent rounded-full"
                 ></motion.div>
               </motion.div>
-              {/* "СОТРУДНИЧЕСТВО" - еще более яркий градиент */}
               <motion.h3
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1301,28 +1136,6 @@ export default function Home() {
                   СОТРУДНИЧЕСТВО
                 </span>
               </motion.h3>
-              {/* Украшение - вращающиеся точки */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="flex justify-center gap-2 mb-4"
-              >
-                {[1, 2, 3].map((i) => (
-                  <motion.div
-                    key={i}
-                    animate={{ rotate: 360 }}
-                    transition={{
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                    className="w-2 h-2 rounded-full bg-gradient-to-r from-[#f05a28] to-orange-400"
-                    style={{ animationDelay: `${i * 0.3}s` }}
-                  ></motion.div>
-                ))}
-              </motion.div>
-              {/* Подзаголовок с бликом */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1335,7 +1148,7 @@ export default function Home() {
               </motion.div>
             </div>
 
-            {/* ===== ДЛЯ ТЕЛЕФОНА (КАК БЫЛО) ===== */}
+            {/* Заголовок для телефона */}
             <div className="block md:hidden text-center mb-6">
               <motion.span
                 initial={{ opacity: 0, y: 20 }}
@@ -1345,7 +1158,6 @@ export default function Home() {
               >
                 Начнем сотрудничество
               </motion.span>
-
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1356,7 +1168,6 @@ export default function Home() {
                   ОФОРМИТЬ ЗАЯВКУ
                 </span>
               </motion.h2>
-
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -1367,7 +1178,7 @@ export default function Home() {
               </motion.p>
             </div>
 
-            {/* Карточка формы (улучшенная для ПК) */}
+            {/* Карточка формы - узкая по бокам */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -1375,13 +1186,9 @@ export default function Home() {
               className="backdrop-blur-xl bg-white/95 rounded-2xl shadow-2xl border border-white/30 overflow-hidden hover:shadow-[0_20px_40px_-10px_rgba(240,90,40,0.3)] transition-shadow"
             >
               <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-blue-500"></div>
-              <div className="p-4 md:p-6">
-                <form
-                  onSubmit={handleFormSubmit}
-                  className="space-y-3"
-                  ref={formRef}
-                >
-                  {/* Поля формы (без изменений, но с улучшенным фокусом) */}
+              <div className="p-4 md:p-3">
+                <form onSubmit={handleFormSubmit} className="space-y-3" ref={formRef}>
+                  {/* Поля формы */}
                   <div className="grid grid-cols-2 gap-2">
                     <div>
                       <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
@@ -1408,7 +1215,7 @@ export default function Home() {
                       />
                     </div>
                   </div>
-                  {/* ПОЛЕ EMAIL - ДОБАВИТЬ */}
+
                   <div>
                     <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
                       <span className="mr-1">📧</span> Email
@@ -1525,9 +1332,7 @@ export default function Home() {
                               value={pay}
                               className="w-3 h-3 accent-[#f05a28]"
                             />
-                            <span className="text-[10px] text-slate-700">
-                              {pay}
-                            </span>
+                            <span className="text-[10px] text-slate-700">{pay}</span>
                           </label>
                         ))}
                       </div>
@@ -1554,8 +1359,7 @@ export default function Home() {
                   </button>
 
                   <p className="text-center text-slate-400 text-[8px] mt-2">
-                    🔒 Нажимая кнопку, вы соглашаетесь с обработкой персональных
-                    данных
+                    🔒 Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
                   </p>
                 </form>
               </div>
@@ -1592,9 +1396,13 @@ export default function Home() {
         className="pt-8 md:pt-12 pb-12 md:pb-16 px-4 md:px-6 bg-white overflow-hidden"
       >
         <div className="container mx-auto">
-          <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] pl-8 md:pl-115 text-center md:text-center mb-6 md:mb-8">
-            Наши контакты
-          </h2>
+          {/* Исправленный заголовок */}
+          <div className="text-center w-full">
+            <h2 className="text-3xl md:text-6xl font-black text-[#0b1a33] text-center mb-6 md:mb-8">
+              Наши контакты
+            </h2>
+          </div>
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-4">
             {[
               {
@@ -1635,235 +1443,234 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-slate-950 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden relative">
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
-            <div className="text-center lg:text-left">
-              <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center">
-                  <span className="text-white font-black text-2xl md:text-3xl">
-                    A
-                  </span>
+        {/* FOOTER */}
+        <footer className="bg-slate-950 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden relative">
+          <div className="container mx-auto px-6 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
+
+              {/* Левая колонка - Логотип */}
+              <div className="text-center lg:text-left">
+                <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center">
+                    <span className="text-white font-black text-2xl md:text-3xl">A</span>
+                  </div>
+                  <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">АЛМИК</span>
                 </div>
-                <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">
-                  АЛМИК
-                </span>
+                <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mx-auto lg:mx-0 font-bold">
+                  Надежная логистика для вашего бизнеса.<br />
+                  Работаем на результат, ценим Ваше время.
+                </p>
               </div>
-              <p className="text-slate-500 text-lg md:text-2xl leading-relaxed max-w-md mx-auto lg:mx-0">
-                Надежная логистика для вашего бизнеса. Работаем на результат,
-                ценим Ваше время.
-              </p>
+
+              {/* Средняя колонка - Реквизиты */}
+              <div className="text-center lg:text-left">
+                <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-10 mt-4 md:mt-6">
+                  Реквизиты
+                </h4>
+                <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base">
+                  <li className="leading-relaxed">ИНН: 6900000798</li>
+                  <li className="leading-relaxed">ОГРН: 1236900010380</li>
+                  <li className="leading-relaxed">ООО «АЛМИК»</li>
+                </ul>
+              </div>
+
+              {/* Правая колонка - Контакты */}
+              <div className="text-center lg:text-left">
+                <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-10 mt-4 md:mt-6">
+                  Контакты
+                </h4>
+                <div className="space-y-3 md:space-y-4">
+                  <a
+                    href="tel:+79004746688"
+                    className="text-xl md:text-2xl font-black text-white block hover:text-[#f05a28] transition-colors leading-relaxed"
+                  >
+                    +7 (900) 474-66-88
+                  </a>
+                  <a
+                    href="mailto:almik.ks@yandex.ru"
+                    className="text-base md:text-lg font-bold text-slate-500 block hover:text-[#f05a28] transition-colors leading-relaxed"
+                  >
+                    almik.ks@yandex.ru
+                  </a>
+                </div>
+              </div>
             </div>
-            <div className="text-center lg:text-left">
-              <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest mb-6 md:mb-10 border-b-2 border-[#f05a28] inline-block pb-2">
-                Реквизиты
-              </h4>
-              <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base">
-                <li>ИНН: 6900000798</li>
-                <li>ОГРН: 1236900010380</li>
-                <li>ООО «АЛМИК»</li>
-              </ul>
-            </div>
-            <div className="text-center lg:text-left">
-              <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest mb-6 md:mb-10 border-b-2 border-[#f05a28] inline-block pb-2">
-                Контакты
-              </h4>
-              <a
-                href="tel:+79004746688"
-                className="text-2xl md:text-3xl font-black text-white block mb-3 md:mb-4 hover:text-[#f05a28]"
-              >
-                +7 (900) 474-66-88
-              </a>
-              <a
-                href="mailto:almik69@mail.ru"
-                className="text-lg md:text-2xl font-bold text-slate-500 hover:text-[#f05a28]"
-              >
-                almik69@mail.ru
-              </a>
+
+            {/* Нижняя строка */}
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 font-bold tracking-widest text-[10px] md:text-sm uppercase text-center">
+              <span>© {new Date().getFullYear()} ООО «АЛМИК»</span>
+              <span>Грузоперевозки по России</span>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 font-bold tracking-widest text-[10px] md:text-sm uppercase text-center">
-            <span>© {new Date().getFullYear()} ООО «АЛМИК»</span>
-            <span>Грузоперевозки по России</span>
-          </div>
-        </div>
+
         {/* TRUCK ANIMATION */}
-        <div className="fixed bottom-0 left-0 w-full h-16 bg-slate-900/90 backdrop-blur-sm pointer-events-none border-t border-white/10 z-[4000] overflow-hidden">
-          <div className="absolute top-1/2 left-0 w-full h-[2px] bg-white/10"></div>
+          <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-gray-800 via-gray-700 to-gray-800 pointer-events-none border-t border-white/20 z-[4000] overflow-hidden" style={{ height: "65px" }}>
+          {/* ДОРОГА С АСФАЛЬТОМ И РАЗМЕТКОЙ */}
+          <div className="absolute bottom-0 left-0 w-full bg-gray-700" style={{ height: "45px" }}>
+            {/* Асфальт с текстурой */}
+            <div className="absolute inset-0 opacity-20" style={{
+              backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.15) 20px, rgba(255,255,255,0.15) 40px)`
+            }}></div>
+
+            {/* Прерывистая разделительная полоса (жёлтая) */}
+            <div className="absolute top-1/2 left-0 w-full -translate-y-1/2" style={{ height: "5px" }}>
+              <div className="w-full h-full" style={{
+                backgroundImage: `repeating-linear-gradient(90deg, #ffcc44, #ffcc44 35px, transparent 35px, transparent 70px)`,
+                backgroundRepeat: "repeat-x"
+              }}></div>
+            </div>
+
+            {/* Боковая линия снизу (белая) */}
+            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/80"></div>
+
+            {/* Боковая линия сверху (серая) */}
+            <div className="absolute top-0 left-0 w-full h-[1px] bg-white/30"></div>
+          </div>
 
           {/* ПК версия - большие экраны */}
-          {/* Первый грузовик (20т) - ПК */}
+
+          {/* ПЕРВАЯ МАШИНКА */}
           <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
+            initial={{ x: "-500px" }}
+            animate={{ x: "calc(100vw + 500px)" }}
             transition={{
-              duration: 25,
+              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
+              repeat: Infinity,
+              ease: "linear",
+              delay: 0,            // ← ПЕРВАЯ СТАРТУЕТ СРАЗУ
+            }}
+            className="absolute hidden sm:block"
+            style={{ 
+              zIndex: 3, 
+              bottom: "-25px",
+              left: 0
+            }}
+          >
+            <div className="relative">
+              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+              <TruckIcon type="20t" height="115px" bottomOffset="0px" widthScale={1.4} />
+            </div>
+          </motion.div>
+
+          {/* ВТОРАЯ МАШИНКА */}
+          <motion.div
+            initial={{ x: "-500px" }}
+            animate={{ x: "calc(100vw + 500px)" }}
+            transition={{
+              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
+              repeat: Infinity,
+              ease: "linear",
+              delay: 8,            // ← СТАРТУЕТ НА 8 СЕКУНД ПОЗЖЕ
+            }}
+            className="absolute hidden sm:block"
+            style={{ 
+              zIndex: 2, 
+              bottom: "-40px",
+              left: 0
+            }}
+          >
+            <div className="relative">
+              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+              <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={3.1} />
+            </div>
+          </motion.div>
+
+          {/* ТРЕТЬЯ МАШИНКА */}
+          <motion.div
+            initial={{ x: "-500px" }}
+            animate={{ x: "calc(100vw + 500px)" }}
+            transition={{
+              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
+              repeat: Infinity,
+              ease: "linear",
+              delay: 16,           // ← СТАРТУЕТ НА 16 СЕКУНД ПОЗЖЕ
+            }}
+            className="absolute hidden sm:block"
+            style={{ 
+              zIndex: 1, 
+              bottom: "-47px",
+              left: 0
+            }}
+          >
+            <div className="relative">
+              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+              <TruckIcon type="trall" height="160px" bottomOffset="0px" />
+            </div>
+          </motion.div>
+
+          {/* МОБИЛЬНАЯ ВЕРСИЯ */}
+
+          {/* Первая машина - мобилка */}
+          <motion.div
+            initial={{ x: "-400px" }}
+            animate={{ x: "calc(100vw + 400px)" }}
+            transition={{
+              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
               repeat: Infinity,
               ease: "linear",
               delay: 0,
             }}
-            className="absolute bottom--1 hidden sm:block"
-            style={{ zIndex: 3 }}
+            className="absolute block sm:hidden"
+            style={{ 
+              zIndex: 3, 
+              bottom: "-20px",
+              left: 0
+            }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="85px" />
+              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+              <TruckIcon type="20t" height="103px" bottomOffset="0px" widthScale={1.4} />
             </div>
           </motion.div>
 
-          {/* Второй грузовик (5т) - ПК */}
+          {/* Вторая машина - мобилка */}
           <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
+            initial={{ x: "-400px" }}
+            animate={{ x: "calc(100vw + 400px)" }}
             transition={{
-              duration: 25,
+              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
               repeat: Infinity,
               ease: "linear",
-              delay: 7,
+              delay: 4,
             }}
-            className="absolute bottom--0,5 hidden sm:block"
-            style={{ zIndex: 2 }}
+            className="absolute block sm:hidden"
+            style={{ 
+              zIndex: 2, 
+              bottom: "-40px",
+              left: 0
+            }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" height="90px" />
+              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+              <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={2.05} />
             </div>
           </motion.div>
 
-          {/* Третий грузовик (trall) - ПК */}
+          {/* Третья машина - мобилка */}
           <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
+            initial={{ x: "-400px" }}
+            animate={{ x: "calc(100vw + 400px)" }}
             transition={{
-              duration: 25,
+              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
               repeat: Infinity,
               ease: "linear",
-              delay: 14,
+              delay: 8,
             }}
-            className="absolute bottom--1 hidden sm:block"
-            style={{ zIndex: 1 }}
+            className="absolute block sm:hidden"
+            style={{ 
+              zIndex: 1, 
+              bottom: "-40px",
+              left: 0
+            }}
           >
             <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" height="90px" />
+              <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
+              <TruckIcon type="trall" height="150px" bottomOffset="0px" />
             </div>
           </motion.div>
+        </div>
+        {" "}
 
-          {/* МОБИЛЬНАЯ ВЕРСИЯ - БЕСКОНЕЧНЫЙ ПОТОК С РАССТОЯНИЕМ 4.5 */}
-
-          {/* Первая машина (20т) */}
-          <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 0,
-            }}
-            className="absolute bottom-2 block sm:hidden"
-            style={{ zIndex: 3 }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="20t" />
-            </div>
-          </motion.div>
-
-          {/* Вторая машина (5т) - через 4.5 сек после первой */}
-          <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 4.5,
-            }}
-            className="absolute bottom-2 block sm:hidden"
-            style={{ zIndex: 2 }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="5t" />
-            </div>
-          </motion.div>
-
-          {/* Третья машина (trall) - через 9.0 сек после первой (4.5 + 4.5) */}
-          <motion.div
-            initial={{ x: "-300px" }}
-            animate={{ x: "calc(100vw + 300px)" }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 9.0,
-            }}
-            className="absolute bottom-2 block sm:hidden"
-            style={{ zIndex: 1 }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-              <TruckIcon type="trall" />
-            </div>
-          </motion.div>
-        </div>{" "}
-        {/* МОБИЛЬНАЯ ВЕРСИЯ - БЕСКОНЕЧНЫЙ ПОТОК С РАССТОЯНИЕМ 4.5 */}
-        {/* Первая машина (20т) */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 0,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 3 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="20t" height="50px" />
-          </div>
-        </motion.div>
-        {/* Вторая машина (5т) - через 4.5 сек после первой */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 4.5,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 2 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="5t" height="60px" />
-          </div>
-        </motion.div>
-        {/* Третья машина (trall) - через 9.0 сек после первой (4.5 + 4.5) */}
-        <motion.div
-          initial={{ x: "-300px" }}
-          animate={{ x: "calc(100vw + 300px)" }}
-          transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear",
-            delay: 9.0,
-          }}
-          className="absolute bottom-2 block sm:hidden"
-          style={{ zIndex: 1 }}
-        >
-          <div className="relative">
-            <div className="absolute -bottom-2 left-5 right-5 h-3 bg-black/30 blur-md rounded-full"></div>
-            <TruckIcon type="trall" height="70px" />
-          </div>
-        </motion.div>
       </footer>
     </div>
   );
