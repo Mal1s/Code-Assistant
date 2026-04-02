@@ -91,8 +91,8 @@ export default function Home() {
 
       // Классы для подсказки (чтобы длинные названия помещались)
       const getTooltipClasses = (name: string, isMobile: boolean) => {
-        let baseClasses =
-          "absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white font-bold px-3 py-1.5 rounded-xl z-30 shadow-xl";
+        let baseClasses = 
+          "absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white font-bold px-3 py-1.5 rounded-xl z-30 shadow-xl"; 
 
         if (name === "Тверской Вагоностроительный Завод") {
           if (isMobile) {
@@ -220,40 +220,7 @@ export default function Home() {
       }
     });
 
-    // 2. Отправка в OkoCRM (создание сделки)
-    const formDataOko = new FormData();
-    formDataOko.append('cf_16', data.name);           // ФИО
-    formDataOko.append('cf_2', data.user_phone);      // Телефон
-    formDataOko.append('cf_64', data.email || '');    // Email
-    formDataOko.append('cf_62', data.from_city || ''); // Откуда
-    formDataOko.append('cf_114', data.to_city || '');  // Куда
-    formDataOko.append('page_url', window.location.href); // Ссылка на страницу
-    // Дополнительные поля (если есть в форме OkoCRM, нужно добавить)
-    if (data.weight) formDataOko.append('weight', data.weight);
-    if (data.cargo_type) formDataOko.append('cargo_type', data.cargo_type);
-    if (data.length) formDataOko.append('length', data.length);
-    if (data.width) formDataOko.append('width', data.width);
-    if (data.height) formDataOko.append('height', data.height);
-    if (data.date) formDataOko.append('date', data.date);
-    if (data.nds) formDataOko.append('nds', data.nds);
-    if (data.comment) formDataOko.append('comment', data.comment);
 
-    fetch('https://forms.okocrm.com/fc11522e-e4d6-4c9c-b4fa-28d8f8b26d0a', {
-      method: 'POST',
-      body: formDataOko
-    })
-    .then(async response => {
-      const text = await response.text(); // Читаем ответ сервера
-      console.log("Статус OkoCRM:", response.status);
-      console.log("Ответ OkoCRM:", text);
-
-      if (!response.ok) {
-        console.error("Ошибка OkoCRM:", response.status, text);
-      } else {
-        console.log("Заявка отправлена в OkoCRM");
-      }
-    })
-    .catch(error => console.error("Ошибка отправки в OkoCRM:", error));
   };
 
   const partners = [
@@ -363,12 +330,8 @@ export default function Home() {
             >
               Услуги
             </button>
-            <button
-              onClick={() => scrollTo("geography")}
-              className="text-2xl font-bold"
-            >
-              География
-            </button>
+            
+            
             <button
               onClick={() => scrollTo("partners")}
               className="text-2xl font-bold"
@@ -423,7 +386,7 @@ export default function Home() {
               { id: "hero", label: "Главная" },
               { id: "about", label: "О компании" },
               { id: "services", label: "Услуги" },
-              { id: "geography", label: "География" },
+              
               { id: "partners", label: "Партнеры" },
               { id: "form", label: "Заявка" }, // Добавлено!
               { id: "contacts", label: "Контакты" },
@@ -709,377 +672,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-      {/* ТРАССА М8 "АЛМИК" - С АНИМАЦИЕЙ ФОНА */}
-      <section
-        id="geography" // ← ID СТАВИМ ЗДЕСЬ!
-        className="relative py-16 overflow-hidden bg-[#0b1a33]"
-      >
-        {/* ===== АНИМИРОВАННЫЙ ФОН ===== */}
-
-        {/* 1. ДВИЖУЩИЕСЯ ТОЧКИ */}
-        <div className="absolute inset-0">
-          {[...Array(100)].map((_, i) => (
-            <motion.div
-              key={`dot-${i}`}
-              className="absolute w-0.5 h-0.5 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                background: "#ff9f4b",
-                filter: "blur(1px)",
-              }}
-              animate={{
-                y: [0, -100, 0],
-                x: [0, Math.random() * 50 - 25, 0],
-                opacity: [0.1, 0.8, 0.1],
-                scale: [1, 2, 1],
-              }}
-              transition={{
-                duration: Math.random() * 10 + 10,
-                repeat: Infinity,
-                delay: Math.random() * 5,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* 2. ПЛЫВУЩИЕ ЛИНИИ */}
-        <div className="absolute inset-0">
-          {[...Array(8)].map((_, i) => (
-            <motion.div
-              key={`line-${i}`}
-              className="absolute h-px w-full"
-              style={{
-                top: `${i * 12}%`,
-                background: `linear-gradient(90deg, transparent, #ff9f4b, #ffb347, #ff9f4b, transparent)`,
-                filter: "blur(2px)",
-              }}
-              animate={{
-                x: ["-100%", "100%"],
-                opacity: [0.2, 0.8, 0.2],
-              }}
-              transition={{
-                duration: 8 + i * 2,
-                repeat: Infinity,
-                delay: i * 0.5,
-                ease: "linear",
-              }}
-            />
-          ))}
-        </div>
-
-        {/* 3. ПУЛЬСИРУЮЩИЙ ГРАДИЕНТ */}
-        <motion.div
-          animate={{
-            background: [
-              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 70% 60%, rgba(255,159,75,0.3) 0%, transparent 50%)",
-              "radial-gradient(circle at 30% 40%, rgba(255,159,75,0.3) 0%, transparent 50%)",
-            ],
-          }}
-          transition={{ duration: 10, repeat: Infinity }}
-          className="absolute inset-0 opacity-30 blur-3xl"
-        />
-
-        {/* 4. СВЕТЯЩИЕСЯ ЧАСТИЦЫ */}
-        <div className="absolute inset-0">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={`glow-${i}`}
-              className="absolute w-1 h-1 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                background: "#ff9f4b",
-                boxShadow: "0 0 10px #ff9f4b",
-              }}
-              animate={{
-                scale: [0, 3, 0],
-                opacity: [0, 1, 0],
-              }}
-              transition={{
-                duration: Math.random() * 4 + 3,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
-        </div>
-
-        {/* 5. МЕРЦАЮЩАЯ СЕТКА */}
-        <motion.div
-          animate={{ opacity: [0.05, 0.15, 0.05] }}
-          transition={{ duration: 3, repeat: Infinity }}
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-                linear-gradient(45deg, #ff9f4b 1px, transparent 1px),
-                linear-gradient(-45deg, #ff9f4b 1px, transparent 1px)
-              `,
-            backgroundSize: "60px 60px",
-          }}
-        />
-
-        {/* 6. ДЫМ */}
-        <motion.div
-          animate={{
-            x: [-100, 100, -100],
-            opacity: [0.1, 0.3, 0.1],
-          }}
-          transition={{ duration: 20, repeat: Infinity }}
-          className="absolute inset-0 bg-gradient-to-r from-transparent via-[#ff9f4b]/20 to-transparent blur-3xl"
-        />
-
-        {/* 7. ДОРОЖНАЯ РАЗМЕТКА */}
-        <div className="absolute inset-0 opacity-5">
-          <div
-            className="w-full h-full"
-            style={{
-              backgroundImage:
-                "repeating-linear-gradient(90deg, #ff9f4b 0px, #ff9f4b 10px, transparent 10px, transparent 20px)",
-              backgroundSize: "20px 100%",
-            }}
-          ></div>
-        </div>
-
-        {/* КОНТЕНТ */}
-        <div className="container mx-auto px-4 relative z-10">
-          {/* Заголовок - ПЕРСИКОВЫЙ ГРАДИЕНТ */}
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            className="relative w-fit mx-auto mb-12"
-          >
-            <div className="bg-[#0b1a33] border-2 border-[#ff9f4b] rounded-2xl p-4 shadow-lg rotate-[-2deg] hover:rotate-0 transition-transform">
-              <h2 className="text-3xl md:text-5xl font-bold text-center">
-                <span className="bg-gradient-to-r from-[#ff9f4b] via-[#ffb347] to-[#ffcc99] bg-clip-text text-transparent">
-                  М8 "АЛМИК"
-                </span>
-              </h2>
-              <div className="absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-12 h-4 bg-gradient-to-r from-[#ff9f4b] to-[#ffb347] clip-triangle"></div>
-            </div>
-          </motion.div>
-
-          {/* ДВУХКОЛОНОЧНЫЙ МАКЕТ: ГОРОДА СЛЕВА, ТАБЛИЧКИ СПРАВА */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-
-            {/* ЛЕВАЯ КОЛОНКА — КИЛОМЕТРОВЫЕ СТОЛБЫ */}
-            <div className="space-y-2 relative">
-              {/* Линия трассы */}
-              <div className="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-[#ff9f4b] via-white to-[#ff9f4b]"></div>
-
-              {[
-                { km: "0",    city: "ТВЕРЬ",          desc: "ЦЕНТРАЛЬНЫЙ ОФИС",  type: "start"   },
-                { km: "168",  city: "МОСКВА",          desc: "СТОЛИЦА",           type: "capital" },
-                { km: "714",  city: "С.-ПЕТЕРБУРГ",    desc: "СЕВЕРНАЯ СТОЛИЦА",  type: "major"   },
-                { km: "1540", city: "МУРМАНСК",        desc: "АРКТИКА",           type: "north"   },
-                { km: "3340", city: "НОВЫЙ УРЕНГОЙ",   desc: "ГАЗ",              type: "extreme" },
-                { km: "5180", city: "ЯКУТСК",          desc: "АЛМАЗЫ",            type: "extreme" },
-                { km: "7520", city: "ВЛАДИВОСТОК",     desc: "ТИХИЙ ОКЕАН",       type: "finish"  },
-              ].map((point, index) => (
-                <motion.div
-                  key={point.city}
-                  initial={{ x: -100, opacity: 0 }}
-                  whileInView={{ x: 0, opacity: 1 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ x: 5 }}
-                  className="relative flex items-start gap-3 group"
-                >
-                  <div className="relative z-20 w-12 flex-shrink-0">
-                    <div className={`font-mono text-sm font-medium text-white px-2 py-1 rounded-lg text-center shadow ${
-                      point.type === "capital" ? "bg-yellow-500/80"
-                      : point.type === "extreme" ? "bg-purple-600/80"
-                      : point.type === "north" ? "bg-blue-500/80"
-                      : point.type === "finish" ? "bg-green-600/80"
-                      : "bg-[#ff9f4b]/80"
-                    }`}>
-                      {point.km}
-                    </div>
-                  </div>
-                  <div className="relative z-20 flex-1 bg-white/5 backdrop-blur rounded-xl px-3 py-2 border border-white/10 group-hover:border-[#ff9f4b] transition-all">
-                    <h3 className="text-base md:text-lg font-bold text-white">{point.city}</h3>
-                    <p className="text-white/60 text-[10px] font-normal">{point.desc}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-
-            {/* ПРАВАЯ КОЛОНКА — ТРИ ТАБЛИЧКИ */}
-            <div className="flex flex-col gap-3 lg:items-end">
-              {[
-                {
-                  sign: "🛑",
-                  title: "ДОКУМЕНТЫ",
-                  items: [
-                    "Устав автомобильного транспорта (УАТ РФ)",
-                    "Полный пакет документов",
-                    "Отсутствие штрафов у юр.лиц",
-                    "Налогообложение по закону РФ",
-                    "Страхование каждого груза",
-                  ],
-                  color: "#ff9f4b",
-                },
-                {
-                  sign: "⚠️",
-                  title: "ОСОБЫЕ УСЛОВИЯ",
-                  items: [
-                    "Зимники и паромы",
-                    "Труднодоступные месторождения",
-                    "Драгоценные ископаемые",
-                    "Такелажные работы (станки, оборудование)",
-                    "Монтаж тяжеловесных грузов",
-                  ],
-                  color: "#ffaa00",
-                },
-                {
-                  sign: "⛽",
-                  title: "СПЕЦТЕХНИКА",
-                  items: [
-                    "Манипуляторы",
-                    "Краны различной тоннажности",
-                    "Лебедки и домкраты",
-                    "Стропы и такелаж",
-                    "Сопровождение (ГИБДД)",
-                  ],
-                  color: "#00cc88",
-                },
-              ].map((block, i) => (
-                <motion.div
-                  key={i}
-                  whileHover={{ y: -2 }}
-                  className="w-full bg-white/5 backdrop-blur rounded-xl p-4 border border-white/10 hover:border-[#ff9f4b] transition-all"
-                >
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">{block.sign}</span>
-                    <h4 className="text-base font-bold" style={{ color: block.color }}>
-                      {block.title}
-                    </h4>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {block.items.map((item, j) => (
-                      <li key={j} className="text-white/80 text-xs flex items-start gap-2">
-                        <span className="text-[#ff9f4b] text-sm">•</span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* ГЕОГРАФИЯ ПРИСУТСТВИЯ - АДАПТИВНАЯ ВЕРСИЯ */}
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative w-full"
-      >
-        {/* Градиентный фон */}
-        <div className="absolute inset-0 rounded-2xl overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-[#2a2a2a] via-[#4a4a4a] to-[#1a1a1a]"></div>
-          {/* Статичная текстура */}
-          <div
-            className="absolute inset-0 opacity-30"
-            style={{
-              backgroundImage: `radial-gradient(circle at 2px 2px, rgba(255,255,255,0.2) 1px, transparent 1px)`,
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
-
-        {/* Основной контейнер */}
-        <div className="relative z-10 bg-black/30 backdrop-blur-sm rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
-          <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-orange-400 to-[#f05a28]"></div>
-
-          {/* Заголовок */}
-          <div className="px-4 sm:px-6 pt-6 sm:pt-8 pb-3 sm:pb-4 text-center">
-            <div className="flex items-center justify-center gap-2 sm:gap-3 mb-1 sm:mb-2">
-              <span className="text-2xl sm:text-4xl">🗺️</span>
-              <h4 className="text-xl sm:text-3xl md:text-4xl font-black text-white tracking-tight">
-                ГЕОГРАФИЯ <span className="text-[#f05a28]">ПЕРЕВОЗОК</span>
-              </h4>
-              <span className="text-2xl sm:text-4xl">🌍</span>
-            </div>
-            <p className="text-white/70 text-[10px] sm:text-sm">
-              от Калининграда до Сахалина • 8 стран Таможенного союза
-            </p>
-          </div>
-
-          {/* Карточки регионов - адаптивная сетка */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-4 p-3 sm:p-6">
-            {/* Центр • СЗФО */}
-            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <span className="text-xl sm:text-2xl">🏛️</span>
-                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
-                  ЦЕНТР • СЗФО
-                </h5>
-              </div>
-              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
-                <span className="text-white font-bold">Москва</span> • Санкт-Петербург •{" "}
-                <span className="text-[#f05a28] font-bold">Тверь</span> • Псков • 
-                Великий Новгород • Петрозаводск • Мурманск • Архангельск • Вологда • 
-                Калининград
-              </p>
-            </div>
-
-            {/* Юг • Кавказ */}
-            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <span className="text-xl sm:text-2xl">🌴</span>
-                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
-                  ЮГ • КАВКАЗ
-                </h5>
-              </div>
-              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
-                Краснодар • Симферополь • Севастополь • Ялта • Ростов-на-Дону • 
-                Волгоград • Астрахань • Махачкала • Владикавказ • Грозный
-              </p>
-            </div>
-
-            {/* Урал • Сибирь */}
-            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <span className="text-xl sm:text-2xl">⛰️</span>
-                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
-                  УРАЛ • СИБИРЬ
-                </h5>
-              </div>
-              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
-                Екатеринбург • Тюмень •{" "}
-                <span className="text-white font-bold">Новый Уренгой</span> • Салехард • 
-                Ханты-Мансийск • Сургут • Новосибирск • Омск • Томск • Красноярск • 
-                Иркутск
-              </p>
-            </div>
-
-            {/* Восток • СНГ */}
-            <div className="bg-white/10 sm:backdrop-blur rounded-lg sm:rounded-xl p-3 sm:p-4 border border-white/10 sm:border-white/20 hover:bg-white/15 sm:hover:bg-white/20 transition-all duration-300">
-              <div className="flex items-center gap-2 mb-2 sm:mb-3">
-                <span className="text-xl sm:text-2xl">🌏</span>
-                <h5 className="text-[#f05a28] font-bold text-[10px] sm:text-sm tracking-wider">
-                  ВОСТОК • СНГ
-                </h5>
-              </div>
-              <p className="text-white/80 text-[9px] sm:text-xs leading-relaxed">
-                Якутск • Магадан • Владивосток • Хабаровск • Южно-Сахалинск • Минск • 
-                Баку • Ереван • Алматы • Ташкент • Бишкек • Астана
-              </p>
-            </div>
-          </div>
-
-          {/* Статистика */}
-          <div className="mt-1 sm:mt-2 mb-3 sm:mb-4 p-2 sm:p-3 bg-gradient-to-r from-[#f05a28]/20 via-[#f05a28]/10 to-transparent border-t border-[#f05a28]/30 text-center">
-            <p className="text-white/70 text-[8px] sm:text-xs font-bold tracking-wider">
-              ⚡ БОЛЕЕ 200 ГОРОДОВ • 15 ЛЕТ НА РЫНКЕ • 5000+ ПЕРЕВОЗОК ⚡
-            </p>
-          </div>
-        </div>
-      </motion.div>
 
       {/* FORM SECTION */}
       <section
@@ -1171,7 +763,7 @@ export default function Home() {
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                transition={{ delay: 0.4 }} 
                 className="text-white/70 text-xs max-w-md mx-auto"
               >
                 Заполните форму — мы свяжемся с вами в ближайшее время
