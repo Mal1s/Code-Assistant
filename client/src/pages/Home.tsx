@@ -40,7 +40,21 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [activePartner, setActivePartner] = useState<string | null>(null); // ← ДОБАВЬ ЭТУ СТРОКУ
   const formRef = useRef<HTMLFormElement>(null); //
-
+  const [focusedField, setFocusedField] = useState<string | null>(null);
+  const [fieldValues, setFieldValues] = useState({
+    from: "",
+     to: "",   
+    cargoName: "",
+    readyDate: "",
+    length: "",
+    width: "",
+    height: "",
+    weight: "",
+    name: "",
+    email: "",
+    phone: "",
+    comment: ""
+  });
   const getPartnerLogo = (partnerName: string) => {
     const logoMap: { [key: string]: string } = {
       "Русский Свет": logoRussvet,
@@ -177,6 +191,17 @@ export default function Home() {
       });
       if (navigator.vibrate) navigator.vibrate(10);
     }
+  };
+  const handleFieldChange = (field: string, value: string) => {
+    setFieldValues(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleFieldFocus = (field: string) => {
+    setFocusedField(field);
+  };
+
+  const handleFieldBlur = () => {
+    setFocusedField(null);
   };
 
   const handleFormSubmit = (e: React.FormEvent) => {
@@ -487,11 +512,11 @@ export default function Home() {
       {/* ABOUT SECTION */}
       <section id="about" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-16 md:mb-24 px-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8 mb-12 md:mb-16 px-4">
             {[
-              { num: 15, text: "лет опыта", suffix: "+" },
-              { num: 5000, text: "довольных клиентов", suffix: "+" },
-              { num: 24, text: "часа в сутки", suffix: "/7" },
+              { num: 15, text: "лет", suffix: "+" },
+              { num: 5000, text: "клиентов", suffix: "+" },
+              { num: 24, text: "часа", suffix: "/7" },
             ].map((item, i) => (
               <motion.div
                 key={i}
@@ -500,83 +525,70 @@ export default function Home() {
                 transition={{ delay: i * 0.1 }}
                 className="text-center"
               >
-                <div className="text-3xl md:text-5xl font-black text-[#f05a28] mb-1 md:mb-2">
+                <div className="text-3xl md:text-4xl font-black text-[#f05a28] mb-0 md:mb-1">
                   {item.num}
                   {item.suffix}
                 </div>
-                <div className="text-sm md:text-lg opacity-80 font-bold text-[#0b1a33]">
+                <div className="text-xs md:text-base opacity-80 font-bold text-[#0b1a33]">
                   {item.text}
                 </div>
               </motion.div>
             ))}
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <motion.div {...fadeInUp} className="relative mt-8 lg:mt-0">
-              <div className="rounded-[2.5rem] md:rounded-[4rem] overflow-hidden shadow-2xl border-[8px] md:border-[12px] border-slate-50 aspect-video lg:aspect-[5/4] shimmer-img">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
+            <motion.div {...fadeInUp} className="relative mt-4 lg:mt-0 flex justify-center">
+              <div className="rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] md:border-[8px] border-slate-50 w-full max-w-64 md:max-w-72 lg:max-h-110">
                 <img
                   src={imgTrucks}
                   alt="Trucks"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover aspect-[4/3]"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-6 md:-bottom-10 md:-right-10 bg-[#f05a28] p-6 md:p-10 rounded-[2rem] md:rounded-[3rem] shadow-2xl shadow-[#f05a28]/30 hidden sm:block">
-                <span className="text-3xl md:text-5xl font-black text-white">
+              <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-[#f05a28] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl shadow-[#f05a28]/30 hidden sm:block">
+                <span className="text-2xl md:text-3xl font-black text-white">
                   15+
                 </span>
-                <p className="text-white/80 font-bold uppercase tracking-widest text-[10px] md:text-xs mt-1 md:mt-3">
+                <p className="text-white/80 font-bold uppercase tracking-widest text-[8px] md:text-[10px] mt-0 md:mt-1">
                   лет в логистике
                 </p>
               </div>
             </motion.div>
             <motion.div {...fadeInUp}>
-              <h2 className="text-4xl md:text-6xl font-black text-[#0b1a33] mb-8 leading-tight">
+              <h2 className="text-3xl md:text-5xl font-black text-[#0b1a33] mb-4 md:mb-6 leading-tight">
                 Ваш надежный <br />
                 партнер на дороге
               </h2>
-              <div className="space-y-6 text-slate-600 mb-12 text-lg leading-relaxed">
-                <p className="font-bold text-[#0b1a33] text-2xl">
-                  ООО «АлМик» — эксперты в области комплексных транспортных
-                  решений.
+              <div className="space-y-4 text-slate-600 mb-8 text-base leading-relaxed">
+                <p className="font-bold text-[#0b1a33] text-xl md:text-2xl">
+                  ООО «АлМик» — ваш надежный партнер
                 </p>
-                <p>
-                  Наша команда обладает более чем 15‑летним опытом в сфере
-                  логистики.
+                <p className="text-sm md:text-base">
+                  15+ лет в логистике, 5000+ клиентов, 24/7.
                 </p>
-
-                <p className="bg-slate-50 p-6 rounded-[2rem] border-l-8 border-[#f05a28]">
-                  Мы используем новый собственный автопарк 2023+ года выпуска.
-                  Все перевозки застрахованы, каждый водитель трудоустроен
-                  официально. <strong>Работаем с НДС 22% (ОСНО).</strong>
+                <p className="bg-slate-50 p-4 md:p-5 rounded-[1.5rem] border-l-4 border-[#f05a28] text-sm md:text-base">
+                  Автопарк 2023+, страхование, официальное трудоустройство. <strong>Работаем с НДС 22%.</strong>
                 </p>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-4 md:gap-5">
                 {[
                   { label: "ИНН", val: "6900000798", icon: "fingerprint" },
-                  {
-                    label: "ОГРН",
-                    val: "1236900010380",
-                    icon: "file-contract",
-                  },
+                  { label: "ОГРН", val: "1236900010380", icon: "file-contract" },
                   { label: "Директор", val: "Михайлов А.А.", icon: "user-tie" },
-                  {
-                    label: "Офис",
-                    val: "Тверь, Петербургское ш. 93к1",
-                    icon: "map-marker-alt",
-                  },
+                  { label: "Офис", val: "Тверь, пр-кт Калинина, д.17", icon: "map-marker-alt" },
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="bg-slate-50 p-6 rounded-3xl flex gap-5 items-center border border-slate-100 shadow-sm"
+                    className="bg-slate-50 p-4 md:p-5 rounded-xl flex gap-4 items-center border border-slate-100 shadow-sm"
                   >
-                    <div className="w-14 h-14 bg-[#0b1a33] text-white rounded-2xl flex items-center justify-center text-2xl shrink-0">
+                    <div className="w-11 h-11 md:w-14 md:h-14 bg-[#0b1a33] text-white rounded-xl flex items-center justify-center text-xl md:text-2xl shrink-0">
                       <i className={`fas fa-${item.icon}`}></i>
                     </div>
                     <div>
-                      <div className="text-xs font-black text-[#f05a28] uppercase tracking-wider mb-1">
+                      <div className="text-[11px] md:text-sm font-black text-[#f05a28] uppercase tracking-wider">
                         {item.label}
                       </div>
-                      <div className="font-bold text-[#0b1a33] text-sm">
+                      <div className="font-bold text-[#0b1a33] text-sm md:text-base">
                         {item.val}
                       </div>
                     </div>
@@ -674,289 +686,263 @@ export default function Home() {
       </section>
 
       {/* FORM SECTION */}
-      <section
-        id="form"
-        className="py-12 md:py-16 px-4 md:px-6 relative overflow-hidden"
-        style={{
-          background: "linear-gradient(135deg, #0b1a33 0%, #1a2b45 100%)",
-        }}
-      >
-        {/* Декоративные элементы */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-0 left-0 w-96 h-96 bg-[#f05a28] rounded-full filter blur-3xl animate-pulse"></div>
-          <div
-            className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500 rounded-full filter blur-3xl animate-pulse"
-            style={{ animationDelay: "1s" }}
-          ></div>
+      {/* ФОРМА - АДАПТИВ (ПК + ТЕЛЕФОН) */}
+      <section id="form" className="py-6 sm:py-8 md:py-10 px-2 sm:px-4 relative overflow-hidden">
+        {/* ФОН */}
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900"></div>
+        <div className="absolute inset-0">
+          <div className="absolute top-0 left-1/3 w-96 h-96 bg-orange-500 rounded-full blur-[120px] opacity-20"></div>
+          <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500 rounded-full blur-[100px] opacity-15"></div>
         </div>
 
-        <div className="container mx-auto relative z-10">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="mx-auto"
-              style={{ maxWidth: "1300px" }}  // ← ЗДЕСЬ МЕНЯЙ ЦИФРУ
-            >
-            {/* Заголовок для ПК */}
-            <div className="hidden md:block text-center mb-10">
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="relative inline-block mb-2"
-              >
-                <h2 className="text-5xl md:text-6xl font-black tracking-tight">
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#ff9f4b] via-[#f05a28] to-[#ff7e5f] drop-shadow-2xl">
-                    НАЧНЕМ
-                  </span>
-                </h2>
-                <motion.div
-                  initial={{ width: 0 }}
-                  whileInView={{ width: "100%" }}
-                  transition={{ delay: 0.5, duration: 0.6 }}
-                  className="absolute -bottom-2 left-0 h-1 bg-gradient-to-r from-[#f05a28] to-transparent rounded-full"
-                ></motion.div>
-              </motion.div>
-              <motion.h3
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-5xl md:text-6xl font-black mb-6"
-              >
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-[#ffd966] drop-shadow-xl">
-                  СОТРУДНИЧЕСТВО
-                </span>
-              </motion.h3>
+        {/* ОБЛОЖКА - на телефоне уже, но поля в строку */}
+        <div className="relative z-10 flex justify-center">
+          <div 
+            className="relative backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full sm:w-[500px] md:w-[500px] max-w-[500px]"
+          >
+            <div className="h-1 sm:h-1.5 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500"></div>
+
+            <div className="p-3 sm:p-5">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-                className="relative inline-block"
+                transition={{ duration: 0.4 }}
+                className="text-center mb-3 sm:mb-5"
               >
-                <p className="text-white/80 text-sm max-w-md mx-auto px-6 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10">
-                  ✨ Оставьте заявку — и мы свяжемся с вами
-                </p>
+                <h2 className="text-base sm:text-xl md:text-2xl font-bold text-white">РАССЧИТАТЬ СТОИМОСТЬ</h2>
+                <div className="w-8 sm:w-12 h-0.5 bg-orange-500 mx-auto rounded-full mt-1 sm:mt-2"></div>
+                <p className="text-white/60 text-[9px] sm:text-xs mt-1 sm:mt-2">Заполните форму — менеджер свяжется с вами</p>
               </motion.div>
-            </div>
 
-            {/* Заголовок для телефона */}
-            <div className="block md:hidden text-center mb-6">
-              <motion.span
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="inline-block px-3 py-1 bg-white/10 backdrop-blur-md text-[#f05a28] font-bold text-[10px] uppercase tracking-wider rounded-full mb-3 border border-white/20"
-              >
-                Начнем сотрудничество
-              </motion.span>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-2xl font-black mb-2 text-center"
-              >
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-[#ffd966]">
-                  ОФОРМИТЬ ЗАЯВКУ
-                </span>
-              </motion.h2>
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }} 
-                className="text-white/70 text-xs max-w-md mx-auto"
-              >
-                Заполните форму — мы свяжемся с вами в ближайшее время
-              </motion.p>
-            </div>
+              <form onSubmit={handleFormSubmit} className="space-y-2 sm:space-y-3" ref={formRef}>
 
-            {/* Карточка формы - узкая по бокам */}
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="backdrop-blur-xl bg-white/95 rounded-2xl shadow-2xl border border-white/30 overflow-hidden hover:shadow-[0_20px_40px_-10px_rgba(240,90,40,0.3)] transition-shadow"
-            >
-              <div className="h-1 w-full bg-gradient-to-r from-[#f05a28] via-[#ff9f4b] to-blue-500"></div>
-              <div className="p-4 md:p-3">
-                <form onSubmit={handleFormSubmit} className="space-y-3" ref={formRef}>
-                  {/* Поля формы */}
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">👤</span> Имя *
-                      </label>
-                      <input
-                        required
-                        type="text"
-                        name="name"
-                        placeholder="Александр"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">📞</span> Телефон *
-                      </label>
-                      <input
-                        required
-                        type="tel"
-                        name="user_phone"
-                        placeholder="+7 (900) 123-45-67"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                      <span className="mr-1">📧</span> Email
+                {/* Строка 1: Откуда + Куда - на телефоне тоже в строку */}
+                <div className="flex justify-center gap-1.5 sm:gap-3">
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "from" || fieldValues.from ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Откуда
                     </label>
                     <input
-                      type="email"
-                      name="email"
-                      placeholder="example@mail.ru"
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
+                      type="text"
+                      name="from_city"
+                      value={fieldValues.from}
+                      onChange={(e) => handleFieldChange("from", e.target.value)}
+                      onFocus={() => handleFieldFocus("from")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "from" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                    />
+                  </div>
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "to" || fieldValues.to ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Куда
+                    </label>
+                    <input
+                      type="text"
+                      name="to_city"
+                      value={fieldValues.to}
+                      onChange={(e) => handleFieldChange("to", e.target.value)}
+                      onFocus={() => handleFieldFocus("to")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "to" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Строка 2: Наименование груза + Вес */}
+                <div className="flex justify-center gap-1.5 sm:gap-3">
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "cargoName" || fieldValues.cargoName ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Груз
+                    </label>
+                    <input
+                      type="text"
+                      name="cargo_type"
+                      value={fieldValues.cargoName}
+                      onChange={(e) => handleFieldChange("cargoName", e.target.value)}
+                      onFocus={() => handleFieldFocus("cargoName")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "cargoName" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                    />
+                  </div>
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Вес(кг)
+                    </label>
+                    <input
+                      type="text"
+                      name="weight"
+                      value={fieldValues.weight}
+                      onChange={(e) => handleFieldChange("weight", e.target.value)}
+                      onFocus={() => handleFieldFocus("weight")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "weight" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Строка 3: Дата + Габариты */}
+                <div className="flex justify-center gap-1.5 sm:gap-3">
+                  {/* ДАТА */}
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Дата
+                    </label>
+                    <input
+                      type="text"
+                      name="date"
+                      placeholder={focusedField === "readyDate" ? "ДД.ММ.ГГГГ" : ""}
+                      value={fieldValues.readyDate}
+                      onChange={(e) => handleFieldChange("readyDate", e.target.value)}
+                      onFocus={() => handleFieldFocus("readyDate")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "readyDate" || fieldValues.readyDate ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">📍</span> Откуда
-                      </label>
-                      <input
-                        type="text"
-                        name="from_city"
-                        placeholder="Москва"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">📍</span> Куда
-                      </label>
-                      <input
-                        type="text"
-                        name="to_city"
-                        placeholder="Тверь"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">⚖️</span> Вес (т)
-                      </label>
-                      <input
-                        type="text"
-                        name="weight"
-                        placeholder="5.0"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">📦</span> Тип груза
-                      </label>
-                      <input
-                        type="text"
-                        name="cargo_type"
-                        placeholder="Оборудование, мебель..."
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                      <span className="mr-1">📏</span> Габариты (м)
-                    </label>
-                    <div className="grid grid-cols-3 gap-1">
-                      <input
-                        type="text"
-                        name="length"
-                        placeholder="Длина"
-                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                      <input
-                        type="text"
-                        name="width"
-                        placeholder="Ширина"
-                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                      <input
-                        type="text"
-                        name="height"
-                        placeholder="Высота"
-                        className="w-full px-2 py-2 text-xs rounded-lg bg-white border border-slate-200 text-center focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">📅</span> Дата
-                      </label>
-                      <input
-                        type="text"
-                        name="date"
-                        placeholder="ДД.ММ.ГГГГ"
-                        className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all"
-                      />
-                      <p className="text-[8px] text-slate-400 mt-1">
-                        Например: 25.12.2024
-                      </p>
-                    </div>
-                    <div>
-                      <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                        <span className="mr-1">💰</span> НДС
-                      </label>
-                      <div className="flex gap-3 bg-white rounded-lg border border-slate-200 p-2">
-                        {["С НДС", "Без НДС"].map((pay) => (
-                          <label key={pay} className="flex items-center gap-1">
-                            <input
-                              type="radio"
-                              name="nds"
-                              value={pay}
-                              className="w-3 h-3 accent-[#f05a28]"
-                            />
-                            <span className="text-[10px] text-slate-700">{pay}</span>
-                          </label>
-                        ))}
+                  {/* ГАБАРИТЫ */}
+                  <div className="flex-1 sm:w-[210px] sm:flex-none">
+                    <div className="flex gap-1 sm:gap-2">
+                      <div className="relative flex-1">
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "length" || fieldValues.length ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                          Длина(см)
+                        </label>
+                        <input
+                          type="text"
+                          name="length"
+                          placeholder={focusedField === "length" ? "см" : ""}
+                          value={fieldValues.length}
+                          onChange={(e) => handleFieldChange("length", e.target.value)}
+                          onFocus={() => handleFieldFocus("length")}
+                          onBlur={handleFieldBlur}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "length" || fieldValues.length ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                        />
+                      </div>
+                      <div className="relative flex-1">
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "width" || fieldValues.width ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                          Ширина(см)
+                        </label>
+                        <input
+                          type="text"
+                          name="width"
+                          placeholder={focusedField === "width" ? "см" : ""}
+                          value={fieldValues.width}
+                          onChange={(e) => handleFieldChange("width", e.target.value)}
+                          onFocus={() => handleFieldFocus("width")}
+                          onBlur={handleFieldBlur}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "width" || fieldValues.width ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                        />
+                      </div>
+                      <div className="relative flex-1">
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "height" || fieldValues.height ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                          Высота(см)
+                        </label>
+                        <input
+                          type="text"
+                          name="height"
+                          placeholder={focusedField === "height" ? "см" : ""}
+                          value={fieldValues.height}
+                          onChange={(e) => handleFieldChange("height", e.target.value)}
+                          onFocus={() => handleFieldFocus("height")}
+                          onBlur={handleFieldBlur}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "height" || fieldValues.height ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                        />
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  <div>
-                    <label className="block text-[10px] font-bold text-[#0b1a33] uppercase tracking-wider mb-1">
-                      <span className="mr-1">💬</span> Комментарий
-                    </label>
-                    <textarea
-                      rows={2}
-                      name="comment"
-                      placeholder="Дополнительная информация..."
-                      className="w-full px-3 py-2 text-xs rounded-lg bg-white border border-slate-200 focus:border-[#f05a28] focus:ring-2 focus:ring-[#f05a28]/20 outline-none transition-all resize-none"
-                    ></textarea>
+                {/* Разделитель */}
+                <div className="border-t border-white/10 pt-2">
+                  <h3 className="text-[8px] sm:text-xs font-semibold text-orange-400 mb-1 sm:mb-2 uppercase tracking-wider text-center">Ваши данные</h3>
+
+                  {/* Имя + Email */}
+                  <div className="flex justify-center gap-1.5 sm:gap-3 mb-1 sm:mb-2">
+                    <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "name" || fieldValues.name ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                        Имя <span className="text-orange-300">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        required
+                        value={fieldValues.name}
+                        onChange={(e) => handleFieldChange("name", e.target.value)}
+                        onFocus={() => handleFieldFocus("name")}
+                        onBlur={handleFieldBlur}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "name" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      />
+                    </div>
+                    <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                        Email
+                      </label>
+                      <input
+                        type="email"
+                        name="email"
+                        value={fieldValues.email}
+                        onChange={(e) => handleFieldChange("email", e.target.value)}
+                        onFocus={() => handleFieldFocus("email")}
+                        onBlur={handleFieldBlur}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "email" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      />
+                    </div>
                   </div>
 
+                  {/* Телефон */}
+                  <div className="flex justify-center">
+                    <div className="relative w-full sm:w-[432px]">
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "phone" || fieldValues.phone ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                        Телефон <span className="text-orange-300">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="user_phone"
+                        required
+                        value={fieldValues.phone}
+                        onChange={(e) => handleFieldChange("phone", e.target.value)}
+                        onFocus={() => handleFieldFocus("phone")}
+                        onBlur={handleFieldBlur}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "phone" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Комментарий */}
+                <div className="flex justify-center">
+                  <div className="relative w-full sm:w-[432px]">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "comment" || fieldValues.comment ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-2 sm:top-3 text-white/60 text-[9px] sm:text-sm"}`}>
+                      Комментарий
+                    </label>
+                    <textarea
+                      rows={1}
+                      name="comment"
+                      value={fieldValues.comment}
+                      onChange={(e) => handleFieldChange("comment", e.target.value)}
+                      onFocus={() => handleFieldFocus("comment")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 pt-3 sm:pt-4 pb-1 sm:pb-2 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white resize-none ${focusedField === "comment" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                    ></textarea>
+                  </div>
+                </div>
+
+                {/* Кнопка */}
+                <div className="flex justify-center pt-1 sm:pt-2">
                   <button
                     type="submit"
-                    className="w-full bg-gradient-to-r from-[#f05a28] to-[#ff9f4b] text-white py-3 rounded-lg font-bold text-xs uppercase hover:from-[#d44a1d] hover:to-[#f05a28] transition-all shadow-lg hover:shadow-xl"
+                    className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-2 sm:py-2.5 px-4 sm:px-8 rounded-lg sm:rounded-xl transition-all shadow-lg hover:shadow-xl text-[11px] sm:text-sm uppercase tracking-wide w-full sm:w-[280px]"
                   >
-                    ✉️ Отправить заявку
+                    Хочу узнать цену
                   </button>
+                </div>
 
-                  <p className="text-center text-slate-400 text-[8px] mt-2">
-                    🔒 Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-                  </p>
-                </form>
-              </div>
-            </motion.div>
-          </motion.div>
+                <p className="text-center text-white/40 text-[7px] sm:text-[9px] mt-1 sm:mt-2">
+                  Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+                </p>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
       {/* PARTNERS SECTION */}
@@ -996,26 +982,26 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12 px-4">
-            {[
-              {
-                label: "Адрес офиса",
-                val: "Тверь, Петербургское ш. 93к1, оф. 516",
-                sub: "БЦ «Синтез», 5 этаж",
-                icon: "map-marker-alt",
-              },
-              {
-                label: "Юридический",
-                val: "Тверь, ул. Седова, 55, кв. 80",
-                sub: "ООО «АЛМИК»",
-                icon: "building",
-              },
-              {
-                label: "Связь",
-                val: "+7 (900) 474-66-88",
-                sub: "almik69@mail.ru",
-                icon: "phone-alt",
-              },
-            ].map((c, i) => (
+              {[
+                {
+                  label: "Адрес офиса",
+                  val: "170001, г. Тверь, пр-кт Калинина, д.17, офис 316в",
+                  sub: "",
+                  icon: "map-marker-alt",
+                },
+                {
+                  label: "Юридический",
+                  val: "Тверь, ул. Седова, 55, кв. 80",
+                  sub: "ООО «АЛМИК»",
+                  icon: "building",
+                },
+                {
+                  label: "Связь",
+                  val: "+7 (900) 474-66-88",
+                  sub: "almik.ks@yandex.ru",
+                  icon: "phone-alt",
+                },
+              ].map((c, i) => (
               <motion.div key={i} {...fadeInUp} className="text-center group">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-50 text-[#f05a28] rounded-2xl md:rounded-[2rem] flex items-center justify-center text-2xl md:text-3xl mx-auto mb-4 md:mb-6 group-hover:bg-[#f05a28] group-hover:text-white transition-all">
                   <i className={`fas fa-${c.icon}`}></i>
