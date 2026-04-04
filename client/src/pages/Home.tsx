@@ -1068,218 +1068,220 @@ export default function Home() {
             </div>
           </div>
 
-        {/* TRUCK ANIMATION */}
+          {/* TRUCK ANIMATION */}
           <div className="fixed bottom-0 left-0 w-full bg-gradient-to-t from-gray-800 via-gray-700 to-gray-800 pointer-events-none border-t border-white/20 z-[4000] overflow-hidden" style={{ height: "65px" }}>
-          {/* ДОРОГА С АСФАЛЬТОМ И РАЗМЕТКОЙ */}
-          <div className="absolute bottom-0 left-0 w-full bg-gray-700" style={{ height: "45px" }}>
-            {/* Асфальт с текстурой */}
-            <div className="absolute inset-0 opacity-20" style={{
-              backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.15) 20px, rgba(255,255,255,0.15) 40px)`
-            }}></div>
-
-            {/* Прерывистая разделительная полоса (жёлтая) */}
-            <div className="absolute top-1/2 left-0 w-full -translate-y-1/2" style={{ height: "5px" }}>
-              <div className="w-full h-full" style={{
-                backgroundImage: `repeating-linear-gradient(90deg, #ffcc44, #ffcc44 35px, transparent 35px, transparent 70px)`,
-                backgroundRepeat: "repeat-x"
+            {/* ДОРОГА С АСФАЛЬТОМ И РАЗМЕТКОЙ */}
+            <div className="absolute bottom-0 left-0 w-full bg-gray-700" style={{ height: "45px" }}>
+              {/* Асфальт с текстурой */}
+              <div className="absolute inset-0 opacity-20" style={{
+                backgroundImage: `repeating-linear-gradient(90deg, transparent, transparent 20px, rgba(255,255,255,0.15) 20px, rgba(255,255,255,0.15) 40px)`
               }}></div>
+
+              {/* Прерывистая разделительная полоса (жёлтая) */}
+              <div className="absolute top-1/2 left-0 w-full -translate-y-1/2" style={{ height: "5px" }}>
+                <div className="w-full h-full" style={{
+                  backgroundImage: `repeating-linear-gradient(90deg, #ffcc44, #ffcc44 35px, transparent 35px, transparent 70px)`,
+                  backgroundRepeat: "repeat-x"
+                }}></div>
+              </div>
+
+              {/* Боковая линия снизу (белая) */}
+              <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/80"></div>
+
+              {/* Боковая линия сверху (серая) */}
+              <div className="absolute top-0 left-0 w-full h-[1px] bg-white/30"></div>
             </div>
 
-            {/* Боковая линия снизу (белая) */}
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/80"></div>
+            {/* ПК версия - большие экраны */}
+            {/* Для 4 машин на ПК: duration = 24 секунды, интервал = 6 секунд (24/4) */}
 
-            {/* Боковая линия сверху (серая) */}
-            <div className="absolute top-0 left-0 w-full h-[1px] bg-white/30"></div>
+            {/* ПЕРВАЯ МАШИНКА */}
+            <motion.div
+              initial={{ x: "-500px" }}
+              animate={{ x: "calc(100vw + 500px)" }}
+              transition={{
+                duration: 24,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 0,
+              }}
+              className="absolute hidden sm:block"
+              style={{ 
+                zIndex: 3, 
+                bottom: "-25px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+                <TruckIcon type="20t" height="115px" bottomOffset="0px" widthScale={1.4} />
+              </div>
+            </motion.div>
+
+            {/* ВТОРАЯ МАШИНКА - стартует через 6 секунд */}
+            <motion.div
+              initial={{ x: "-500px" }}
+              animate={{ x: "calc(100vw + 500px)" }}
+              transition={{
+                duration: 24,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 6,
+              }}
+              className="absolute hidden sm:block"
+              style={{ 
+                zIndex: 2, 
+                bottom: "-40px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+                <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={3.1} />
+              </div>
+            </motion.div>
+
+            {/* ТРЕТЬЯ МАШИНКА - стартует через 12 секунд */}
+            <motion.div
+              initial={{ x: "-500px" }}
+              animate={{ x: "calc(100vw + 500px)" }}
+              transition={{
+                duration: 24,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 12,
+              }}
+              className="absolute hidden sm:block"
+              style={{ 
+                zIndex: 1, 
+                bottom: "-47px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+                <TruckIcon type="trall" height="160px" bottomOffset="0px" />
+              </div>
+            </motion.div>
+
+            {/* ЧЕТВЁРТАЯ МАШИНКА - стартует через 18 секунд */}
+            <motion.div
+              initial={{ x: "-500px" }}
+              animate={{ x: "calc(100vw + 500px)" }}
+              transition={{
+                duration: 24,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 18,
+              }}
+              className="absolute hidden sm:block"
+              style={{ 
+                zIndex: 0, 
+                bottom: "-20px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+                <TruckIcon type="crane" height="100px" bottomOffset="0px" />
+              </div>
+            </motion.div>
+
+            {/* МОБИЛЬНАЯ ВЕРСИЯ */}
+            {/* Для 4 машин на мобилке: duration = 12 секунд, интервал = 3 секунды (12/4) */}
+
+            {/* Первая машина - мобилка */}
+            <motion.div
+              initial={{ x: "-400px" }}
+              animate={{ x: "calc(100vw + 400px)" }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 0,
+              }}
+              className="absolute block sm:hidden"
+              style={{ 
+                zIndex: 3, 
+                bottom: "-20px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+                <TruckIcon type="20t" height="103px" bottomOffset="0px" widthScale={1.4} />
+              </div>
+            </motion.div>
+
+            {/* Вторая машина - мобилка - стартует через 3 секунды */}
+            <motion.div
+              initial={{ x: "-400px" }}
+              animate={{ x: "calc(100vw + 400px)" }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 3,
+              }}
+              className="absolute block sm:hidden"
+              style={{ 
+                zIndex: 2, 
+                bottom: "-40px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
+                <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={2.05} />
+              </div>
+            </motion.div>
+
+            {/* Третья машина - мобилка - стартует через 6 секунд */}
+            <motion.div
+              initial={{ x: "-400px" }}
+              animate={{ x: "calc(100vw + 400px)" }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 6,
+              }}
+              className="absolute block sm:hidden"
+              style={{ 
+                zIndex: 1, 
+                bottom: "-40px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
+                <TruckIcon type="trall" height="150px" bottomOffset="0px" />
+              </div>
+            </motion.div>
+
+            {/* Четвёртая машина - мобилка - стартует через 9 секунд */}
+            <motion.div
+              initial={{ x: "-400px" }}
+              animate={{ x: "calc(100vw + 400px)" }}
+              transition={{
+                duration: 12,
+                repeat: Infinity,
+                ease: "linear",
+                delay: 9,
+              }}
+              className="absolute block sm:hidden"
+              style={{ 
+                zIndex: 0, 
+                bottom: "-20px",
+                left: 0
+              }}
+            >
+              <div className="relative">
+                <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
+                <TruckIcon type="crane" height="100px" bottomOffset="0px" />
+              </div>
+            </motion.div>
           </div>
-
-          {/* ПК версия - большие экраны */}
-
-          {/* ПЕРВАЯ МАШИНКА */}
-          <motion.div
-            initial={{ x: "-500px" }}
-            animate={{ x: "calc(100vw + 500px)" }}
-            transition={{
-              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 0,            // ← ПЕРВАЯ СТАРТУЕТ СРАЗУ
-            }}
-            className="absolute hidden sm:block"
-            style={{ 
-              zIndex: 3, 
-              bottom: "-25px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
-              <TruckIcon type="20t" height="115px" bottomOffset="0px" widthScale={1.4} />
-            </div>
-          </motion.div>
-
-          {/* ВТОРАЯ МАШИНКА */}
-          <motion.div
-            initial={{ x: "-500px" }}
-            animate={{ x: "calc(100vw + 500px)" }}
-            transition={{
-              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 8,            // ← СТАРТУЕТ НА 8 СЕКУНД ПОЗЖЕ
-            }}
-            className="absolute hidden sm:block"
-            style={{ 
-              zIndex: 2, 
-              bottom: "-40px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
-              <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={3.1} />
-            </div>
-          </motion.div>
-
-          {/* ТРЕТЬЯ МАШИНКА */}
-          <motion.div
-            initial={{ x: "-500px" }}
-            animate={{ x: "calc(100vw + 500px)" }}
-            transition={{
-              duration: 24,        // ← ОДИНАКОВАЯ СКОРОСТЬ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 16,           // ← СТАРТУЕТ НА 16 СЕКУНД ПОЗЖЕ
-            }}
-            className="absolute hidden sm:block"
-            style={{ 
-              zIndex: 1, 
-              bottom: "-47px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
-              <TruckIcon type="trall" height="160px" bottomOffset="0px" />
-            </div>
-          </motion.div>
-
-          {/* ЧЕТВЁРТАЯ МАШИНКА */}
-          <motion.div
-            initial={{ x: "-500px" }}
-            animate={{ x: "calc(100vw + 500px)" }}
-            transition={{
-              duration: 24,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 24,
-            }}
-            className="absolute hidden sm:block"
-            style={{ 
-              zIndex: 0, 
-              bottom: "-35px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
-              <TruckIcon type="crane" height="130px" bottomOffset="0px" />
-            </div>
-          </motion.div>
-
-          {/* МОБИЛЬНАЯ ВЕРСИЯ */}
-
-          {/* Первая машина - мобилка */}
-          <motion.div
-            initial={{ x: "-400px" }}
-            animate={{ x: "calc(100vw + 400px)" }}
-            transition={{
-              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 0,
-            }}
-            className="absolute block sm:hidden"
-            style={{ 
-              zIndex: 3, 
-              bottom: "-20px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
-              <TruckIcon type="20t" height="103px" bottomOffset="0px" widthScale={1.4} />
-            </div>
-          </motion.div>
-
-          {/* Вторая машина - мобилка */}
-          <motion.div
-            initial={{ x: "-400px" }}
-            animate={{ x: "calc(100vw + 400px)" }}
-            transition={{
-              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 4,
-            }}
-            className="absolute block sm:hidden"
-            style={{ 
-              zIndex: 2, 
-              bottom: "-40px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-2.5 bg-black/40 blur-sm rounded-full"></div>
-              <TruckIcon type="5t" height="130px" bottomOffset="0px" widthScale={2.05} />
-            </div>
-          </motion.div>
-
-          {/* Третья машина - мобилка */}
-          <motion.div
-            initial={{ x: "-400px" }}
-            animate={{ x: "calc(100vw + 400px)" }}
-            transition={{
-              duration: 12,        // ← ОДИНАКОВАЯ СКОРОСТЬ ДЛЯ МОБИЛКИ
-              repeat: Infinity,
-              ease: "linear",
-              delay: 8,
-            }}
-            className="absolute block sm:hidden"
-            style={{ 
-              zIndex: 1, 
-              bottom: "-40px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
-              <TruckIcon type="trall" height="150px" bottomOffset="0px" />
-            </div>
-          </motion.div>
-
-          {/* Четвёртая машина - мобилка */}
-          <motion.div
-            initial={{ x: "-400px" }}
-            animate={{ x: "calc(100vw + 400px)" }}
-            transition={{
-              duration: 12,
-              repeat: Infinity,
-              ease: "linear",
-              delay: 12,
-            }}
-            className="absolute block sm:hidden"
-            style={{ 
-              zIndex: 0, 
-              bottom: "-35px",
-              left: 0
-            }}
-          >
-            <div className="relative">
-              <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
-              <TruckIcon type="crane" height="120px" bottomOffset="0px" />
-            </div>
-          </motion.div>
-        </div>
         {" "}
 
       </footer>
