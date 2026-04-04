@@ -26,6 +26,7 @@ import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79
 import truckSmall from "@assets/truck_van.png";
 import truckMedium from "@assets/truck_orange.png";
 import truckLarge from "@assets/truck_flatbed.png";
+import truckCrane from "@assets/truck_crane.png";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -235,7 +236,7 @@ export default function Home() {
       },
       (error) => {
         console.error("Ошибка отправки EmailJS:", error);
-        alert("❌ Ошибка отправки. Позвоните нам +7 (900) 474-66-88");
+        alert("❌ Ошибка отправки. Позвоните нам +7 (901) 117-23-71");
       },
     )
     .finally(() => {
@@ -272,6 +273,7 @@ export default function Home() {
       "20t": truckSmall,
       "5t": truckMedium,
       trall: truckLarge,
+      crane: truckCrane,
     };
 
     const getHeight = () => {
@@ -375,11 +377,8 @@ export default function Home() {
             >
               Контакты
             </button>
-            <a
-              href="tel:+79004746688"
-              className="text-3xl font-extrabold text-[#f05a28]"
-            >
-              +7 (900) 474-66-88
+            <a href="tel:+79011172371" className="text-3xl font-extrabold text-[#f05a28]">
+              +7 (901) 117-23-71
             </a>
           </motion.div>
         )}
@@ -428,24 +427,18 @@ export default function Home() {
 
           <div className="flex items-center gap-4 md:gap-6">
             {/* Для телефонов - компактный номер */}
-            <a
-              href="tel:+79004746688"
-              className={`
-                  block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
-                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
-                `}
-            >
-              +7 (900) 474-66-88
+            <a href="tel:+79011172371" className={`
+                block sm:hidden text-sm font-black whitespace-nowrap transition-colors hover:text-[#f05a28]
+                ${scrolled ? "text-[#0b1a33]" : "text-white"}
+              `}>
+              +7 (901) 117-23-71
             </a>
             {/* Для ПК - обычный номер */}
-            <a
-              href="tel:+79004746688"
-              className={`
-                  hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
-                  ${scrolled ? "text-[#0b1a33]" : "text-white"}
-                `}
-            >
-              +7 (900) 474-66-88
+            <a href="tel:+79011172371" className={`
+                hidden sm:block text-lg md:text-xl font-black transition-colors hover:text-[#f05a28]
+                ${scrolled ? "text-[#0b1a33]" : "text-white"}
+              `}>
+              +7 (901) 117-23-71
             </a>
             <button
               onClick={() => setIsMenuOpen(true)}
@@ -686,22 +679,16 @@ export default function Home() {
       </section>
 
       {/* FORM SECTION */}
-      {/* ФОРМА - АДАПТИВ (ПК + ТЕЛЕФОН) */}
+      {/* ФОРМА - БЕЛЫЙ ФОН, ОРАНЖЕВАЯ РАМКА, ОРАНЖЕВЫЕ ПОЛЯ */}
       <section id="form" className="py-6 sm:py-8 md:py-10 px-2 sm:px-4 relative overflow-hidden">
-        {/* ФОН */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-900 to-purple-900"></div>
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/3 w-96 h-96 bg-orange-500 rounded-full blur-[120px] opacity-20"></div>
-          <div className="absolute bottom-0 right-1/3 w-80 h-80 bg-purple-500 rounded-full blur-[120px] opacity-20"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-amber-500 rounded-full blur-[100px] opacity-15"></div>
-        </div>
+        <div className="absolute inset-0 bg-white"></div>
 
-        {/* ОБЛОЖКА - на телефоне уже, но поля в строку */}
         <div className="relative z-10 flex justify-center">
           <div 
-            className="relative backdrop-blur-xl bg-white/10 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/20 overflow-hidden w-full sm:w-[500px] md:w-[500px] max-w-[500px]"
+            className="relative bg-white rounded-3xl shadow-xl overflow-hidden w-full sm:w-[500px] md:w-[500px] max-w-[500px]"
+            style={{ border: "2px solid #f05a28" }}
           >
-            <div className="h-1 sm:h-1.5 bg-gradient-to-r from-orange-500 via-amber-500 to-orange-500"></div>
+            <div className="h-2 bg-[#f05a28]"></div>
 
             <div className="p-3 sm:p-5">
               <motion.div
@@ -710,17 +697,17 @@ export default function Home() {
                 transition={{ duration: 0.4 }}
                 className="text-center mb-3 sm:mb-5"
               >
-                <h2 className="text-base sm:text-xl md:text-2xl font-bold text-white">РАССЧИТАТЬ СТОИМОСТЬ</h2>
-                <div className="w-8 sm:w-12 h-0.5 bg-orange-500 mx-auto rounded-full mt-1 sm:mt-2"></div>
-                <p className="text-white/60 text-[9px] sm:text-xs mt-1 sm:mt-2">Заполните форму — менеджер свяжется с вами</p>
+                <h2 className="text-base sm:text-xl md:text-2xl font-bold text-gray-800">РАССЧИТАТЬ СТОИМОСТЬ</h2>
+                <div className="w-8 sm:w-12 h-0.5 bg-[#f05a28] mx-auto rounded-full mt-1 sm:mt-2"></div>
+                <p className="text-gray-400 text-[9px] sm:text-xs mt-1 sm:mt-2">Заполните форму — менеджер свяжется с вами</p>
               </motion.div>
 
               <form onSubmit={handleFormSubmit} className="space-y-2 sm:space-y-3" ref={formRef}>
 
-                {/* Строка 1: Откуда + Куда - на телефоне тоже в строку */}
+                {/* Строка 1: Откуда + Куда */}
                 <div className="flex justify-center gap-1.5 sm:gap-3">
                   <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "from" || fieldValues.from ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "from" || fieldValues.from ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
                       Откуда
                     </label>
                     <input
@@ -730,11 +717,11 @@ export default function Home() {
                       onChange={(e) => handleFieldChange("from", e.target.value)}
                       onFocus={() => handleFieldFocus("from")}
                       onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "from" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "from" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                     />
                   </div>
                   <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "to" || fieldValues.to ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "to" || fieldValues.to ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
                       Куда
                     </label>
                     <input
@@ -744,49 +731,16 @@ export default function Home() {
                       onChange={(e) => handleFieldChange("to", e.target.value)}
                       onFocus={() => handleFieldFocus("to")}
                       onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "to" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "to" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                     />
                   </div>
                 </div>
 
-                {/* Строка 2: Наименование груза + Вес */}
+                {/* Строка 2: Дата готовности + Вес */}
                 <div className="flex justify-center gap-1.5 sm:gap-3">
                   <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "cargoName" || fieldValues.cargoName ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
-                      Груз
-                    </label>
-                    <input
-                      type="text"
-                      name="cargo_type"
-                      value={fieldValues.cargoName}
-                      onChange={(e) => handleFieldChange("cargoName", e.target.value)}
-                      onFocus={() => handleFieldFocus("cargoName")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "cargoName" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
-                    />
-                  </div>
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
-                      Вес(кг)
-                    </label>
-                    <input
-                      type="text"
-                      name="weight"
-                      value={fieldValues.weight}
-                      onChange={(e) => handleFieldChange("weight", e.target.value)}
-                      onFocus={() => handleFieldFocus("weight")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "weight" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
-                    />
-                  </div>
-                </div>
-
-                {/* Строка 3: Дата + Габариты */}
-                <div className="flex justify-center gap-1.5 sm:gap-3">
-                  {/* ДАТА */}
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
-                      Дата
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Дата готовности
                     </label>
                     <input
                       type="text"
@@ -796,7 +750,39 @@ export default function Home() {
                       onChange={(e) => handleFieldChange("readyDate", e.target.value)}
                       onFocus={() => handleFieldFocus("readyDate")}
                       onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "readyDate" || fieldValues.readyDate ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "readyDate" || fieldValues.readyDate ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                    />
+                  </div>
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Вес (кг)
+                    </label>
+                    <input
+                      type="text"
+                      name="weight"
+                      value={fieldValues.weight}
+                      onChange={(e) => handleFieldChange("weight", e.target.value)}
+                      onFocus={() => handleFieldFocus("weight")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "weight" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                    />
+                  </div>
+                </div>
+
+                {/* Строка 3: Наименование груза + Габариты */}
+                <div className="flex justify-center gap-1.5 sm:gap-3">
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "cargoName" || fieldValues.cargoName ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Наименование груза
+                    </label>
+                    <input
+                      type="text"
+                      name="cargo_type"
+                      value={fieldValues.cargoName}
+                      onChange={(e) => handleFieldChange("cargoName", e.target.value)}
+                      onFocus={() => handleFieldFocus("cargoName")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "cargoName" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                     />
                   </div>
 
@@ -804,7 +790,7 @@ export default function Home() {
                   <div className="flex-1 sm:w-[210px] sm:flex-none">
                     <div className="flex gap-1 sm:gap-2">
                       <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "length" || fieldValues.length ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "length" || fieldValues.length ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
                           Длина(см)
                         </label>
                         <input
@@ -815,11 +801,11 @@ export default function Home() {
                           onChange={(e) => handleFieldChange("length", e.target.value)}
                           onFocus={() => handleFieldFocus("length")}
                           onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "length" || fieldValues.length ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "length" || fieldValues.length ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                         />
                       </div>
                       <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "width" || fieldValues.width ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "width" || fieldValues.width ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
                           Ширина(см)
                         </label>
                         <input
@@ -830,11 +816,11 @@ export default function Home() {
                           onChange={(e) => handleFieldChange("width", e.target.value)}
                           onFocus={() => handleFieldFocus("width")}
                           onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "width" || fieldValues.width ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "width" || fieldValues.width ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                         />
                       </div>
                       <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "height" || fieldValues.height ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-white/50 text-[6px] sm:text-[9px]"}`}>
+                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "height" || fieldValues.height ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
                           Высота(см)
                         </label>
                         <input
@@ -845,7 +831,7 @@ export default function Home() {
                           onChange={(e) => handleFieldChange("height", e.target.value)}
                           onFocus={() => handleFieldFocus("height")}
                           onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/40 ${focusedField === "height" || fieldValues.height ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20"}`}
+                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "height" || fieldValues.height ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                         />
                       </div>
                     </div>
@@ -853,14 +839,14 @@ export default function Home() {
                 </div>
 
                 {/* Разделитель */}
-                <div className="border-t border-white/10 pt-2">
-                  <h3 className="text-[8px] sm:text-xs font-semibold text-orange-400 mb-1 sm:mb-2 uppercase tracking-wider text-center">Ваши данные</h3>
+                <div className="border-t border-gray-200 pt-2">
+                  <h3 className="text-[8px] sm:text-xs font-semibold text-[#f05a28] mb-1 sm:mb-2 uppercase tracking-wider text-center">Ваши данные</h3>
 
                   {/* Имя + Email */}
                   <div className="flex justify-center gap-1.5 sm:gap-3 mb-1 sm:mb-2">
                     <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "name" || fieldValues.name ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
-                        Имя <span className="text-orange-300">*</span>
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "name" || fieldValues.name ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                        Имя <span className="text-[#f05a28]">*</span>
                       </label>
                       <input
                         type="text"
@@ -870,11 +856,11 @@ export default function Home() {
                         onChange={(e) => handleFieldChange("name", e.target.value)}
                         onFocus={() => handleFieldFocus("name")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "name" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "name" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
                     <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
                         Email
                       </label>
                       <input
@@ -884,7 +870,7 @@ export default function Home() {
                         onChange={(e) => handleFieldChange("email", e.target.value)}
                         onFocus={() => handleFieldFocus("email")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "email" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "email" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
                   </div>
@@ -892,8 +878,8 @@ export default function Home() {
                   {/* Телефон */}
                   <div className="flex justify-center">
                     <div className="relative w-full sm:w-[432px]">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "phone" || fieldValues.phone ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-white/60 text-[9px] sm:text-sm"}`}>
-                        Телефон <span className="text-orange-300">*</span>
+                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "phone" || fieldValues.phone ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                        Телефон <span className="text-[#f05a28]">*</span>
                       </label>
                       <input
                         type="tel"
@@ -903,7 +889,7 @@ export default function Home() {
                         onChange={(e) => handleFieldChange("phone", e.target.value)}
                         onFocus={() => handleFieldFocus("phone")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white placeholder:text-white/30 ${focusedField === "phone" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "phone" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
                   </div>
@@ -912,7 +898,7 @@ export default function Home() {
                 {/* Комментарий */}
                 <div className="flex justify-center">
                   <div className="relative w-full sm:w-[432px]">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "comment" || fieldValues.comment ? "top-0 -translate-y-1/2 bg-orange-500 text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-2 sm:top-3 text-white/60 text-[9px] sm:text-sm"}`}>
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "comment" || fieldValues.comment ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-2 sm:top-3 text-gray-400 text-[9px] sm:text-sm"}`}>
                       Комментарий
                     </label>
                     <textarea
@@ -922,7 +908,7 @@ export default function Home() {
                       onChange={(e) => handleFieldChange("comment", e.target.value)}
                       onFocus={() => handleFieldFocus("comment")}
                       onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 pt-3 sm:pt-4 pb-1 sm:pb-2 text-xs sm:text-sm rounded-lg sm:rounded-xl border transition-all outline-none bg-white/20 backdrop-blur-sm text-white resize-none ${focusedField === "comment" ? "border-orange-400 ring-1 sm:ring-2 ring-orange-400/30" : "border-white/20 hover:border-orange-400/50"}`}
+                      className={`w-full px-2 sm:px-3 pt-3 sm:pt-4 pb-1 sm:pb-2 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 resize-none ${focusedField === "comment" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                     ></textarea>
                   </div>
                 </div>
@@ -931,13 +917,14 @@ export default function Home() {
                 <div className="flex justify-center pt-1 sm:pt-2">
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-bold py-2 sm:py-2.5 px-4 sm:px-8 rounded-lg sm:rounded-xl transition-all shadow-lg hover:shadow-xl text-[11px] sm:text-sm uppercase tracking-wide w-full sm:w-[280px]"
+                    className="bg-[#f05a28] hover:bg-[#d44a1d] text-white font-extrabold py-3 sm:py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-sm sm:text-base uppercase tracking-wide w-full sm:w-[280px]"
+                    style={{ fontWeight: 900 }}
                   >
-                    Хочу узнать цену
+                    Рассчитать стоимость
                   </button>
                 </div>
 
-                <p className="text-center text-white/40 text-[7px] sm:text-[9px] mt-1 sm:mt-2">
+                <p className="text-center text-gray-400 text-[7px] sm:text-[9px] mt-1 sm:mt-2">
                   Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
                 </p>
               </form>
@@ -995,12 +982,12 @@ export default function Home() {
                   sub: "ООО «АЛМИК»",
                   icon: "building",
                 },
-                {
-                  label: "Связь",
-                  val: "+7 (900) 474-66-88",
-                  sub: "almik.ks@yandex.ru",
-                  icon: "phone-alt",
-                },
+        {
+          label: "Связь",
+          val: "+7 (901) 117-23-71",
+          sub: "almik.ks@yandex.ru",
+          icon: "phone-alt",
+        }
               ].map((c, i) => (
               <motion.div key={i} {...fadeInUp} className="text-center group">
                 <div className="w-16 h-16 md:w-20 md:h-20 bg-slate-50 text-[#f05a28] rounded-2xl md:rounded-[2rem] flex items-center justify-center text-2xl md:text-3xl mx-auto mb-4 md:mb-6 group-hover:bg-[#f05a28] group-hover:text-white transition-all">
@@ -1059,10 +1046,10 @@ export default function Home() {
                 </h4>
                 <div className="space-y-3 md:space-y-4">
                   <a
-                    href="tel:+79004746688"
+                    href="tel:+79011172371"
                     className="text-xl md:text-2xl font-black text-white block hover:text-[#f05a28] transition-colors leading-relaxed"
                   >
-                    +7 (900) 474-66-88
+                    +7 (901) 117-23-71
                   </a>
                   <a
                     href="mailto:almik.ks@yandex.ru"
@@ -1176,6 +1163,29 @@ export default function Home() {
             </div>
           </motion.div>
 
+          {/* ЧЕТВЁРТАЯ МАШИНКА */}
+          <motion.div
+            initial={{ x: "-500px" }}
+            animate={{ x: "calc(100vw + 500px)" }}
+            transition={{
+              duration: 24,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 24,
+            }}
+            className="absolute hidden sm:block"
+            style={{ 
+              zIndex: 0, 
+              bottom: "-35px",
+              left: 0
+            }}
+          >
+            <div className="relative">
+              <div className="absolute -bottom-1 left-5 right-5 h-3 bg-black/50 blur-md rounded-full"></div>
+              <TruckIcon type="crane" height="130px" bottomOffset="0px" />
+            </div>
+          </motion.div>
+
           {/* МОБИЛЬНАЯ ВЕРСИЯ */}
 
           {/* Первая машина - мобилка */}
@@ -1244,6 +1254,29 @@ export default function Home() {
             <div className="relative">
               <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
               <TruckIcon type="trall" height="150px" bottomOffset="0px" />
+            </div>
+          </motion.div>
+
+          {/* Четвёртая машина - мобилка */}
+          <motion.div
+            initial={{ x: "-400px" }}
+            animate={{ x: "calc(100vw + 400px)" }}
+            transition={{
+              duration: 12,
+              repeat: Infinity,
+              ease: "linear",
+              delay: 12,
+            }}
+            className="absolute block sm:hidden"
+            style={{ 
+              zIndex: 0, 
+              bottom: "-35px",
+              left: 0
+            }}
+          >
+            <div className="relative">
+              <div className="absolute -bottom-1 left-5 right-5 h-2 bg-black/40 blur-sm rounded-full"></div>
+              <TruckIcon type="crane" height="120px" bottomOffset="0px" />
             </div>
           </motion.div>
         </div>
