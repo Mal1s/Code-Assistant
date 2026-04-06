@@ -75,13 +75,13 @@ export default function Home() {
       // Размеры логотипов (высота)
       let logoSize = "";
 
-      switch (partnerName) {
-        case "Ozon":
-          logoSize = "max-h-16 md:max-h-20"; // ВЕРНУЛ КАК БЫЛО
-          break;
-        case "Wildberries":
-          logoSize = "max-h-20 md:max-h-20"; // Wildberries без изменений
-          break;
+          switch (partnerName) {
+            case "Ozon":
+              logoSize = "max-h-14 md:max-h-16";  // было max-h-10 md:max-h-12
+              break;
+              case "Wildberries":
+              logoSize = "max-h-18 md:max-h-22";
+              break;
         case "ТехноНИКОЛЬ":
           logoSize = "max-h-14 md:max-h-16";
           break;
