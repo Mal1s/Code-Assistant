@@ -5,7 +5,7 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import thirdIcon from "@assets/photo_2026.jpg";
 import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.png";
-import logoOzon from "@assets/1200x630wa_1772480091883.png";
+import logoOzon from "@assets/logo_ozon_new.png";
 import logoTvz from "@assets/ТВЗ_1772480095190.png";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
@@ -144,7 +144,7 @@ export default function Home() {
             src={logoUrl}
             alt={partnerName}
             className={`${logoSize} max-w-full object-contain transition-all duration-300`}
-            style={partnerName === "Ozon" ? { background: "#fff", borderRadius: 6, padding: 4 } : {}}
+            style={{}}
           />
 
           {/* Подсказка при клике (телефон) */}
@@ -185,10 +185,14 @@ export default function Home() {
     setIsMenuOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-        inline: "nearest",
+      const header = document.querySelector('header');
+      const headerHeight = header?.offsetHeight || 80;
+      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - headerHeight - 20;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
       });
       if (navigator.vibrate) navigator.vibrate(10);
     }
@@ -410,9 +414,9 @@ export default function Home() {
               { id: "hero", label: "Главная" },
               { id: "about", label: "О компании" },
               { id: "services", label: "Услуги" },
-              
-              { id: "partners", label: "Партнеры" },
-              { id: "form", label: "Заявка" }, // Добавлено!
+
+              { id: "form", label: "Заявка" },     // ← Заявка теперь первая
+              { id: "partners", label: "Партнеры" }, // ← Партнеры после заявки
               { id: "contacts", label: "Контакты" },
             ].map((item) => (
               <button
@@ -1063,7 +1067,7 @@ export default function Home() {
 
             {/* Нижняя строка */}
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-slate-600 font-bold tracking-widest text-[10px] md:text-sm uppercase text-center">
-              <span>© {new Date().getFullYear()} ООО «АЛМИК»</span>
+              <span>© ООО «АЛМИК»</span>
               <span>Грузоперевозки по России</span>
             </div>
           </div>
