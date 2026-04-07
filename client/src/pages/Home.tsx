@@ -18,7 +18,7 @@ import imgNewPhoto from "@assets/newPhoto.jpg";
 import logoSalair from "@assets/888580_1772480120316.png";
 import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 import truckIcon1 from "@assets/black-silhouette-truck-logo-icon-car-cargo-cabin-vector-illustration-truck-vector_769314-4443.jpg";
-import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
+import imgHero from "@assets/photo_2026-04-07_11-40-49_1775551266139.jpg";
 import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
@@ -398,11 +398,11 @@ export default function Home() {
             className="flex items-center gap-2 md:gap-3 cursor-pointer"
             onClick={() => scrollTo("hero")}
           >
-            <img
-              src={logoAlmikIcon}
-              alt="АЛМИК"
-              className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-lg"
-            />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center shadow-xl shadow-[#f05a28]/20">
+              <span className="text-white font-black text-xl md:text-2xl">
+                A
+              </span>
+            </div>
             <span
               className={`text-2xl md:text-3xl font-black tracking-tighter ${scrolled ? "text-[#0b1a33]" : "text-white"}`}
             >
