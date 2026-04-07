@@ -8,6 +8,7 @@ import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.
 import logoOzon from "@assets/logo_ozon_new.png";
 import logoTvz from "@assets/ТВЗ_1772480095190.png";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
+import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
 
 import logoUvmStal from "@assets/____________1772480110697.png";
@@ -18,7 +19,6 @@ import imgNewPhoto from "@assets/newPhoto.jpg";
 import logoSalair from "@assets/888580_1772480120316.png";
 import logoSvetofor from "@assets/Svetofor-logo_1772480123422.png";
 import truckIcon1 from "@assets/black-silhouette-truck-logo-icon-car-cargo-cabin-vector-illustration-truck-vector_769314-4443.jpg";
-import imgHero from "@assets/photo_2026-04-07_11-40-49_1775551266139.jpg";
 import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
