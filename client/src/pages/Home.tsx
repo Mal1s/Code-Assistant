@@ -8,9 +8,9 @@ import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.
 import logoOzon from "@assets/logo_ozon_new.png";
 import logoTvz from "@assets/ТВЗ_1772480095190.png";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
-import imgHero from "@assets/photo_2026-04-07_11-40-49_1775551266139.jpg";
-import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
 
+import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
+import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
 import logoUvmStal from "@assets/____________1772480110697.png";
 import logoWb from "@assets/1irjwkgp3m2z5rszv972wbwxjhjjl2kx_1772480113923.png";
 import logoMelkom from "@assets/tild3031-6237-4533-b534-613333326531__photo_1772480116794.png";
