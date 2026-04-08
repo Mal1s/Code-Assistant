@@ -401,7 +401,7 @@ export default function Home() {
             <img
               src={logoAlmikIcon}
               alt="АЛМИК"
-              className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-lg"
+              className="w-14 h-14 md:w-16 md:h-16 object-contain drop-shadow-lg"
             />
             <span
               className={`text-2xl md:text-3xl font-black tracking-tighter ${scrolled ? "text-[#0b1a33]" : "text-white"}`}
