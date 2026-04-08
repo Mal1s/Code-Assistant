@@ -23,7 +23,7 @@ import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import logoAlmikIcon from "@assets/almik_logo_icon.png";
+import logoAlmikIcon from "@assets/almik_a_icon.png";
 import truckSmall from "@assets/truck_van.png";
 import truckMedium from "@assets/truck_orange.png";
 import truckLarge from "@assets/truck_flatbed.png";
@@ -398,11 +398,11 @@ export default function Home() {
             className="flex items-center gap-2 md:gap-3 cursor-pointer"
             onClick={() => scrollTo("hero")}
           >
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center shadow-xl shadow-[#f05a28]/20">
-              <span className="text-white font-black text-xl md:text-2xl">
-                A
-              </span>
-            </div>
+            <img
+              src={logoAlmikIcon}
+              alt="АЛМИК"
+              className="w-10 h-10 md:w-12 md:h-12 object-contain drop-shadow-lg"
+            />
             <span
               className={`text-2xl md:text-3xl font-black tracking-tighter ${scrolled ? "text-[#0b1a33]" : "text-white"}`}
             >
