@@ -1021,9 +1021,11 @@ export default function Home() {
               {/* Левая колонка - Логотип */}
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
-                  <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl md:rounded-2xl flex items-center justify-center">
-                    <span className="text-white font-black text-2xl md:text-3xl">A</span>
-                  </div>
+                  <img
+                    src={logoAlmikIcon}
+                    alt="АЛМИК"
+                    className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-xl"
+                  />
                   <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">АЛМИК</span>
                 </div>
                 <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mx-auto lg:mx-0 font-bold">
