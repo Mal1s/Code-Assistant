@@ -23,7 +23,6 @@ import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import logoAlmikIcon from "@assets/almik_a_icon.png";
 import truckSmall from "@assets/truck_van.png";
 import truckMedium from "@assets/truck_orange.png";
 import truckLarge from "@assets/truck_flatbed.png";
@@ -398,11 +397,9 @@ export default function Home() {
             className="flex items-center gap-2 md:gap-3 cursor-pointer"
             onClick={() => scrollTo("hero")}
           >
-            <img
-              src={logoAlmikIcon}
-              alt="АЛМИК"
-              className="w-16 h-16 md:w-20 md:h-20 object-contain drop-shadow-xl"
-            />
+            <div className="w-10 h-10 md:w-12 md:h-12 bg-[#f05a28] rounded-lg flex items-center justify-center shadow-md">
+              <span className="text-white text-xl md:text-2xl font-black">А</span>
+            </div>
             <span
               className={`text-2xl md:text-3xl font-black tracking-tighter ${scrolled ? "text-[#0b1a33]" : "text-white"}`}
             >
@@ -1021,11 +1018,9 @@ export default function Home() {
               {/* Левая колонка - Логотип */}
               <div className="text-center lg:text-left">
                 <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
-                  <img
-                    src={logoAlmikIcon}
-                    alt="АЛМИК"
-                    className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-xl"
-                  />
+                  <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl flex items-center justify-center shadow-xl">
+                    <span className="text-white text-2xl md:text-3xl font-black">А</span>
+                  </div>
                   <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">АЛМИК</span>
                 </div>
                 <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mx-auto lg:mx-0 font-bold">
