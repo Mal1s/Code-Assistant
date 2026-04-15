@@ -1031,7 +1031,7 @@ export default function Home() {
 
               {/* Средняя колонка - Реквизиты */}
               <div className="text-center lg:text-left">
-                <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-10 mt-4 md:mt-6">
+                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-13 mt-4 md:mt-4 ">
                   Реквизиты
                 </h4>
                 <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base">
@@ -1043,7 +1043,7 @@ export default function Home() {
 
               {/* Правая колонка - Контакты */}
               <div className="text-center lg:text-left">
-                <h4 className="text-white text-lg md:text-xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-10 mt-4 md:mt-6">
+                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-13 mt-4 md:mt-4">
                   Контакты
                 </h4>
                 <div className="space-y-3 md:space-y-4">
