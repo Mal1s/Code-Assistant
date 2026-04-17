@@ -188,7 +188,7 @@ export default function Home() {
       const header = document.querySelector('header');
       const headerHeight = header?.offsetHeight || 80;
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      const offsetPosition = elementPosition - headerHeight - 20;
+      const offsetPosition = elementPosition - headerHeight; // ← УБРАЛ -20
 
       window.scrollTo({
         top: offsetPosition,
@@ -1013,53 +1013,55 @@ export default function Home() {
         {/* FOOTER */}
         <footer className="bg-slate-950 pt-16 md:pt-24 pb-24 md:pb-32 overflow-hidden relative">
           <div className="container mx-auto px-6 relative z-10">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-20 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16 mb-12 md:mb-20 border-b border-slate-900 pb-12 md:pb-20">
 
               {/* Левая колонка - Логотип */}
-              <div className="text-center lg:text-left">
-                <div className="flex items-center justify-center lg:justify-start gap-3 mb-6 md:mb-10">
+              {/* Левая колонка - Логотип */}
+              <div className="flex flex-col items-center lg:pl-8">
+                <div className="flex items-center justify-center gap-3 mb-6 md:mb-10">
                   <div className="w-12 h-12 md:w-16 md:h-16 bg-[#f05a28] rounded-xl flex items-center justify-center shadow-xl">
                     <span className="text-white text-2xl md:text-3xl font-black">А</span>
                   </div>
                   <span className="text-3xl md:text-5xl font-black tracking-tighter text-white">АЛМИК</span>
                 </div>
-                <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md mx-auto lg:mx-0 font-bold">
+                <p className="text-slate-500 text-lg md:text-xl leading-relaxed max-w-md font-bold text-center">
                   Надежная логистика для вашего бизнеса.<br />
                   Работаем на результат, ценим Ваше время.
                 </p>
               </div>
 
               {/* Средняя колонка - Реквизиты */}
-              <div className="text-center lg:text-left">
-                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-13 mt-4 md:mt-4 ">
+              <div className="flex flex-col items-center lg:pl-4">
+                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-14 mt-4 md:mt-3">
                   Реквизиты
                 </h4>
-                <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base">
-                  <li className="leading-relaxed">ИНН: 6900000798</li>
-                  <li className="leading-relaxed">ОГРН: 1236900010380</li>
-                  <li className="leading-relaxed">ООО «АЛМИК»</li>
+                <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base text-left mx-auto">
+                  <li>ИНН: 6900000798</li>
+                  <li>ОГРН: 1236900010380</li>
+                  <li>ООО «АЛМИК»</li>
                 </ul>
               </div>
 
               {/* Правая колонка - Контакты */}
-              <div className="text-center lg:text-left">
-                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-13 mt-4 md:mt-4">
-                  Контакты
-                </h4>
-                <div className="space-y-3 md:space-y-4">
-                  <a
-                    href="tel:+79011172371"
-                    className="text-xl md:text-2xl font-black text-white block hover:text-[#f05a28] transition-colors leading-relaxed"
-                  >
-                    +7 (901) 117-23-71
-                  </a>
-                  <a
-                    href="mailto:almik.ks@yandex.ru"
-                    className="text-base md:text-lg font-bold text-slate-500 block hover:text-[#f05a28] transition-colors leading-relaxed"
-                  >
-                    almik.ks@yandex.ru
-                  </a>
-                </div>
+                <div className="flex flex-col items-center lg:pr-19">
+                  <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] pb-2 mb-6 md:mb-13 mt-4 md:mt-3 text-center">
+                    Контакты
+                  </h4>
+                  <div className="space-y-3 md:space-y-4 text-center">
+                    <a
+                      href="tel:+79011172371"
+                      className="text-xl md:text-2xl font-black text-white block hover:text-[#f05a28] transition-colors"
+                    >
+                      +7 (901) 117-23-71
+                    </a>
+                    <a
+                      href="mailto:almik.ks@yandex.ru"
+                      className="text-base md:text-lg font-bold text-slate-500 block hover:text-[#f05a28] transition-colors"
+                    >
+                      almik.ks@yandex.ru
+                    </a>
+                  </div>
+                
               </div>
             </div>
 
