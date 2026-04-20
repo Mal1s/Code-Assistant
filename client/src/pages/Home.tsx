@@ -1032,7 +1032,7 @@ export default function Home() {
 
               {/* Средняя колонка - Реквизиты */}
               <div className="flex flex-col items-center lg:pl-4">
-                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-14 mt-4 md:mt-3">
+                <h4 className="text-white text-lg md:text-2xl font-black uppercase tracking-widest border-b-2 border-[#f05a28] inline-block pb-2 mb-6 md:mb-15 mt-4 md:mt-2">
                   Реквизиты
                 </h4>
                 <ul className="space-y-3 md:space-y-4 text-slate-400 font-bold text-sm md:text-base text-left mx-auto">
