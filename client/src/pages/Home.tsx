@@ -40,11 +40,12 @@ export default function Home() {
   const [showSuccess, setShowSuccess] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activePartner, setActivePartner] = useState<string | null>(null); // ← ДОБАВЬ ЭТУ СТРОКУ
+  const [formError, setFormError] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null); //
   const [focusedField, setFocusedField] = useState<string | null>(null);
   const [fieldValues, setFieldValues] = useState({
     from: "",
-     to: "",   
+    to: "",
     cargoName: "",
     readyDate: "",
     length: "",
@@ -209,49 +210,117 @@ export default function Home() {
     setFocusedField(null);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+    const handleFormSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
 
-    const submitBtn = (e.target as HTMLFormElement).querySelector(
-      'button[type="submit"]',
-    );
-    const originalText = submitBtn?.innerHTML;
-    if (submitBtn) {
-      submitBtn.innerHTML = "⏳ Отправка...";
-      submitBtn.setAttribute("disabled", "true");
-    }
-
-    // Собираем данные из формы
-    const formData = new FormData(e.target as HTMLFormElement);
-    const data = Object.fromEntries(formData.entries());
-
-    // 1. Отправка в EmailJS (письмо менеджеру)
-    emailjs.sendForm(
-      'service_7pkg0hu',
-      'template_q692thu',
-      e.target as HTMLFormElement,
-      'NtVl5WnbuBxR_EQNl'
-    )
-    .then(
-      () => {
-        setShowSuccess(true);
-        (e.target as HTMLFormElement).reset();
-        setTimeout(() => setShowSuccess(false), 4000);
-      },
-      (error) => {
-        console.error("Ошибка отправки EmailJS:", error);
-        alert("❌ Ошибка отправки. Позвоните нам +7 (901) 117-23-71");
-      },
-    )
-    .finally(() => {
-      if (submitBtn) {
-        submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
-        submitBtn.removeAttribute("disabled");
+      // ПРОВЕРКА ТЕЛЕФОНА
+      const phoneDigits = fieldValues.phone.replace(/\D/g, '');
+      if (!phoneDigits) {
+        alert('Пожалуйста, укажите номер телефона');
+        return;
       }
-    });
+      if (phoneDigits.length !== 11) {
+        alert('Номер телефона должен содержать 11 цифр');
+        return;
+      }
+
+      // ПРОВЕРКА EMAIL
+      if (fieldValues.email) {
+        const email = fieldValues.email;
+        let errorMsg = '';
+
+        if (!email.includes('@')) errorMsg = 'Email должен содержать символ @';
+        else if (email.startsWith('@')) errorMsg = 'Email не может начинаться с @';
+        else if (email.endsWith('@')) errorMsg = 'Email не может заканчиваться на @';
+        else if (email.split('@').length !== 2) errorMsg = 'В email должен быть только один символ @';
+        else if (!email.split('@')[0]) errorMsg = 'Укажите имя пользователя перед @';
+        else if (!email.split('@')[1]?.includes('.')) errorMsg = 'Домен должен содержать точку';
+        else if ((email.split('@')[1] || '').length < 3) errorMsg = 'Домен слишком короткий';
+        else if ((email.split('@')[1] || '').startsWith('.') || (email.split('@')[1] || '').endsWith('.')) errorMsg = 'Домен не может начинаться или заканчиваться точкой';
+        else if ((email.split('@')[1] || '').split('.').length < 2) errorMsg = 'Укажите доменную зону (.ru, .com)';
+        else if (((email.split('@')[1] || '').split('.').pop() || '').length < 2) errorMsg = 'Зона домена должна быть не менее 2 символов';
+        else if (/[а-яА-Я]/.test(email)) errorMsg = 'Email должен быть на английском языке';
+        else if (email.includes('..')) errorMsg = 'Две точки подряд недопустимы';
+        else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errorMsg = 'Недопустимые символы в email';
+
+        if (errorMsg) {
+          setFormError('❌ ' + errorMsg);
+          return;
+        }
+      }
+
+      // ПРОВЕРКА ДАТЫ
+      if (fieldValues.readyDate) {
+        const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
+        if (!dateRegex.test(fieldValues.readyDate)) {
+          alert('Пожалуйста, введите дату в формате ДД.ММ.ГГГГ');
+          return;
+        }
+        const parts = fieldValues.readyDate.split('.');
+        const day = parseInt(parts[0]);
+        const month = parseInt(parts[1]);
+        const year = parseInt(parts[2]);
+
+        if (day < 1 || day > 31 || month < 1 || month > 12 || year < 2024) {
+          alert('Пожалуйста, введите корректную дату');
+          return;
+        }
+      }
+
+      const submitBtn = (e.target as HTMLFormElement).querySelector(
+        'button[type="submit"]',
+      );
+      const originalText = submitBtn?.innerHTML;
+      if (submitBtn) {
+        submitBtn.innerHTML = "⏳ Отправка...";
+        submitBtn.setAttribute("disabled", "true");
+      }
+
+      const formData = new FormData(e.target as HTMLFormElement);
+      const data = Object.fromEntries(formData.entries());
+
+      emailjs.sendForm(
+        'service_7pkg0hu',
+        'template_q692thu',
+        e.target as HTMLFormElement,
+        'NtVl5WnbuBxR_EQNl'
+      )
+      .then(
+        () => {
+          setShowSuccess(true);
+          setFormError(null);
+          (e.target as HTMLFormElement).reset();
+          setFieldValues({
+            from: "",
+            to: "",
+            cargoName: "",
+            readyDate: "",
+            length: "",
+            width: "",
+            height: "",
+            weight: "",
+            name: "",
+            email: "",
+            phone: "",
+            comment: ""
+          });
+          setTimeout(() => setShowSuccess(false), 4000);
+        },
+        (error) => {
+          console.error("Ошибка отправки EmailJS:", error);
+          alert("❌ Ошибка отправки. Позвоните нам +7 (901) 117-23-71");
+        },
+      )
+      .finally(() => {
+        if (submitBtn) {
+          submitBtn.innerHTML = originalText || "✉️ Отправить заявку";
+          submitBtn.removeAttribute("disabled");
+        }
+      });
+    };
 
 
-  };
+  
 
   const partners = [
     "Русский Свет",
@@ -680,260 +749,375 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FORM SECTION */}
-      {/* ФОРМА - БЕЛЫЙ ФОН, ОРАНЖЕВАЯ РАМКА, ОРАНЖЕВЫЕ ПОЛЯ */}
-      <section id="form" className="py-6 sm:py-8 md:py-10 px-2 sm:px-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-white"></div>
+    {/* FORM SECTION */}
+    <section id="form" className="py-6 sm:py-8 md:py-10 px-2 sm:px-4 relative overflow-hidden">
+      <div className="absolute inset-0 bg-white"></div>
 
-        <div className="relative z-10 flex justify-center">
-          <div 
-            className="relative bg-white rounded-3xl shadow-xl overflow-hidden w-full sm:w-[500px] md:w-[500px] max-w-[500px]"
-            style={{ border: "2px solid #f05a28" }}
-          >
-            <div className="h-2 bg-[#f05a28]"></div>
+      <div className="relative z-10 flex justify-center">
+        <div 
+          className="relative bg-white rounded-3xl shadow-xl overflow-hidden w-full sm:w-[500px] md:w-[500px] max-w-[500px]"
+          style={{ border: "2px solid #f05a28" }}
+        >
+          <div className="h-2 bg-[#f05a28]"></div>
 
-            <div className="p-3 sm:p-5">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="text-center mb-3 sm:mb-5"
-              >
-                <h2 className="text-base sm:text-xl md:text-2xl font-bold text-gray-800">РАССЧИТАТЬ СТОИМОСТЬ</h2>
-                <div className="w-8 sm:w-12 h-0.5 bg-[#f05a28] mx-auto rounded-full mt-1 sm:mt-2"></div>
-                <p className="text-gray-400 text-[9px] sm:text-xs mt-1 sm:mt-2">Заполните форму — менеджер свяжется с вами</p>
-              </motion.div>
+          <div className="p-3 sm:p-5">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="text-center mb-3 sm:mb-5"
+            >
+              <h2 className="text-base sm:text-xl md:text-2xl font-bold text-gray-800">РАССЧИТАТЬ СТОИМОСТЬ</h2>
+              <div className="w-8 sm:w-12 h-0.5 bg-[#f05a28] mx-auto rounded-full mt-1 sm:mt-2"></div>
+              <p className="text-gray-400 text-[9px] sm:text-xs mt-1 sm:mt-2">Заполните форму — менеджер свяжется с вами</p>
+            </motion.div>
 
-              <form onSubmit={handleFormSubmit} className="space-y-2 sm:space-y-3" ref={formRef}>
+            <form onSubmit={handleFormSubmit} className="space-y-2 sm:space-y-3" ref={formRef}>
 
-                {/* Строка 1: Откуда + Куда */}
-                <div className="flex justify-center gap-1.5 sm:gap-3">
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "from" || fieldValues.from ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Откуда
-                    </label>
-                    <input
-                      type="text"
-                      name="from_city"
-                      value={fieldValues.from}
-                      onChange={(e) => handleFieldChange("from", e.target.value)}
-                      onFocus={() => handleFieldFocus("from")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "from" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    />
-                  </div>
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "to" || fieldValues.to ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Куда
-                    </label>
-                    <input
-                      type="text"
-                      name="to_city"
-                      value={fieldValues.to}
-                      onChange={(e) => handleFieldChange("to", e.target.value)}
-                      onFocus={() => handleFieldFocus("to")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "to" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    />
-                  </div>
+              {/* Строка 1: Откуда + Куда */}
+              <div className="flex justify-center gap-1.5 sm:gap-3">
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "from" || fieldValues.from ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Откуда
+                  </label>
+                  <input
+                    type="text"
+                    name="from_city"
+                    value={fieldValues.from}
+                    onChange={(e) => handleFieldChange("from", e.target.value)}
+                    onFocus={() => handleFieldFocus("from")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "from" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  />
+                </div>
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "to" || fieldValues.to ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Куда
+                  </label>
+                  <input
+                    type="text"
+                    name="to_city"
+                    value={fieldValues.to}
+                    onChange={(e) => handleFieldChange("to", e.target.value)}
+                    onFocus={() => handleFieldFocus("to")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "to" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  />
+                </div>
+              </div>
+
+              {/* Строка 2: Дата готовности + Вес */}
+              <div className="flex justify-center gap-1.5 sm:gap-3">
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Дата готовности
+                  </label>
+                  <input
+                    type="text"
+                    name="date"
+                    placeholder={focusedField === "readyDate" ? "ДД.ММ.ГГГГ" : ""}
+                    value={fieldValues.readyDate}
+                    onChange={(e) => {
+                      let value = e.target.value;
+                      let digits = value.replace(/\D/g, '');
+                      if (digits.length > 8) digits = digits.slice(0, 8);
+
+                      let formatted = '';
+                      if (digits.length > 0) formatted += digits.substring(0, 2);
+                      if (digits.length >= 3) formatted += '.' + digits.substring(2, 4);
+                      if (digits.length >= 5) formatted += '.' + digits.substring(4, 8);
+
+                      handleFieldChange("readyDate", formatted);
+                    }}
+                    onFocus={() => handleFieldFocus("readyDate")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "readyDate" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  />
                 </div>
 
-                {/* Строка 2: Дата готовности + Вес */}
-                <div className="flex justify-center gap-1.5 sm:gap-3">
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Дата готовности
-                    </label>
-                    <input
-                      type="text"
-                      name="date"
-                      placeholder={focusedField === "readyDate" ? "ДД.ММ.ГГГГ" : ""}
-                      value={fieldValues.readyDate}
-                      onChange={(e) => handleFieldChange("readyDate", e.target.value)}
-                      onFocus={() => handleFieldFocus("readyDate")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "readyDate" || fieldValues.readyDate ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    />
-                  </div>
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Вес (кг)
-                    </label>
-                    <input
-                      type="text"
-                      name="weight"
-                      value={fieldValues.weight}
-                      onChange={(e) => handleFieldChange("weight", e.target.value)}
-                      onFocus={() => handleFieldFocus("weight")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "weight" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    />
-                  </div>
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Вес (кг)
+                  </label>
+                  <input
+                    type="text"
+                    name="weight"
+                    inputMode="numeric"
+                    value={fieldValues.weight}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, '');
+                      handleFieldChange("weight", value);
+                    }}
+                    onFocus={() => handleFieldFocus("weight")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "weight" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  />
+                </div>
+              </div>
+
+              {/* Строка 3: Наименование груза + Габариты */}
+              <div className="flex justify-center gap-1.5 sm:gap-3">
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "cargoName" || fieldValues.cargoName ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Наименование груза
+                  </label>
+                  <input
+                    type="text"
+                    name="cargo_type"
+                    value={fieldValues.cargoName}
+                    onChange={(e) => handleFieldChange("cargoName", e.target.value)}
+                    onFocus={() => handleFieldFocus("cargoName")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "cargoName" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  />
                 </div>
 
-                {/* Строка 3: Наименование груза + Габариты */}
-                <div className="flex justify-center gap-1.5 sm:gap-3">
-                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "cargoName" || fieldValues.cargoName ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Наименование груза
-                    </label>
-                    <input
-                      type="text"
-                      name="cargo_type"
-                      value={fieldValues.cargoName}
-                      onChange={(e) => handleFieldChange("cargoName", e.target.value)}
-                      onFocus={() => handleFieldFocus("cargoName")}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "cargoName" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    />
-                  </div>
-
-                  {/* ГАБАРИТЫ */}
-                  <div className="flex-1 sm:w-[210px] sm:flex-none">
-                    <div className="flex gap-1 sm:gap-2">
-                      <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "length" || fieldValues.length ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
-                          Длина(см)
-                        </label>
-                        <input
-                          type="text"
-                          name="length"
-                          placeholder={focusedField === "length" ? "см" : ""}
-                          value={fieldValues.length}
-                          onChange={(e) => handleFieldChange("length", e.target.value)}
-                          onFocus={() => handleFieldFocus("length")}
-                          onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "length" || fieldValues.length ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                        />
-                      </div>
-                      <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "width" || fieldValues.width ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
-                          Ширина(см)
-                        </label>
-                        <input
-                          type="text"
-                          name="width"
-                          placeholder={focusedField === "width" ? "см" : ""}
-                          value={fieldValues.width}
-                          onChange={(e) => handleFieldChange("width", e.target.value)}
-                          onFocus={() => handleFieldFocus("width")}
-                          onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "width" || fieldValues.width ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                        />
-                      </div>
-                      <div className="relative flex-1">
-                        <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "height" || fieldValues.height ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
-                          Высота(см)
-                        </label>
-                        <input
-                          type="text"
-                          name="height"
-                          placeholder={focusedField === "height" ? "см" : ""}
-                          value={fieldValues.height}
-                          onChange={(e) => handleFieldChange("height", e.target.value)}
-                          onFocus={() => handleFieldFocus("height")}
-                          onBlur={handleFieldBlur}
-                          className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "height" || fieldValues.height ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Разделитель */}
-                <div className="border-t border-gray-200 pt-2">
-                  <h3 className="text-[8px] sm:text-xs font-semibold text-[#f05a28] mb-1 sm:mb-2 uppercase tracking-wider text-center">Ваши данные</h3>
-
-                  {/* Имя + Email */}
-                  <div className="flex justify-center gap-1.5 sm:gap-3 mb-1 sm:mb-2">
-                    <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "name" || fieldValues.name ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                        Имя <span className="text-[#f05a28]">*</span>
+                <div className="flex-1 sm:w-[210px] sm:flex-none">
+                  <div className="flex gap-1 sm:gap-2">
+                    <div className="relative flex-1">
+                      <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "length" || fieldValues.length ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
+                        Длина(см)
                       </label>
                       <input
                         type="text"
-                        name="name"
-                        required
-                        value={fieldValues.name}
-                        onChange={(e) => handleFieldChange("name", e.target.value)}
-                        onFocus={() => handleFieldFocus("name")}
+                        name="length"
+                        inputMode="numeric"
+                        placeholder={focusedField === "length" ? "см" : ""}
+                        value={fieldValues.length}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          handleFieldChange("length", value);
+                        }}
+                        onFocus={() => handleFieldFocus("length")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "name" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                        className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "length" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
-                    <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                        Email
+                    <div className="relative flex-1">
+                      <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "width" || fieldValues.width ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
+                        Ширина(см)
                       </label>
                       <input
-                        type="email"
-                        name="email"
-                        value={fieldValues.email}
-                        onChange={(e) => handleFieldChange("email", e.target.value)}
-                        onFocus={() => handleFieldFocus("email")}
+                        type="text"
+                        name="width"
+                        inputMode="numeric"
+                        placeholder={focusedField === "width" ? "см" : ""}
+                        value={fieldValues.width}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          handleFieldChange("width", value);
+                        }}
+                        onFocus={() => handleFieldFocus("width")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "email" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                        className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "width" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
-                  </div>
-
-                  {/* Телефон */}
-                  <div className="flex justify-center">
-                    <div className="relative w-full sm:w-[432px]">
-                      <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "phone" || fieldValues.phone ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                        Телефон <span className="text-[#f05a28]">*</span>
+                    <div className="relative flex-1">
+                      <label className={`absolute left-0.5 sm:left-1 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "height" || fieldValues.height ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-0.5 sm:px-1 py-0.5 rounded-full shadow-md text-[5px] sm:text-[8px]" : "top-1/2 -translate-y-1/2 text-gray-400 text-[6px] sm:text-[9px]"}`}>
+                        Высота(см)
                       </label>
                       <input
-                        type="tel"
-                        name="user_phone"
-                        required
-                        value={fieldValues.phone}
-                        onChange={(e) => handleFieldChange("phone", e.target.value)}
-                        onFocus={() => handleFieldFocus("phone")}
+                        type="text"
+                        name="height"
+                        inputMode="numeric"
+                        placeholder={focusedField === "height" ? "см" : ""}
+                        value={fieldValues.height}
+                        onChange={(e) => {
+                          const value = e.target.value.replace(/\D/g, '');
+                          handleFieldChange("height", value);
+                        }}
+                        onFocus={() => handleFieldFocus("height")}
                         onBlur={handleFieldBlur}
-                        className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "phone" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                        className={`w-full px-0.5 sm:px-1 py-2 sm:py-2.5 text-[10px] sm:text-sm text-center rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "height" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                       />
                     </div>
                   </div>
                 </div>
+              </div>
 
-                {/* Комментарий */}
+              {/* Разделитель */}
+              <div className="border-t border-gray-200 pt-2">
+                <h3 className="text-[8px] sm:text-xs font-semibold text-[#f05a28] mb-1 sm:mb-2 uppercase tracking-wider text-center">Ваши данные</h3>
+
+                {/* Имя + Email */}
+                <div className="flex justify-center gap-1.5 sm:gap-3 mb-1 sm:mb-2">
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "name" || fieldValues.name ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Имя <span className="text-[#f05a28]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      name="name"
+                      required
+                      value={fieldValues.name}
+                      onChange={(e) => handleFieldChange("name", e.target.value)}
+                      onFocus={() => handleFieldFocus("name")}
+                      onBlur={handleFieldBlur}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "name" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                    />
+                  </div>
+
+                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Email
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder={focusedField === "email" ? "name@domain.ru" : ""}
+                    value={fieldValues.email}
+                    onChange={(e) => {
+                      let value = e.target.value;
+                      value = value.replace(/\s/g, '');
+                      const map: {[key: string]: string} = {
+                        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+                        'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'ZH', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'TS', 'Ч': 'CH', 'Ш': 'SH', 'Щ': 'SCH', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'YU', 'Я': 'YA'
+                      };
+                      value = value.split('').map(char => map[char] || char).join('');
+                      handleFieldChange("email", value);
+                      setFormError(null);
+                    }}
+                    onFocus={() => handleFieldFocus("email")}
+                    onBlur={() => {
+                      handleFieldBlur();
+                      const email = fieldValues.email;
+                      if (email) {
+                        let errorMsg = '';
+                        if (!email.includes('@')) errorMsg = '❌ Email должен содержать символ @';
+                        else if (email.startsWith('@')) errorMsg = '❌ Email не может начинаться с @';
+                        else if (email.endsWith('@')) errorMsg = '❌ Email не может заканчиваться на @';
+                        else if (email.split('@').length !== 2) errorMsg = '❌ В email должен быть только один символ @';
+                        else if (!email.split('@')[0]) errorMsg = '❌ Укажите имя пользователя перед @';
+                        else if (!email.split('@')[1]?.includes('.')) errorMsg = '❌ Домен должен содержать точку (например: gmail.com)';
+                        else if ((email.split('@')[1] || '').length < 3) errorMsg = '❌ Домен слишком короткий';
+                        else if ((email.split('@')[1] || '').startsWith('.') || (email.split('@')[1] || '').endsWith('.')) errorMsg = '❌ Домен не может начинаться или заканчиваться точкой';
+                        else if ((email.split('@')[1] || '').split('.').length < 2) errorMsg = '❌ Укажите доменную зону (.ru, .com и т.д.)';
+                        else if (((email.split('@')[1] || '').split('.').pop() || '').length < 2) errorMsg = '❌ Зона домена должна быть не менее 2 символов (.ru, .com)';
+                        else if (/[а-яА-Я]/.test(email)) errorMsg = '❌ Email должен быть на английском языке';
+                        else if (email.includes('..')) errorMsg = '❌ Две точки подряд недопустимы';
+                        else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errorMsg = '❌ Недопустимые символы в email';
+                        if (errorMsg) setFormError(errorMsg);
+                      }
+                    }}
+                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "email" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"} ${formError && fieldValues.email ? "border-red-500 ring-2 ring-red-500/20" : ""}`}
+                  />
+                </div>
+                  
+                  </div>
+                  {/* Уведомление об ошибке Email */}
+                  <AnimatePresence>
+                    {formError && fieldValues.email && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="bg-red-50 border border-red-200 rounded-xl p-2 sm:p-3 mt-1"
+                      >
+                        <p className="text-red-600 text-[10px] sm:text-xs font-medium flex items-center gap-1">
+                          <i className="fas fa-exclamation-circle"></i>
+                          {formError.replace('❌', '')}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+
+                {/* Телефон */}
                 <div className="flex justify-center">
                   <div className="relative w-full sm:w-[432px]">
-                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "comment" || fieldValues.comment ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-2 sm:top-3 text-gray-400 text-[9px] sm:text-sm"}`}>
-                      Комментарий
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "phone" || fieldValues.phone ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Телефон <span className="text-[#f05a28]">*</span>
                     </label>
-                    <textarea
-                      rows={1}
-                      name="comment"
-                      value={fieldValues.comment}
-                      onChange={(e) => handleFieldChange("comment", e.target.value)}
-                      onFocus={() => handleFieldFocus("comment")}
+                    <input
+                      type="tel"
+                      name="user_phone"
+                      required
+                      placeholder={focusedField === "phone" ? "+7 (___) ___-__-__" : ""}
+                      value={fieldValues.phone}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        // Убираем всё кроме цифр
+                        let digits = value.replace(/\D/g, '');
+
+                        // Ограничиваем 11 цифрами (российский номер)
+                        if (digits.length > 11) digits = digits.slice(0, 11);
+
+                        // Если номер начинается с 8, меняем на 7
+                        if (digits.length > 0 && digits[0] === '8') {
+                          digits = '7' + digits.slice(1);
+                        }
+
+                        let formatted = '';
+                        if (digits.length === 0) {
+                          formatted = '';
+                        } else if (digits.length === 1) {
+                          formatted = '+7';
+                        } else {
+                          formatted = '+7 (';
+                          formatted += digits.substring(1, Math.min(4, digits.length));
+                          if (digits.length >= 5) {
+                            formatted += ') ' + digits.substring(4, Math.min(7, digits.length));
+                          }
+                          if (digits.length >= 8) {
+                            formatted += '-' + digits.substring(7, Math.min(9, digits.length));
+                          }
+                          if (digits.length >= 10) {
+                            formatted += '-' + digits.substring(9, 11);
+                          }
+                        }
+
+                        handleFieldChange("phone", formatted);
+                      }}
+                      onFocus={(e) => {
+                        handleFieldFocus("phone");
+                        const input = e.target as HTMLInputElement;
+                        setTimeout(() => {
+                          input.setSelectionRange(input.value.length, input.value.length);
+                        }, 10);
+                      }}
                       onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 pt-3 sm:pt-4 pb-1 sm:pb-2 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 resize-none ${focusedField === "comment" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                    ></textarea>
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "phone" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                    />
                   </div>
                 </div>
+              </div>
 
-                {/* Кнопка */}
-                <div className="flex justify-center pt-1 sm:pt-2">
-                  <button
-                    type="submit"
-                    className="bg-[#f05a28] hover:bg-[#d44a1d] text-white font-extrabold py-3 sm:py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-sm sm:text-base uppercase tracking-wide w-full sm:w-[280px]"
-                    style={{ fontWeight: 900 }}
-                  >
-                    Рассчитать стоимость
-                  </button>
+              {/* Комментарий */}
+              <div className="flex justify-center">
+                <div className="relative w-full sm:w-[432px]">
+                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "comment" || fieldValues.comment ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-2 sm:top-3 text-gray-400 text-[9px] sm:text-sm"}`}>
+                    Комментарий
+                  </label>
+                  <textarea
+                    rows={1}
+                    name="comment"
+                    value={fieldValues.comment}
+                    onChange={(e) => handleFieldChange("comment", e.target.value)}
+                    onFocus={() => handleFieldFocus("comment")}
+                    onBlur={handleFieldBlur}
+                    className={`w-full px-2 sm:px-3 pt-3 sm:pt-4 pb-1 sm:pb-2 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 resize-none ${focusedField === "comment" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                  ></textarea>
                 </div>
+              </div>
 
-                <p className="text-center text-gray-400 text-[7px] sm:text-[9px] mt-1 sm:mt-2">
-                  Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
-                </p>
-              </form>
-            </div>
+              {/* Кнопка */}
+              <div className="flex justify-center pt-1 sm:pt-2">
+                <button
+                  type="submit"
+                  className="bg-[#f05a28] hover:bg-[#d44a1d] text-white font-extrabold py-3 sm:py-3.5 px-4 sm:px-8 rounded-xl transition-all shadow-lg hover:shadow-xl text-sm sm:text-base uppercase tracking-wide w-full sm:w-[280px]"
+                  style={{ fontWeight: 900 }}
+                >
+                  Рассчитать стоимость
+                </button>
+              </div>
+
+              <p className="text-center text-gray-400 text-[7px] sm:text-[9px] mt-1 sm:mt-2">
+                Нажимая кнопку, вы соглашаетесь с обработкой персональных данных
+              </p>
+            </form>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
       {/* PARTNERS SECTION */}
       <section id="partners" className="py-24 px-6 bg-white overflow-hidden">
         <div className="container mx-auto">
