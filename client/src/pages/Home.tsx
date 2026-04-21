@@ -216,35 +216,40 @@ export default function Home() {
       // ПРОВЕРКА ТЕЛЕФОНА
       const phoneDigits = fieldValues.phone.replace(/\D/g, '');
       if (!phoneDigits) {
-        alert('Пожалуйста, укажите номер телефона');
+        setFormError('📱 Пожалуйста, укажите номер телефона');
         return;
       }
       if (phoneDigits.length !== 11) {
-        alert('Номер телефона должен содержать 11 цифр');
+        setFormError('📱 Номер должен содержать 11 цифр');
+        return;
+      }
+      if (phoneDigits[0] !== '7') {
+        setFormError('📱 Номер должен начинаться с +7');
         return;
       }
 
-      // ПРОВЕРКА EMAIL
-      if (fieldValues.email) {
-        const email = fieldValues.email;
-        let errorMsg = '';
+      // ПРОВЕРКА ДАТЫ
+      if (fieldValues.readyDate) {
+        const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
+        if (!dateRegex.test(fieldValues.readyDate)) {
+          setFormError('📅 Формат даты: ДД.ММ.ГГГГ');
+          return;
+        }
+        const parts = fieldValues.readyDate.split('.');
+        const day = parseInt(parts[0]);
+        const month = parseInt(parts[1]);
+        const year = parseInt(parts[2]);
 
-        if (!email.includes('@')) errorMsg = 'Email должен содержать символ @';
-        else if (email.startsWith('@')) errorMsg = 'Email не может начинаться с @';
-        else if (email.endsWith('@')) errorMsg = 'Email не может заканчиваться на @';
-        else if (email.split('@').length !== 2) errorMsg = 'В email должен быть только один символ @';
-        else if (!email.split('@')[0]) errorMsg = 'Укажите имя пользователя перед @';
-        else if (!email.split('@')[1]?.includes('.')) errorMsg = 'Домен должен содержать точку';
-        else if ((email.split('@')[1] || '').length < 3) errorMsg = 'Домен слишком короткий';
-        else if ((email.split('@')[1] || '').startsWith('.') || (email.split('@')[1] || '').endsWith('.')) errorMsg = 'Домен не может начинаться или заканчиваться точкой';
-        else if ((email.split('@')[1] || '').split('.').length < 2) errorMsg = 'Укажите доменную зону (.ru, .com)';
-        else if (((email.split('@')[1] || '').split('.').pop() || '').length < 2) errorMsg = 'Зона домена должна быть не менее 2 символов';
-        else if (/[а-яА-Я]/.test(email)) errorMsg = 'Email должен быть на английском языке';
-        else if (email.includes('..')) errorMsg = 'Две точки подряд недопустимы';
-        else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errorMsg = 'Недопустимые символы в email';
-
-        if (errorMsg) {
-          setFormError('❌ ' + errorMsg);
+        if (day < 1 || day > 31) {
+          setFormError('📅 День должен быть от 1 до 31');
+          return;
+        }
+        if (month < 1 || month > 12) {
+          setFormError('📅 Месяц должен быть от 1 до 12');
+          return;
+        }
+        if (year < 2026 || year > 2030) {
+          setFormError('📅 Год должен быть 2026-2030');
           return;
         }
       }
@@ -806,53 +811,126 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Строка 2: Дата готовности + Вес */}
-              <div className="flex justify-center gap-1.5 sm:gap-3">
-                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                    Дата готовности
-                  </label>
-                  <input
-                    type="text"
-                    name="date"
-                    placeholder={focusedField === "readyDate" ? "ДД.ММ.ГГГГ" : ""}
-                    value={fieldValues.readyDate}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      let digits = value.replace(/\D/g, '');
-                      if (digits.length > 8) digits = digits.slice(0, 8);
+            {/* Строка 2: Дата готовности + Вес */}
+            <div className="flex justify-center gap-1.5 sm:gap-3">
+              <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "readyDate" || fieldValues.readyDate ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                  Дата готовности
+                </label>
+                <input
+                  type="text"
+                  name="date"
+                  placeholder={focusedField === "readyDate" ? "ДД.ММ.ГГГГ" : ""}
+                  value={fieldValues.readyDate}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    let digits = value.replace(/\D/g, '');
+                    if (digits.length > 8) digits = digits.slice(0, 8);
 
-                      let formatted = '';
-                      if (digits.length > 0) formatted += digits.substring(0, 2);
-                      if (digits.length >= 3) formatted += '.' + digits.substring(2, 4);
-                      if (digits.length >= 5) formatted += '.' + digits.substring(4, 8);
+                    let formatted = '';
+                    if (digits.length > 0) formatted += digits.substring(0, 2);
+                    if (digits.length >= 3) formatted += '.' + digits.substring(2, 4);
+                    if (digits.length >= 5) formatted += '.' + digits.substring(4, 8);
 
-                      handleFieldChange("readyDate", formatted);
-                    }}
-                    onFocus={() => handleFieldFocus("readyDate")}
-                    onBlur={handleFieldBlur}
-                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "readyDate" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                  />
-                </div>
+                    handleFieldChange("readyDate", formatted);
+                    // Сбрасываем ошибку при изменении
+                    if (formError && formError.includes('📅')) {
+                      setFormError(null);
+                    }
+                  }}
+                  onFocus={() => handleFieldFocus("readyDate")}
+                  onBlur={() => {
+                    handleFieldBlur();
+                    const date = fieldValues.readyDate;
 
-                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                    Вес (кг)
-                  </label>
-                  <input
-                    type="text"
-                    name="weight"
-                    inputMode="numeric"
-                    value={fieldValues.weight}
-                    onChange={(e) => {
-                      const value = e.target.value.replace(/\D/g, '');
-                      handleFieldChange("weight", value);
-                    }}
-                    onFocus={() => handleFieldFocus("weight")}
-                    onBlur={handleFieldBlur}
-                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "weight" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
-                  />
-                </div>
+                    if (date) {
+                      let errorMsg = '';
+
+                      // Проверка формата ДД.ММ.ГГГГ
+                      const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
+
+                      if (!dateRegex.test(date)) {
+                        errorMsg = '📅 Формат даты: ДД.ММ.ГГГГ';
+                      } else {
+                        const parts = date.split('.');
+                        const day = parseInt(parts[0], 10);
+                        const month = parseInt(parts[1], 10);
+                        const year = parseInt(parts[2], 10);
+
+                        // Проверка дня
+                        if (day < 1 || day > 31) {
+                          errorMsg = '📅 День должен быть от 1 до 31';
+                        }
+                        // Проверка месяца
+                        else if (month < 1 || month > 12) {
+                          errorMsg = '📅 Месяц должен быть от 1 до 12';
+                        }
+                        // Проверка года (теперь 2026-2030)
+                        else if (year < 2026 || year > 2030) {
+                          errorMsg = '📅 Год должен быть 2026-2030';
+                        }
+                        // Проверка на корректность даты (например, 31 февраля)
+                        else {
+                          const dateObj = new Date(year, month - 1, day);
+                          if (dateObj.getFullYear() !== year || dateObj.getMonth() !== month - 1 || dateObj.getDate() !== day) {
+                            errorMsg = '📅 Такой даты не существует';
+                          }
+                        }
+                      }
+
+                      if (errorMsg) {
+                        setFormError(errorMsg);
+                      } else {
+                        setFormError(null);
+                      }
+                    } else {
+                      setFormError(null);
+                    }
+                  }}
+                  className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${
+                    focusedField === "readyDate" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"
+                  } ${
+                    formError && formError.includes('📅') && fieldValues.readyDate ? "border-red-500 ring-2 ring-red-500/20" : ""
+                  }`}
+                />
+              </div>
+
+              <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "weight" || fieldValues.weight ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                  Вес (кг)
+                </label>
+                <input
+                  type="text"
+                  name="weight"
+                  inputMode="numeric"
+                  value={fieldValues.weight}
+                  onChange={(e) => {
+                    const value = e.target.value.replace(/\D/g, '');
+                    handleFieldChange("weight", value);
+                  }}
+                  onFocus={() => handleFieldFocus("weight")}
+                  onBlur={handleFieldBlur}
+                  className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "weight" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                />
+              </div>
+            </div>
+              {/* Блок ошибки для Даты */}
+              <div className="flex justify-center">
+                <AnimatePresence>
+                  {formError && formError.includes('📅') && fieldValues.readyDate && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="bg-blue-50 border border-blue-200 rounded-xl p-2 mt-1 w-full sm:w-[432px]"
+                    >
+                      <p className="text-blue-600 text-[10px] sm:text-xs font-medium flex items-center gap-1">
+                        <i className="fas fa-calendar-alt"></i>
+                        {formError.replace('📅', '').trim()}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Строка 3: Наименование груза + Габариты */}
@@ -950,76 +1028,90 @@ export default function Home() {
                       name="name"
                       required
                       value={fieldValues.name}
-                      onChange={(e) => handleFieldChange("name", e.target.value)}
+                      onChange={(e) => {
+                        // Разрешаем только буквы (русские и английские), пробелы и дефисы
+                        const value = e.target.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s-]/g, '');
+                        handleFieldChange("name", value);
+                      }}
                       onFocus={() => handleFieldFocus("name")}
                       onBlur={handleFieldBlur}
                       className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-300 ${focusedField === "name" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
                     />
                   </div>
 
-                <div className="relative flex-1 sm:w-[210px] sm:flex-none">
-                  <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    name="email"
-                    placeholder={focusedField === "email" ? "name@domain.ru" : ""}
-                    value={fieldValues.email}
-                    onChange={(e) => {
-                      let value = e.target.value;
-                      value = value.replace(/\s/g, '');
-                      const map: {[key: string]: string} = {
-                        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e', 'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u', 'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '', 'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
-                        'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'E', 'Ж': 'ZH', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M', 'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U', 'Ф': 'F', 'Х': 'H', 'Ц': 'TS', 'Ч': 'CH', 'Ш': 'SH', 'Щ': 'SCH', 'Ъ': '', 'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'YU', 'Я': 'YA'
-                      };
-                      value = value.split('').map(char => map[char] || char).join('');
-                      handleFieldChange("email", value);
-                      setFormError(null);
-                    }}
-                    onFocus={() => handleFieldFocus("email")}
-                    onBlur={() => {
-                      handleFieldBlur();
-                      const email = fieldValues.email;
-                      if (email) {
-                        let errorMsg = '';
-                        if (!email.includes('@')) errorMsg = '❌ Email должен содержать символ @';
-                        else if (email.startsWith('@')) errorMsg = '❌ Email не может начинаться с @';
-                        else if (email.endsWith('@')) errorMsg = '❌ Email не может заканчиваться на @';
-                        else if (email.split('@').length !== 2) errorMsg = '❌ В email должен быть только один символ @';
-                        else if (!email.split('@')[0]) errorMsg = '❌ Укажите имя пользователя перед @';
-                        else if (!email.split('@')[1]?.includes('.')) errorMsg = '❌ Домен должен содержать точку (например: gmail.com)';
-                        else if ((email.split('@')[1] || '').length < 3) errorMsg = '❌ Домен слишком короткий';
-                        else if ((email.split('@')[1] || '').startsWith('.') || (email.split('@')[1] || '').endsWith('.')) errorMsg = '❌ Домен не может начинаться или заканчиваться точкой';
-                        else if ((email.split('@')[1] || '').split('.').length < 2) errorMsg = '❌ Укажите доменную зону (.ru, .com и т.д.)';
-                        else if (((email.split('@')[1] || '').split('.').pop() || '').length < 2) errorMsg = '❌ Зона домена должна быть не менее 2 символов (.ru, .com)';
-                        else if (/[а-яА-Я]/.test(email)) errorMsg = '❌ Email должен быть на английском языке';
-                        else if (email.includes('..')) errorMsg = '❌ Две точки подряд недопустимы';
-                        else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errorMsg = '❌ Недопустимые символы в email';
-                        if (errorMsg) setFormError(errorMsg);
-                      }
-                    }}
-                    className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "email" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"} ${formError && fieldValues.email ? "border-red-500 ring-2 ring-red-500/20" : ""}`}
-                  />
-                </div>
+                  <div className="relative flex-1 sm:w-[210px] sm:flex-none">
+                    <label className={`absolute left-2 sm:left-3 transition-all duration-200 pointer-events-none font-medium z-20 ${focusedField === "email" || fieldValues.email ? "top-0 -translate-y-1/2 bg-[#f05a28] text-white px-1 sm:px-2 py-0.5 rounded-full shadow-md text-[7px] sm:text-xs" : "top-1/2 -translate-y-1/2 text-gray-400 text-[9px] sm:text-sm"}`}>
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder={focusedField === "email" ? "name@domain.ru" : ""}
+                      value={fieldValues.email}
+                      onChange={(e) => {
+                        let value = e.target.value;
+                        // Убираем только пробелы, русские буквы НЕ конвертируем автоматически
+                        value = value.replace(/\s/g, '');
+                        handleFieldChange("email", value);
+                        setFormError(null);
+                      }}
+                      onFocus={() => handleFieldFocus("email")}
+                      onBlur={() => {
+                        handleFieldBlur();
+                        const email = fieldValues.email;
+                        if (email) {
+                          let errorMsg = '';
+
+                          // Проверка на русские буквы - показываем дружелюбное сообщение
+                          if (/[а-яА-ЯёЁ]/.test(email)) {
+                            errorMsg = '✏️ Пожалуйста, используйте английские буквы для email';
+                          }
+                          else if (!email.includes('@')) errorMsg = '✉️ Email должен содержать символ @';
+                          else if (email.startsWith('@')) errorMsg = '✉️ Email не может начинаться с @';
+                          else if (email.endsWith('@')) errorMsg = '✉️ Email не может заканчиваться на @';
+                          else if (email.split('@').length !== 2) errorMsg = '✉️ В email должен быть только один символ @';
+                          else if (!email.split('@')[0]) errorMsg = '✉️ Укажите имя пользователя перед @';
+                          else if (!email.split('@')[1]?.includes('.')) errorMsg = '✉️ Домен должен содержать точку (например: gmail.com)';
+                          else if ((email.split('@')[1] || '').length < 3) errorMsg = '✉️ Домен слишком короткий';
+                          else if ((email.split('@')[1] || '').startsWith('.') || (email.split('@')[1] || '').endsWith('.')) errorMsg = '✉️ Домен не может начинаться или заканчиваться точкой';
+                          else if ((email.split('@')[1] || '').split('.').length < 2) errorMsg = '✉️ Укажите доменную зону (.ru, .com и т.д.)';
+                          else if (((email.split('@')[1] || '').split('.').pop() || '').length < 2) errorMsg = '✉️ Зона домена должна быть не менее 2 символов (.ru, .com)';
+                          else if (email.includes('..')) errorMsg = '✉️ Две точки подряд недопустимы';
+                          else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) errorMsg = '✉️ Недопустимые символы в email';
+
+                          if (errorMsg) setFormError(errorMsg);
+                        }
+                      }}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "email" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"} ${formError && fieldValues.email ? "border-red-500 ring-2 ring-red-500/20" : ""}`}
+                    />
+                    
+                  </div>
                   
                   </div>
-                  {/* Уведомление об ошибке Email */}
+                {/* Блок ошибки для Email */}
+                <div className="flex justify-center">
                   <AnimatePresence>
-                    {formError && fieldValues.email && (
+                    {formError && (formError.includes('✏️') || formError.includes('✉️')) && fieldValues.email && (
                       <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="bg-red-50 border border-red-200 rounded-xl p-2 sm:p-3 mt-1"
+                        className={`rounded-xl p-2 mt-1 w-full sm:w-[432px] ${
+                          formError.includes('✏️') 
+                            ? 'bg-orange-50 border border-orange-200' 
+                            : 'bg-red-50 border border-red-200'
+                        }`}
                       >
-                        <p className="text-red-600 text-[10px] sm:text-xs font-medium flex items-center gap-1">
-                          <i className="fas fa-exclamation-circle"></i>
-                          {formError.replace('❌', '')}
+                        <p className={`text-[10px] sm:text-xs font-medium flex items-center gap-1 ${
+                          formError.includes('✏️') ? 'text-orange-600' : 'text-red-600'
+                        }`}>
+                          <i className={`fas ${formError.includes('✏️') ? 'fa-pencil-alt' : 'fa-exclamation-circle'}`}></i>
+                          {formError}
                         </p>
                       </motion.div>
                     )}
                   </AnimatePresence>
+                </div>
 
                 {/* Телефон */}
                 <div className="flex justify-center">
@@ -1066,6 +1158,10 @@ export default function Home() {
                         }
 
                         handleFieldChange("phone", formatted);
+                        // Сбрасываем ошибку при изменении
+                        if (formError && formError.includes('📱')) {
+                          setFormError(null);
+                        }
                       }}
                       onFocus={(e) => {
                         handleFieldFocus("phone");
@@ -1074,12 +1170,63 @@ export default function Home() {
                           input.setSelectionRange(input.value.length, input.value.length);
                         }, 10);
                       }}
-                      onBlur={handleFieldBlur}
-                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${focusedField === "phone" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"}`}
+                      onBlur={() => {
+                        handleFieldBlur();
+                        const phone = fieldValues.phone;
+
+                        if (phone) {
+                          let errorMsg = '';
+                          const digits = phone.replace(/\D/g, '');
+
+                          if (digits.length === 0) {
+                            errorMsg = '📱 Пожалуйста, укажите номер телефона';
+                          } else if (digits.length < 11) {
+                            errorMsg = '📱 Номер должен содержать 11 цифр';
+                          } else if (digits.length > 11) {
+                            errorMsg = '📱 Слишком много цифр';
+                          } else if (digits[0] !== '7') {
+                            errorMsg = '📱 Номер должен начинаться с +7';
+                          }
+
+                          if (errorMsg) {
+                            setFormError(errorMsg);
+                          } else {
+                            setFormError(null);
+                          }
+                        } else {
+                          setFormError(null);
+                        }
+                      }}
+                      className={`w-full px-2 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm rounded-lg sm:rounded-xl border-2 transition-all outline-none bg-white text-gray-700 placeholder:text-gray-400 ${
+                        focusedField === "phone" ? "border-[#f05a28] ring-2 ring-[#f05a28]/20" : "border-[#f05a28]"
+                      } ${
+                        formError && formError.includes('📱') && fieldValues.phone ? "border-red-500 ring-2 ring-red-500/20" : ""
+                      }`}
                     />
                   </div>
                 </div>
-              </div>
+
+                {/* Блок ошибки для Телефона */}
+                <div className="flex justify-center">
+                  <AnimatePresence>
+                    {formError && formError.includes('📱') && fieldValues.phone && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="bg-red-50 border border-red-200 rounded-xl p-2 mt-1 w-full sm:w-[432px]"
+                      >
+                        <p className="text-red-600 text-[10px] sm:text-xs font-medium flex items-center gap-1">
+                          <i className="fas fa-phone-alt"></i>
+                          {formError.replace('📱', '').trim()}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>  {/* ← Закрывает секцию "Ваши данные" */}
+
+              {/* Комментарий */}
 
               {/* Комментарий */}
               <div className="flex justify-center">
