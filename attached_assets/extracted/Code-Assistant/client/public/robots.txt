@@ -1,4 +1,489 @@
+# ============================================
+# 🤖 ROBOTS.TXT - АЛМИК | ГРУЗОПЕРЕВОЗКИ РФ И СНГ
+# ============================================
+# Сайт: https://almik.onrender.com
+# Компания: ООО "АЛМИК"
+# География: Россия, Беларусь, Казахстан, Армения, Киргизия
+# Хостинг: Render.com (бесплатный)
+# Обновлено: 2026-04-22
+# ============================================
+
+# ============================================
+# 🌍 ОСНОВНЫЕ ПРАВИЛА ДЛЯ ВСЕХ ПОИСКОВИКОВ МИРА
+# ============================================
 User-agent: *
 Allow: /
-Sitemap: https://almik-tver.ru/sitemap.xml
-Host: https://almik-tver.ru
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.woff2$
+Allow: /*.woff$
+Allow: /*.ttf$
+
+# Запрещаем технические папки
+Disallow: /admin/
+Disallow: /api/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.vscode/
+Disallow: /.idea/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /backup/
+Disallow: /private/
+Disallow: /secret/
+
+# Запрещаем системные файлы
+Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /*.log$
+Disallow: /*.lock$
+Disallow: /*.env$
+Disallow: /*.config.js$
+Disallow: /*.config.ts$
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /Dockerfile
+Disallow: /.dockerignore
+Disallow: /.env.*
+Disallow: /README.md
+Disallow: /LICENSE
+
+# Запрещаем дубли страниц и служебные параметры
+Disallow: /*?
+Disallow: /*.php$
+Disallow: /cgi-bin/
+Disallow: /search/
+Disallow: /print/
+Disallow: /email/
+Disallow: /share/
+Disallow: /track/
+Disallow: /order-status/
+Disallow: /personal/
+Disallow: /account/
+Disallow: /login/
+Disallow: /register/
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /wp-admin/
+Disallow: /wp-content/
+Disallow: /wp-includes/
+
+# Карты сайта (основная + гео-карты)
+Sitemap: https://almik.onrender.com/sitemap.xml
+Sitemap: https://almik.onrender.com/sitemap-geo.xml
+Sitemap: https://almik.onrender.com/sitemap-services.xml
+Sitemap: https://almik.onrender.com/sitemap-routes.xml
+
+# ============================================
+# 🇷🇺 ЯНДЕКС (РОССИЯ - ОСНОВНОЙ РЫНОК)
+# ============================================
+User-agent: Yandex
+Allow: /
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_referrer&yclid&_openstat&from&source&ref&gclid&fbclid
+Host: almik.onrender.com
+Crawl-delay: 2.0
+
+# Яндекс.Картинки
+User-agent: YandexImages
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /assets/
+Allow: /images/
+Allow: /photos/
+Allow: /img/
+
+# Яндекс.Видео
+User-agent: YandexVideo
+Allow: /*.mp4$
+Allow: /*.webm$
+Allow: /*.avi$
+Allow: /*.mov$
+Allow: /video/
+
+# Яндекс.Новости
+User-agent: YandexNews
+Allow: /news/
+Allow: /blog/
+Allow: /articles/
+Disallow: /*?
+
+# Яндекс.Маркет
+User-agent: YandexMarket
+Disallow: /
+
+# Яндекс.Директ
+User-agent: YandexDirect
+Allow: /
+Disallow: /admin/
+
+# Яндекс.Метрика
+User-agent: YandexMetrika
+Allow: /
+
+# ============================================
+# 🌎 GOOGLE (ВЕСЬ МИР)
+# ============================================
+User-agent: Googlebot
+Allow: /
+Disallow: /*?*
+Disallow: /search
+Disallow: /print
+Crawl-delay: 1.5
+
+# Google Изображения
+User-agent: Googlebot-Image
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /assets/
+Allow: /images/
+Allow: /photos/
+Allow: /img/
+
+# Google Видео
+User-agent: Googlebot-Video
+Allow: /*.mp4$
+Allow: /*.webm$
+Allow: /video/
+
+# Google Новости
+User-agent: Googlebot-News
+Allow: /news/
+Allow: /blog/
+Allow: /articles/
+Disallow: /*?
+
+# Google AdSense
+User-agent: Mediapartners-Google
+Allow: /
+
+# Google AdWords
+User-agent: AdsBot-Google
+Allow: /
+
+# Google Мобильный бот
+User-agent: Googlebot-Mobile
+Allow: /
+
+# ============================================
+# 🔵 BING / MICROSOFT
+# ============================================
+User-agent: bingbot
+Allow: /
+Disallow: /*?
+Disallow: /search
+Crawl-delay: 1.5
+
+User-agent: MSNBot
+Allow: /
+Crawl-delay: 1.5
+
+User-agent: MSNBot-Media
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /assets/
+Allow: /images/
+
+# ============================================
+# 📧 MAIL.RU
+# ============================================
+User-agent: Mail.Ru
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🔍 RAMBLER
+# ============================================
+User-agent: StackRambler
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🇰🇿 КАЗАХСТАНСКИЕ ПОИСКОВИКИ
+# ============================================
+User-agent: YandexKZ
+Allow: /
+Crawl-delay: 2.0
+Host: almik.onrender.com
+
+# ============================================
+# 🇧🇾 БЕЛОРУССКИЕ ПОИСКОВИКИ
+# ============================================
+User-agent: YandexBY
+Allow: /
+Crawl-delay: 2.0
+Host: almik.onrender.com
+
+# ============================================
+# 🇺🇦 УКРАИНСКИЕ ПОИСКОВИКИ
+# ============================================
+User-agent: Googlebot-UA
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🇦🇲 АРМЕНИЯ
+# ============================================
+User-agent: Googlebot-AM
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🇰🇬 КИРГИЗИЯ
+# ============================================
+User-agent: Googlebot-KG
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🇹🇷 ТУРЦИЯ
+# ============================================
+User-agent: Googlebot-TR
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🇨🇳 КИТАЙ (BAIDU)
+# ============================================
+User-agent: Baiduspider
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 3.0
+
+User-agent: Baiduspider-image
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /assets/
+Allow: /images/
+
+# ============================================
+# 🇰🇷 КОРЕЯ (NAVER)
+# ============================================
+User-agent: NaverBot
+Allow: /
+Crawl-delay: 3.0
+
+# ============================================
+# 🇯🇵 ЯПОНИЯ (YAHOO JAPAN)
+# ============================================
+User-agent: YahooJapan
+Allow: /
+Crawl-delay: 3.0
+
+# ============================================
+# 🇨🇿 ЧЕХИЯ (SEZNAM)
+# ============================================
+User-agent: SeznamBot
+Allow: /
+Crawl-delay: 3.0
+
+# ============================================
+# 🦆 DUCKDUCKGO
+# ============================================
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1.5
+
+# ============================================
+# 🔒 YANDEX SAFE BROWSING
+# ============================================
+User-agent: YandexSafeBrowsing
+Allow: /
+
+# ============================================
+# 🤖 ARCHIVE.ORG (ИНТЕРНЕТ-АРХИВ)
+# ============================================
+User-agent: ia_archiver
+Allow: /
+Crawl-delay: 5.0
+
+# ============================================
+# 📱 СОЦИАЛЬНЫЕ СЕТИ И МЕССЕНДЖЕРЫ
+# ============================================
+User-agent: TelegramBot
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: WhatsApp
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: Viber
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: SkypeUriPreview
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: facebookexternalhit
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: Twitterbot
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: LinkedInBot
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: Discordbot
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: Pinterestbot
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: VKShare
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: VKontakte
+Allow: /
+Crawl-delay: 1.0
+
+User-agent: Odnoklassniki
+Allow: /
+Crawl-delay: 1.0
+
+# ============================================
+# 💰 ФИНАНСОВЫЕ И ТОВАРНЫЕ АГРЕГАТОРЫ
+# ============================================
+User-agent: AvitoBot
+Allow: /
+Crawl-delay: 2.0
+
+User-agent: YoulaBot
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 🚫 ЗАПРЕЩАЕМ SEO-СКАНЕРАМ И ПАРСЕРАМ
+# ============================================
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: SemrushBot
+Disallow: /
+
+User-agent: Majestic-12
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+
+User-agent: BLEXBot
+Disallow: /
+
+User-agent: rogerbot
+Disallow: /
+
+User-agent: Screaming Frog SEO Spider
+Disallow: /
+
+User-agent: SiteAuditBot
+Disallow: /
+
+User-agent: SEOSearch
+Disallow: /
+
+User-agent: Xenu Link Sleuth
+Disallow: /
+
+User-agent: PetalBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: DataForSeoBot
+Disallow: /
+
+User-agent: ZoominfoBot
+Disallow: /
+
+User-agent: AwarioBot
+Disallow: /
+
+User-agent: YouBot
+Disallow: /
+
+User-agent: MauiBot
+Disallow: /
+
+User-agent: AspiegelBot
+Disallow: /
+
+User-agent: Barkrowler
+Disallow: /
+
+User-agent: Sogou
+Disallow: /
+
+User-agent: Exabot
+Disallow: /
+
+User-agent: Nutch
+Disallow: /
+
+User-agent: ScoutJet
+Disallow: /
+
+User-agent: spbot
+Disallow: /
+
+User-agent: Gigabot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Cliqzbot
+Disallow: /
+
+# ============================================
+# ⚡ СПЕЦИАЛЬНЫЕ НАСТРОЙКИ ДЛЯ RENDER
+# ============================================
+# Увеличенная задержка для бесплатного хостинга
+Crawl-delay: 2.5
+
+# Чистые URL без параметров
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_referrer&yclid&_openstat&from&source&ref&gclid&fbclid&igshid
+
+# ============================================
+# 📍 ГЕО-ТАРГЕТИНГ ДЛЯ ПОИСКОВИКОВ
+# ============================================
+# Основной регион - Россия
+# Дополнительные: Беларусь, Казахстан, Армения, Киргизия
+# Хостинг: Render.com (США), но контент на русском
+# ============================================
