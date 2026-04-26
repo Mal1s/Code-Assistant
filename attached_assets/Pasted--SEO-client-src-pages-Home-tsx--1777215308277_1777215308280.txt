@@ -1,0 +1,154 @@
+Ты должен проверить и улучшить ВСЕ SEO-файлы моего проекта. Файл client/src/pages/Home.tsx НЕ ТРОГАТЬ вообще. Меняй только файлы SEO, мета-теги, Schema.org, robots.txt, sitemap.xml, manifest.json, favicon, App.tsx (только Schema.org часть).
+
+Главная цель: сайт должен быть на ПЕРВОМ месте в Яндексе и Google по всем ключевым запросам по всей России, Беларуси, Казахстану, Армении, Киргизии, Узбекистану, Таджикистану, Монголии, Грузии, Азербайджану.
+
+Контакты для связи:
+
+Телефон: +7 (901) 117-23-71
+
+Telegram: https://t.me/Obormotka_byaka
+
+WhatsApp: +7 (901) 117-23-71 (по этому же номеру)
+
+Email: almik.ks@yandex.ru
+
+ШАГ 1: FAVICON — ИКОНКА В ПОИСКЕ (КРИТИЧЕСКИ ВАЖНО)
+Файл: client/public/favicon.ico
+
+Если favicon.ico нет — создай простую иконку (буква "А" на оранжевом фоне #f05a28, размер 32x32 или 64x64).
+
+В client/index.html добавь ВСЕ эти строки:
+
+html
+<!-- Основные favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- Apple устройства -->
+<link rel="apple-touch-icon" sizes="57x57" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="60x60" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="72x72" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="114x114" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="144x144" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+
+<!-- Android / PWA -->
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="96x96" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+
+<!-- Windows / Microsoft -->
+<meta name="msapplication-TileColor" content="#0b1a33">
+<meta name="msapplication-TileImage" content="https://almik.onrender.com/favicon.ico">
+<meta name="msapplication-square70x70logo" content="/favicon.ico">
+<meta name="msapplication-square150x150logo" content="/favicon.ico">
+<meta name="msapplication-wide310x150logo" content="/favicon.ico">
+<meta name="msapplication-square310x310logo" content="/favicon.ico">
+
+<!-- Яндекс.Табло -->
+<meta name="yandex-tableau-widget" content="logo=https://almik.onrender.com/favicon.ico, color=#0b1a33">
+
+<!-- Safari pinned tab -->
+<link rel="mask-icon" href="/favicon.ico" color="#0b1a33">
+В Schema.org (App.tsx) должно быть:
+
+json
+"logo": "https://almik.onrender.com/favicon.ico",
+"image": "https://almik.onrender.com/favicon.ico"
+В Open Graph (index.html):
+
+html
+<meta property="og:image" content="https://almik.onrender.com/favicon.ico">
+<meta property="og:image:width" content="256">
+<meta property="og:image:height" content="256">
+<meta property="og:image:type" content="image/x-icon">
+<meta property="og:image:alt" content="АЛМИК - грузоперевозки по России и СНГ">
+В VK:
+
+html
+<meta property="vk:image" content="https://almik.onrender.com/favicon.ico">
+В Twitter:
+
+html
+<meta name="twitter:image" content="https://almik.onrender.com/favicon.ico">
+ШАГ 2: Schema.org В App.tsx (РАСШИРЕННАЯ РАЗМЕТКА)
+Компонент JsonLd уже создан в client/src/components/JsonLd.tsx.
+
+В client/src/App.tsx добавь ВСЕ эти схемы через <JsonLd data={...} />:
+
+2.1. Organization:
+
+json
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "АЛМИК",
+  "alternateName": ["ALMIK", "ООО АЛМИК", "ТК АЛМИК"],
+  "url": "https://almik.onrender.com",
+  "logo": "https://almik.onrender.com/favicon.ico",
+  "image": "https://almik.onrender.com/favicon.ico",
+  "description": "Прямые грузоперевозки от 1.5 до 20 тонн на собственных машинах 2023 года. Фуры 20т, тралы, манипуляторы, Газели. Работаем по России и СНГ.",
+  "foundingDate": "2023-01-15",
+  "foundingLocation": "Тверь, Россия",
+  "numberOfEmployees": "15",
+  "vatID": "6900000798",
+  "taxID": "6900000798",
+  "legalName": "ООО «АЛМИК»",
+  "slogan": "Доставим ваш груз в любую точку России и СНГ",
+  "contactPoint": [
+    {
+      "@type": "ContactPoint",
+      "telephone": "+7-901-117-23-71",
+      "contactType": "customer service",
+      "areaServed": ["RU", "BY", "KZ", "AM", "KG", "UZ", "TJ", "MN", "GE", "AZ"],
+      "availableLanguage": ["Russian"],
+      "email": "almik.ks@yandex.ru",
+      "hoursAvailable": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+        "opens": "08:00",
+        "closes": "22:00"
+      }
+    },
+    {
+      "@type": "ContactPoint",
+      "telephone": "+7-901-117-23-71",
+      "contactType": "whatsapp",
+      "availableLanguage": ["Russian"]
+    },
+    {
+      "@type": "ContactPoint",
+      "telephone": "+7-901-117-23-71",
+      "contactType": "telegram",
+      "availableLanguage": ["Russian"]
+    }
+  ],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Тверь",
+    "streetAddress": "Петербургское шоссе 93к1, офис 516",
+    "postalCode": "170036",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 56.8587,
+    "longitude": 35.9176
+  },
+  "sameAs": [
+    "https://t.me/Obormotka_byaka",
+    "https://wa.me/79011172371"
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "127",
+    "reviewCount": "127"
+  }
+}
