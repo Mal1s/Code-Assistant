@@ -78,11 +78,6 @@ function App() {
       "postalCode": "170036",
       "addressCountry": "RU"
     },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": 56.8587,
-      "longitude": 35.9176
-    },
     "areaServed": [
       { "@type": "Country", "name": "Россия" },
       { "@type": "Country", "name": "Беларусь" },
@@ -149,7 +144,7 @@ function App() {
     ],
     "potentialAction": [
       {
-        "@type": "CallAction",
+        "@type": "ContactAction",
         "name": "Позвонить сейчас",
         "target": { "@type": "EntryPoint", "urlTemplate": "tel:+79011172371" }
       },
