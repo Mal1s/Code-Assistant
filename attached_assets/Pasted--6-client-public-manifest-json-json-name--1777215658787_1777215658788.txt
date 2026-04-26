@@ -1,0 +1,95 @@
+ШАГ 6: client/public/manifest.json
+json
+{
+  "name": "АЛМИК — грузоперевозки по России и СНГ",
+  "short_name": "АЛМИК",
+  "description": "Прямые грузоперевозки от 1.5 до 20 тонн. Собственный автопарк 2023 года. Фуры 20т, тралы, манипуляторы, Газели.",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#0b1a33",
+  "background_color": "#ffffff",
+  "icons": [
+    { "src": "/favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" }
+  ],
+  "shortcuts": [
+    { "name": "Рассчитать стоимость", "url": "/#form" },
+    { "name": "Позвонить", "url": "tel:+79011172371" },
+    { "name": "Telegram", "url": "https://t.me/Obormotka_byaka" },
+    { "name": "WhatsApp", "url": "https://wa.me/79011172371" }
+  ]
+}
+ШАГ 7: render.yaml (корень проекта)
+yaml
+services:
+  - type: static
+    name: almik-frontend
+    root: .
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist/public
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    headers:
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=31536000, immutable
+      - path: /robots.txt
+        name: Cache-Control
+        value: public, max-age=86400
+      - path: /sitemap.xml
+        name: Cache-Control
+        value: public, max-age=86400
+ШАГ 8: ФИНАЛЬНАЯ ПРОВЕРКА
+После всех исправлений убедись:
+
+Все JSON в Schema.org валидные (без лишних запятых, скобки закрыты)
+
+Все URL начинаются с https://almik.onrender.com
+
+Все телефоны: +7-901-117-23-71
+
+Telegram: https://t.me/Obormotka_byaka
+
+WhatsApp: https://wa.me/79011172371
+
+favicon доступен по ссылке https://almik.onrender.com/favicon.ico
+
+robots.txt открывается и не блокирует индексацию
+
+sitemap.xml открывается и содержит все URL
+
+manifest.json открывается
+
+В index.html есть все мета-теги, Open Graph, Twitter Card, гео-теги
+
+ЧТО НЕ ТРОГАТЬ:
+client/src/pages/Home.tsx
+
+Любой код дизайна и анимаций
+
+Форму заявки
+
+Компоненты React (кроме App.tsx для Schema.org)
+
+ЧТО ДОЛЖНО ПОЛУЧИТЬСЯ:
+После индексации (2-4 недели) сайт должен:
+
+Быть на 1 месте по запросам "грузоперевозки Тверь", "фура 20 тонн", "манипулятор аренда", "негабаритные перевозки"
+
+Отображать иконку в поиске Яндекса и Google
+
+Показывать звёзды рейтинга 4.9 в выдаче
+
+Показывать кнопки "Позвонить", "Написать в Telegram", "Написать в WhatsApp"
+
+Показывать FAQ-блок с вопросами-ответами
+
+Показывать цены в сниппете
+
+Показывать адрес и часы работы
+
+Находиться по ключевым словам во всех регионах России и странах СНГ
+
+СДЕЛАЙ ВСЁ ЭТО, НЕ МЕНЯЯ Home.tsx. ПРОВЕРЬ КАЖДЫЙ ФАЙЛ И ИСПРАВЬ ВСЕ ОШИБКИ.
+

@@ -23,7 +23,8 @@ function App() {
     "name": "АЛМИК",
     "alternateName": ["ALMIK", "ООО АЛМИК"],
     "url": "https://almik.onrender.com",
-    "logo": "https://almik.onrender.com/favicon.ico",
+    "logo": "https://almik.onrender.com/favicon-512.png",
+    "image": "https://almik.onrender.com/opengraph.jpg",
     "description": "Прямые грузоперевозки от 1.5 до 20 тонн на собственных машинах 2023 года. Фуры, тралы, манипуляторы, Газели.",
     "foundingDate": "2023-01-15",
     "vatID": "6900000798",
@@ -49,7 +50,7 @@ function App() {
       "postalCode": "170036",
       "addressCountry": "RU"
     },
-    "sameAs": ["https://t.me/Obormotka_byaka"],
+    "sameAs": ["https://t.me/Obormotka_byaka", "https://wa.me/79011172371"],
     "aggregateRating": {
       "@type": "AggregateRating",
       "ratingValue": "4.9",
@@ -62,7 +63,10 @@ function App() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "АЛМИК - Грузоперевозки Тверь",
-    "image": "https://almik.onrender.com/favicon.ico",
+    "image": "https://almik.onrender.com/opengraph.jpg",
+    "logo": "https://almik.onrender.com/favicon-512.png",
+    "url": "https://almik.onrender.com",
+    "sameAs": ["https://t.me/Obormotka_byaka", "https://wa.me/79011172371"],
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Петербургское шоссе, 93к1, офис 516",
@@ -83,7 +87,24 @@ function App() {
       "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
       "opens": "08:00",
       "closes": "22:00"
-    }
+    },
+    "potentialAction": [
+      {
+        "@type": "CallAction",
+        "name": "Позвонить",
+        "target": { "@type": "EntryPoint", "urlTemplate": "tel:+79011172371" }
+      },
+      {
+        "@type": "SendAction",
+        "name": "Написать в Telegram",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://t.me/Obormotka_byaka" }
+      },
+      {
+        "@type": "SendAction",
+        "name": "Написать в WhatsApp",
+        "target": { "@type": "EntryPoint", "urlTemplate": "https://wa.me/79011172371" }
+      }
+    ]
   };
 
   const faqSchema = {

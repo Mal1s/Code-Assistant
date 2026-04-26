@@ -82,11 +82,8 @@ Disallow: /wp-admin/
 Disallow: /wp-content/
 Disallow: /wp-includes/
 
-# Карты сайта (основная + гео-карты)
+# Карта сайта
 Sitemap: https://almik.onrender.com/sitemap.xml
-Sitemap: https://almik.onrender.com/sitemap-geo.xml
-Sitemap: https://almik.onrender.com/sitemap-services.xml
-Sitemap: https://almik.onrender.com/sitemap-routes.xml
 
 # ============================================
 # 🇷🇺 ЯНДЕКС (РОССИЯ - ОСНОВНОЙ РЫНОК)
