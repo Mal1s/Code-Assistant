@@ -27,7 +27,7 @@ function App() {
     "@type": "Organization",
     "@id": `${SITE}/#organization`,
     "name": "АЛМИК",
-    "alternateName": ["ALMIK", "ООО АЛМИК", "ТК АЛМИК"],
+    "alternateName": ["АЛМИК", "ALMIK", "ООО АЛМИК", "ТК АЛМИК"],
     "url": SITE,
     "logo": LOGO,
     "image": OG,
