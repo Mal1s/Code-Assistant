@@ -1,7 +1,7 @@
 # ============================================
 # 🤖 ROBOTS.TXT - АЛМИК | ГРУЗОПЕРЕВОЗКИ РФ И СНГ
 # ============================================
-# Сайт: https://almik.onrender.com
+# Сайт: https://almik-logistic.ru
 # Компания: ООО "АЛМИК"
 # Хостинг: Render.com
 # Обновлено: 2026-04-26
@@ -44,8 +44,8 @@ Disallow: /*?
 Disallow: /cgi-bin/
 Disallow: /search/
 
-Host: almik.onrender.com
-Sitemap: https://almik.onrender.com/sitemap.xml
+Host: almik-logistic.ru
+Sitemap: https://almik-logistic.ru/sitemap.xml
 Crawl-delay: 2.0
 
 # ============================================
