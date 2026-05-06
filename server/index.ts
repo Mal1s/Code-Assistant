@@ -22,6 +22,14 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
+// 301 редирект на новый сайт (кроме API)
+app.use((req, res, next) => {
+  if (!req.path.startsWith("/api")) {
+    return res.redirect(301, 'https://almik-logistic.ru' + req.url);
+  }
+  next();
+});
+
 export function log(message: string, source = "express") {
   const formattedTime = new Date().toLocaleTimeString("en-US", {
     hour: "numeric",
