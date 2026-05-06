@@ -22,10 +22,10 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-// 301 редирект на новый сайт (кроме API)
+// Редирект со старого домена на новый (кроме API)
 app.use((req, res, next) => {
-  if (!req.path.startsWith("/api")) {
-    return res.redirect(301, 'https://almik-logistic.ru' + req.url);
+  if (req.hostname === 'almik.onrender.com' && !req.path.startsWith("/api")) {
+    return res.redirect(301, 'https://www.almik-logistic.ru' + req.url);
   }
   next();
 });
