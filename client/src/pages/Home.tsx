@@ -607,12 +607,13 @@ export default function Home() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center">
             <motion.div {...fadeInUp} className="relative mt-4 lg:mt-0 flex justify-center">
-              <div className="rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] md:border-[8px] border-slate-50 w-full max-w-64 md:max-w-72 lg:max-h-110">
-                <img
-                  src={imgTrucks}
-                  alt="Trucks"
-                  className="w-full h-full object-cover aspect-[4/3]"
-                />
+                <div className="rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-[6px] md:border-[8px] border-slate-50 w-full max-w-64 md:max-w-72 lg:max-h-[500px]">
+                  <img
+                    src={imgTrucks}
+                    alt="Trucks"
+                    className="w-full h-full object-cover aspect-[4/3]"
+                  />
+                
               </div>
               <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-[#f05a28] p-4 md:p-6 rounded-[1.5rem] md:rounded-[2rem] shadow-2xl shadow-[#f05a28]/30 hidden sm:block">
                 <span className="text-2xl md:text-3xl font-black text-white">
