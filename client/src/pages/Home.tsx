@@ -640,7 +640,7 @@ export default function Home() {
                   Автопарк 2023+, страхование, официальное трудоустройство. <strong>Работаем с НДС 22%.</strong>
                 </p>
               </div>
-              <div className="grid grid-cols-2 gap-3 md:gap-5">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-5">
                 {[
                   { label: "ИНН", val: "6900000798", icon: "fingerprint" },
                   { label: "ОГРН", val: "1236900010380", icon: "file-contract" },
@@ -649,16 +649,16 @@ export default function Home() {
                 ].map((item) => (
                   <div
                     key={item.label}
-                    className="bg-slate-50 p-3 md:p-5 rounded-xl flex gap-3 md:gap-4 items-center border border-slate-100 shadow-sm min-w-0"
+                    className="bg-slate-50 p-3 sm:p-4 md:p-5 rounded-xl flex gap-3 md:gap-4 items-center border border-slate-100 shadow-sm"
                   >
-                    <div className="w-10 h-10 md:w-14 md:h-14 bg-[#0b1a33] text-white rounded-xl flex items-center justify-center text-lg md:text-2xl shrink-0">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 md:w-14 md:h-14 bg-[#0b1a33] text-white rounded-xl flex items-center justify-center text-lg sm:text-xl md:text-2xl shrink-0">
                       <i className={`fas fa-${item.icon}`}></i>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[10px] md:text-sm font-black text-[#f05a28] uppercase tracking-wider break-words">
+                    <div>
+                      <div className="text-[10px] sm:text-[11px] md:text-sm font-black text-[#f05a28] uppercase tracking-wider">
                         {item.label}
                       </div>
-                      <div className="font-bold text-[#0b1a33] text-xs md:text-base break-words">
+                      <div className="font-bold text-[#0b1a33] text-xs sm:text-sm md:text-base">
                         {item.val}
                       </div>
                     </div>
