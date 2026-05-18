@@ -1,17 +1,29 @@
 {
   "name": "АЛМИК — грузоперевозки по России и СНГ",
   "short_name": "АЛМИК",
-  "description": "Прямые грузоперевозки от 1.5 до 20 тонн на собственных машинах 2023 года выпуска. Фуры, тралы, манипуляторы, Газели — весь транспорт в отличном состоянии, с полным техобслуживанием и опытными водителями за рулём. Работаем по всей России: от Калининграда до Владивостока, от Мурманска до Сочи. Знаем федеральные трассы, зимники, горные серпантины и городские пробки. Возим сборные грузы, негабарит, спецтехнику, стройматериалы, оборудование. Помогаем с переездами — квартирными, офисными, дачными. Предоставляем грузчиков, упаковку, такелаж. Работаем официально: договор, счета, закрывающие документы. Можно с НДС 22%, можно без. Цены фиксируем в договоре — никаких скрытых платежей и сюрпризов в пути. Менеджеры на связи с 8:00 до 22:00 без выходных. Рассчитываем стоимость за 15 минут. Не знаете какую машину выбрать? Позвоните — подскажем честно, без навязывания лишнего. АЛМИК — когда важно доехать.",
-  "start_url": "/",
+  "description": "Прямые грузоперевозки по России и СНГ. Фуры, тралы, манипуляторы, Газели. Официально, с НДС. 24/7.",
+  "start_url": "/?utm_source=pwa",
   "scope": "/",
+  "id": "almik-logistic-pwa-v1",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui"],
-  "orientation": "portrait",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
+  "orientation": "any",
   "theme_color": "#0b1a33",
-  "background_color": "#ffffff",
+  "background_color": "#0b1a33",
   "lang": "ru-RU",
   "dir": "ltr",
-  "categories": ["business", "logistics", "transportation"],
+  "categories": ["business", "logistics", "transportation", "shipping", "delivery"],
+  "prefer_related_applications": false,
+  "iarc_rating_id": "https://almik-logistic.ru/",
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  },
+  "edge_side_panel": {
+    "preferred_width": 400
+  },
+  "handle_links": "preferred",
+  "capture_links": "existing-client",
+  "related_applications": [],
   "icons": [
     {
       "src": "/favicon.ico",
@@ -36,6 +48,28 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshot-desktop.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg",
+      "form_factor": "wide",
+      "label": "Главная страница АЛМИК на компьютере"
+    },
+    {
+      "src": "/screenshot-mobile.jpg",
+      "sizes": "750x1334",
+      "type": "image/jpeg",
+      "form_factor": "narrow",
+      "label": "Мобильная версия сайта АЛМИК"
     }
   ],
   "shortcuts": [
@@ -43,25 +77,72 @@
       "name": "Рассчитать стоимость",
       "short_name": "Расчёт",
       "description": "Узнайте точную цену за 15 минут",
-      "url": "/#form"
+      "url": "/?utm_source=pwa&utm_medium=shortcut&utm_campaign=calculator",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Позвонить напрямую",
       "short_name": "Звонок",
-      "description": "Задайте вопрос без ожидания",
-      "url": "tel:+79011172371"
-    },
-    {
-      "name": "Посмотреть автопарк",
-      "short_name": "Автопарк",
-      "description": "Фуры, тралы, манипуляторы, Газели",
-      "url": "/#services"
+      "description": "Задайте вопрос по телефону",
+      "url": "tel:+79011172371",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     },
     {
       "name": "Написать в WhatsApp",
       "short_name": "WhatsApp",
       "description": "Быстрый ответ в мессенджере",
-      "url": "https://wa.me/79011172371"
+      "url": "https://wa.me/79011172371?text=Здравствуйте%2C+рассчитайте+стоимость+грузоперевозки",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Написать в Telegram",
+      "short_name": "Telegram",
+      "description": "Оперативная связь в Telegram",
+      "url": "https://t.me/Obormotka_byaka",
+      "icons": [
+        {
+          "src": "/favicon-192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
     }
-  ]
+  ],
+  "share_target": {
+    "action": "/",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": {
+      "title": "name",
+      "text": "description",
+      "url": "link"
+    }
+  },
+  "protocol_handlers": [
+    {
+      "protocol": "web+almik",
+      "url": "/?utm_source=pwa&utm_medium=protocol&utm_campaign=handler&query=%s"
+    }
+  ],
+  "note_taking": {
+    "new_note_url": "/?utm_source=pwa&utm_medium=note&utm_campaign=new"
+  }
 }

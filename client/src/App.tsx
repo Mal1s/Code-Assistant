@@ -5,19 +5,52 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/Home";
+import CityPage from "@/pages/CityPage";
+import ServicePage from "@/pages/ServicePage";
 import JsonLd from "@/components/JsonLd";
 
 function Router() {
   return (
     <Switch>
+      {/* Главная */}
       <Route path="/" component={Home} />
+
+      {/* Страницы городов */}
+      <Route path="/gorod/:citySlug" component={CityPage} />
+
+      {/* Страницы услуг */}
+      <Route path="/uslugi/:serviceSlug" component={ServicePage} />
+
+      {/* Маршруты */}
+      <Route path="/marshrut/:routeSlug" component={CityPage} />
+
+      {/* Блог */}
+      <Route path="/blog" component={Home} />
+      <Route path="/blog/:articleSlug" component={Home} />
+
+      {/* Служебные страницы */}
+      <Route path="/o-kompanii" component={Home} />
+      <Route path="/kontakty" component={Home} />
+      <Route path="/vakansii" component={Home} />
+      <Route path="/karta-sayta" component={Home} />
+      <Route path="/politika-konfidencialnosti" component={Home} />
+      <Route path="/polzovatelskoe-soglashenie" component={Home} />
+      <Route path="/rekvizity" component={Home} />
+      <Route path="/dogovor-oferta" component={Home} />
+      <Route path="/sotrudnichestvo" component={Home} />
+      <Route path="/dlya-voditeley" component={Home} />
+
+      {/* Страны */}
+      <Route path="/country/:countrySlug" component={CityPage} />
+
+      {/* 404 — всё остальное */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
 function App() {
-  const SITE = "https://almik.onrender.com";
+  const SITE = "https://almik-logistic.ru";
   const LOGO = `${SITE}/favicon-512.png`;
   const OG = `${SITE}/opengraph.jpg`;
 
@@ -31,7 +64,7 @@ function App() {
     "url": SITE,
     "logo": LOGO,
     "image": OG,
-    "description": "Прямые грузоперевозки от 1.5 до 20 тонн на собственных машинах 2023 года. Фуры 20т, тралы, манипуляторы, Газели. Работаем по России и СНГ.",
+    "description": "Прямые грузоперевозки от 1.5 до 20 тонн на собственных машинах 2023-2025 года. Фуры 20т, тралы, манипуляторы, Газели. Работаем по России и СНГ.",
     "foundingDate": "2023-01-15",
     "foundingLocation": "Тверь, Россия",
     "numberOfEmployees": "15",
@@ -104,7 +137,7 @@ function App() {
     }
   };
 
-  // 2.2 LocalBusiness с potentialAction
+  // 2.2 LocalBusiness
   const localBusinessSchema = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -179,7 +212,7 @@ function App() {
     }
   };
 
-  // 2.3 FAQPage — 10 вопросов
+  // 2.3 FAQPage
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -189,7 +222,7 @@ function App() {
         "name": "Сколько стоит доставка груза?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Стоимость зависит от типа груза, расстояния и машины. Газель по городу — от 2500₽. Фура 20т на дальние расстояния — от 35000₽. Манипулятор — от 3000₽/час. Трал для негабарита — от 40000₽. Звоните +7 (901) 117-23-71 — рассчитаем точно за 15 минут!"
+          "text": "Газель по городу — от 2500₽. Фура 20т на дальние расстояния — от 35000₽. Манипулятор — от 3000₽/час. Трал для негабарита — от 40000₽. Звоните +7 (901) 117-23-71 — рассчитаем точно за 15 минут!"
         }
       },
       {
@@ -197,7 +230,7 @@ function App() {
         "name": "Какие машины есть в автопарке?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Собственный автопарк машин 2023 года выпуска: Газели от 1.5 до 5 тонн (тент, борт, фургон), фуры 20 тонн (90м³), тралы для негабаритных грузов до 60 тонн, манипуляторы с краном от 3 до 15 тонн. Все машины с GPS-мониторингом."
+          "text": "Собственный автопарк: Газели от 1.5 до 5 тонн (тент, борт, фургон), фуры 20 тонн (90м³), тралы для негабаритных грузов до 60 тонн, манипуляторы с краном от 3 до 15 тонн, КАМАЗы, рефрижераторы."
         }
       },
       {
@@ -205,7 +238,7 @@ function App() {
         "name": "Работаете ли вы с НДС?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Да, работаем с НДС 22% (ОСНО). Предоставляем полный пакет документов: счёт-фактуру, акт выполненных работ, УПД, ТТН, договор. Также возможна работа без НДС для ИП и физлиц."
+          "text": "Да, работаем с НДС 22% (ОСНО) и без НДС. Предоставляем: счёт-фактуру, акт выполненных работ, УПД, ТТН, договор."
         }
       },
       {
@@ -213,23 +246,23 @@ function App() {
         "name": "Как быстро подадите машину?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "По Твери и области — обычно в течение 2-4 часов. По Москве и Санкт-Петербургу — в день обращения. По России — от 12 до 48 часов в зависимости от направления. Срочная подача за 1 час — звоните +7 (901) 117-23-71."
+          "text": "По Твери — за 30 минут. По Москве и СПб — в день обращения. По России — от 12 до 48 часов. Срочная подача: +7 (901) 117-23-71."
         }
       },
       {
         "@type": "Question",
-        "name": "Какие документы нужны для перевозки груза?",
+        "name": "Какие документы нужны для перевозки?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Для юрлиц: договор, заявка, ТТН, доверенность на получателя. Для физлиц: паспорт отправителя и получателя. Документы на сам груз (если есть): счёт-фактура, накладные. Все документы оформляем сами — вам нужно только предоставить данные."
+          "text": "Для юрлиц: договор, заявка, ТТН, доверенность. Для физлиц: паспорт отправителя/получателя. Все документы оформляем сами."
         }
       },
       {
         "@type": "Question",
-        "name": "Работаете ли вы с физическими лицами?",
+        "name": "Работаете ли с физическими лицами?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Да, активно работаем с физлицами: переезды (квартирные, офисные, дачные), доставка мебели и техники, перевозка стройматериалов. Оплата наличными, переводом на карту или через банк. Договор оформляется обязательно."
+          "text": "Да: переезды (квартирные, офисные, дачные), доставка мебели и техники, перевозка стройматериалов. Оплата наличными, на карту или безнал."
         }
       },
       {
@@ -237,7 +270,7 @@ function App() {
         "name": "Есть ли страховка груза?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Да, страхуем груз на полную стоимость в страховых компаниях АльфаСтрахование, Ингосстрах, СОГАЗ. Базовая ответственность по договору включена бесплатно. Дополнительная страховка от 0.1% стоимости груза."
+          "text": "Да, страхуем груз на полную стоимость. Базовая ответственность по договору включена бесплатно. Дополнительная страховка от 0.1% стоимости."
         }
       },
       {
@@ -245,7 +278,7 @@ function App() {
         "name": "Как с вами связаться?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Телефон: +7 (901) 117-23-71. Telegram: @Obormotka_byaka (https://t.me/Obormotka_byaka). WhatsApp: +7 (901) 117-23-71 (https://wa.me/79011172371). Email: almik.ks@yandex.ru. Принимаем заявки 7 дней в неделю с 08:00 до 22:00."
+          "text": "Телефон: +7 (901) 117-23-71. Telegram: @Obormotka_byaka. WhatsApp: +7 (901) 117-23-71. Email: almik.ks@yandex.ru. Ежедневно с 08:00 до 22:00."
         }
       },
       {
@@ -253,7 +286,7 @@ function App() {
         "name": "Какие регионы и страны обслуживаете?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Все регионы России: от Калининграда до Владивостока, включая Крым, Кавказ, Сибирь, Дальний Восток, Якутию. Страны СНГ: Беларусь, Казахстан, Армения, Киргизия, Узбекистан, Таджикистан, Монголия, Грузия, Азербайджан. Международные перевозки оформляем со всеми таможенными документами."
+          "text": "Вся Россия (от Калининграда до Владивостока), Беларусь, Казахстан, Армения, Киргизия, Узбекистан, Таджикистан, Монголия, Грузия, Азербайджан."
         }
       },
       {
@@ -261,13 +294,13 @@ function App() {
         "name": "Как происходит оплата?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Принимаем: наличные водителю при погрузке/разгрузке, безналичный перевод на расчётный счёт (для юрлиц с НДС или без), перевод на карту Сбербанка/Тинькофф. Возможна предоплата 30-50% или оплата по факту доставки. Цена в договоре фиксированная — без доплат."
+          "text": "Наличные водителю, безналичный перевод на р/с (для юрлиц с НДС или без), перевод на карту. Предоплата 30-50% или оплата по факту. Цена фиксированная."
         }
       }
     ]
   };
 
-  // 2.4 Service с ценами
+  // 2.4 Service
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -277,10 +310,7 @@ function App() {
     "areaServed": [
       { "@type": "Country", "name": "Россия" },
       { "@type": "Country", "name": "Беларусь" },
-      { "@type": "Country", "name": "Казахстан" },
-      { "@type": "Country", "name": "Армения" },
-      { "@type": "Country", "name": "Киргизия" },
-      { "@type": "Country", "name": "Узбекистан" }
+      { "@type": "Country", "name": "Казахстан" }
     ],
     "name": "Грузоперевозки по России и СНГ",
     "description": "Прямые грузоперевозки от 1.5 до 20 тонн. Газели, фуры 20т, тралы, манипуляторы. Цены от 2500₽.",
@@ -290,43 +320,39 @@ function App() {
       "itemListElement": [
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Газель 1.5-2 тонны (тент/борт/фургон)" },
+          "itemOffered": { "@type": "Service", "name": "Газель 1.5-2 тонны" },
           "price": "2500",
-          "priceCurrency": "RUB",
-          "priceSpecification": { "@type": "PriceSpecification", "minPrice": "2500", "maxPrice": "15000", "priceCurrency": "RUB" }
+          "priceCurrency": "RUB"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Фура 20 тонн (90м³, тент)" },
+          "itemOffered": { "@type": "Service", "name": "Фура 20 тонн (90м³)" },
           "price": "35000",
-          "priceCurrency": "RUB",
-          "priceSpecification": { "@type": "PriceSpecification", "minPrice": "35000", "maxPrice": "150000", "priceCurrency": "RUB" }
+          "priceCurrency": "RUB"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Манипулятор с краном 3-15 тонн" },
+          "itemOffered": { "@type": "Service", "name": "Манипулятор 3-15 тонн" },
           "price": "3000",
-          "priceCurrency": "RUB",
-          "priceSpecification": { "@type": "PriceSpecification", "minPrice": "3000", "maxPrice": "25000", "priceCurrency": "RUB" }
+          "priceCurrency": "RUB"
         },
         {
           "@type": "Offer",
-          "itemOffered": { "@type": "Service", "name": "Трал для негабаритных грузов до 60 тонн" },
+          "itemOffered": { "@type": "Service", "name": "Трал для негабарита до 60 тонн" },
           "price": "40000",
-          "priceCurrency": "RUB",
-          "priceSpecification": { "@type": "PriceSpecification", "minPrice": "40000", "maxPrice": "300000", "priceCurrency": "RUB" }
+          "priceCurrency": "RUB"
         }
       ]
     }
   };
 
-  // 2.5 Product "Грузоперевозки фурой 20 тонн"
+  // 2.5 Product
   const productSchema = {
     "@context": "https://schema.org",
     "@type": "Product",
-    "name": "Грузоперевозки фурой 20 тонн по России и СНГ",
+    "name": "Грузоперевозки фурой 20 тонн",
     "image": OG,
-    "description": "Перевозка грузов до 20 тонн фурами с тентом 90м³. Собственный автопарк 2023 года. Прямые рейсы по России и СНГ. Фиксированная цена в договоре, страховка груза.",
+    "description": "Перевозка грузов до 20 тонн фурами 90м³. Собственный автопарк 2023-2025. Прямые рейсы по РФ и СНГ. Фиксированная цена.",
     "brand": { "@type": "Brand", "name": "АЛМИК" },
     "sku": "ALMIK-FURA-20T",
     "offers": {
@@ -379,7 +405,7 @@ function App() {
     }
   };
 
-  // 2.8 HowTo "Как заказать грузоперевозку"
+  // 2.8 HowTo
   const howToSchema = {
     "@context": "https://schema.org",
     "@type": "HowTo",
@@ -393,21 +419,21 @@ function App() {
         "@type": "HowToStep",
         "position": 1,
         "name": "Оставьте заявку",
-        "text": "Заполните форму на сайте, позвоните +7 (901) 117-23-71 или напишите в Telegram @Obormotka_byaka / WhatsApp. Укажите тип груза, маршрут и дату.",
+        "text": "Заполните форму на сайте, позвоните +7 (901) 117-23-71 или напишите в Telegram/WhatsApp.",
         "url": `${SITE}/#form`
       },
       {
         "@type": "HowToStep",
         "position": 2,
         "name": "Получите расчёт за 15 минут",
-        "text": "Менеджер рассчитает точную стоимость по вашему маршрузу и подберёт подходящую машину из автопарка. Цена фиксируется в договоре.",
+        "text": "Менеджер рассчитает точную стоимость и подберёт машину. Цена фиксируется в договоре.",
         "url": `${SITE}/#services`
       },
       {
         "@type": "HowToStep",
         "position": 3,
         "name": "Подпишите договор и получите груз",
-        "text": "Заключаем договор, подаём машину в назначенное время, доставляем груз с полным пакетом документов. Оплата наличными, переводом или по безналу с НДС.",
+        "text": "Подаём машину вовремя, доставляем груз с полным пакетом документов. Оплата любым способом.",
         "url": `${SITE}/#contacts`
       }
     ]

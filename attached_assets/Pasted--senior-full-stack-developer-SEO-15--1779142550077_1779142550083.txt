@@ -1,0 +1,189 @@
+Ты — senior full-stack developer и SEO-эксперт с 15-летним опытом. Твоя задача — проанализировать ВЕСЬ проект, найти и исправить все ошибки, и улучшить SEO до максимального уровня для Яндекс и Google в 2026 году.
+
+═══════════════════════════════════════════
+🚫 КАТЕГОРИЧЕСКИ НЕЛЬЗЯ ТРОГАТЬ:
+═══════════════════════════════════════════
+- client/src/pages/Home.tsx — НИ ОДНОЙ ПРАВКИ
+- client/src/components/JsonLd.tsx — НИ ОДНОЙ ПРАВКИ
+- Дизайн и вёрстку — НЕ МЕНЯТЬ
+- Структуру папок — НЕ МЕНЯТЬ
+- Цвета, шрифты, анимации — НЕ МЕНЯТЬ
+
+═══════════════════════════════════════════
+ЧАСТЬ 1: ИСПРАВЛЕНИЕ ОШИБОК
+═══════════════════════════════════════════
+
+1.1. SPA-РОУТИНГ (server/index.ts):
+- Найди файл server/index.ts
+- Найди где создаётся приложение express
+- После всех API-маршрутов, ПЕРЕД app.listen, проверь есть ли строка для SPA-fallback
+- Если её нет — ДОБАВЬ:
+// SPA fallback — все не-API запросы отдают index.html
+app.get('*', (req, res) => {
+if (req.path.startsWith('/api/')) {
+return res.status(404).json({ error: 'API route not found' });
+}
+res.sendFile(path.join(__dirname, '../client/index.html'));
+});
+
+text
+- Убедись что path импортирован: import path from 'path';
+- Если используется ES модули — используй import.meta.url с fileURLToPath
+
+1.2. HelmetProvider (client/src/main.tsx):
+- Проверь client/src/main.tsx
+- Там должно быть: import { HelmetProvider } from "react-helmet-async";
+- И рендер должен быть: <HelmetProvider><App /></HelmetProvider>
+- Если нет — исправь
+- Проверь что пакет установлен: выполни npm ls react-helmet-async
+- Если не установлен: npm install react-helmet-async
+
+1.3. Проверь импорты в CityPage.tsx и ServicePage.tsx:
+- Открой client/src/pages/CityPage.tsx
+- Самая первая строка импорта должна быть: import { useParams, Link } from "wouter";
+- Если там "react-router-dom" — ЗАМЕНИ на "wouter"
+- То же самое для client/src/pages/ServicePage.tsx
+
+1.4. Проверь роуты в App.tsx:
+- Открой client/src/App.tsx
+- Проверь что есть импорты:
+import CityPage from "@/pages/CityPage";
+import ServicePage from "@/pages/ServicePage";
+- Проверь что внутри <Switch> есть роуты:
+<Route path="/gorod/:citySlug" component={CityPage} />
+<Route path="/uslugi/:serviceSlug" component={ServicePage} />
+<Route path="/marshrut/:routeSlug" component={CityPage} />
+<Route path="/country/:countrySlug" component={CityPage} />
+- Если нет — добавь их перед 404-роутом
+
+1.5. Проверь файлы данных:
+- client/src/data/cities.ts — должен существовать и экспортировать:
+export interface City { name, title, description, price, advantages, popularRoutes, services, ... }
+export const cities: Record<string, City> = { ... }
+(должен содержать хотя бы 10 городов: moskva, tver, sankt-peterburg, kazan, nizhniy-novgorod, ekaterinburg, novosibirsk, krasnodar, sochi, voronezh, minsk, astana)
+- client/src/data/services.ts — должен существовать и экспортировать:
+export interface Service { name, slug, title, description, fullText, price, icon, features, suitableFor, popularRoutes }
+export const services: Record<string, Service> = { ... }
+(должен содержать хотя бы 8 услуг)
+- Если файлы пустые или отсутствуют — создай их с минимальными тестовыми данными
+
+1.6. Предупреждение noscript в head:
+- Открой client/index.html
+- Найди строку: <noscript><div><img src="https://mc.yandex.ru/watch/108785281"
+- ПЕРЕНЕСИ этот <noscript> из <head> в <body> — сразу после открывающего <body>
+- Это уберёт предупреждение парсера "disallowed-content-in-noscript-in-head"
+
+═══════════════════════════════════════════
+ЧАСТЬ 2: SEO-АУДИТ И УЛУЧШЕНИЕ
+═══════════════════════════════════════════
+
+2.1. МЕТА-ТЕГИ (index.html):
+- Проверь <title>: должен быть 50-65 символов с пробелами. Включи 1-2 ключевых слова. Пример:
+"Грузоперевозки по России и СНГ от 1.5 до 20 тонн | АЛМИК Тверь"
+- Проверь <meta name="description">: должен быть 140-160 символов. Сделай привлекательным для клика, с призывом к действию. Пример:
+"Грузоперевозки по России и СНГ от 1.5 до 20 тонн. Собственный автопарк: фуры, тралы, манипуляторы, Газели. Официально, с НДС. Расчёт за 15 минут. Звоните!"
+- НАЙДИ И ПОЛНОСТЬЮ УДАЛИ <meta name="keywords"> — этот тег вредит SEO в 2026 году. Поисковики считают его спамом и могут понизить сайт
+- Проверь что есть <link rel="canonical" href="https://almik-logistic.ru/">
+- Проверь что robots meta не запрещает индексацию: <meta name="robots" content="index, follow, max-image-preview:large">
+
+2.2. OPEN GRAPH И TWITTER CARDS:
+- Проверь что есть og:title, og:description, og:image, og:url, og:type, og:site_name, og:locale
+- Проверь что есть twitter:card, twitter:title, twitter:description, twitter:image
+- Если чего-то нет — добавь
+- Изображение og:image должно быть 1200x630px и весить < 300 КБ
+
+2.3. СТРУКТУРИРОВАННЫЕ ДАННЫЕ (JSON-LD):
+- Organization: проверь что есть name, url, logo, description, address, telephone, aggregateRating
+- LocalBusiness: проверь что есть все данные для локального бизнеса
+- FAQPage: проверь что есть 5-10 вопросов/ответов про грузоперевозки
+- BreadcrumbList: проверь что есть хлебные крошки
+- WebSite + SearchAction: проверь что есть
+- Все URL в JSON-LD должны быть https://almik-logistic.ru (не onrender.com)
+
+2.4. ТЕХНИЧЕСКОЕ SEO:
+- Проверь robots.txt (в public/ или корне):
+* Должен разрешать индексацию: Allow: /
+* Должен быть Sitemap: https://almik-logistic.ru/sitemap.xml
+* Не должен блокировать /gorod/ и /uslugi/
+* Должен быть Crawl-delay для Яндекса
+* Должны быть запрещены SEO-сканеры конкурентов (AhrefsBot, SemrushBot и др.)
+* Должен чистить UTM-метки через Clean-param для Яндекса
+
+- Проверь sitemap.xml:
+* Все URL должны быть https://almik-logistic.ru (не onrender.com)
+* Должны быть все страницы городов: /gorod/moskva, /gorod/kazan, ...
+* Должны быть все страницы услуг: /uslugi/gazel-1-5-tonny, /uslugi/fura-20-tonn, ...
+* Должны быть популярные маршруты
+* lastmod должен быть не старше недели
+* Удали URL с якорями (#services, #about — поисковики их игнорируют)
+
+- Проверь .htaccess:
+* HTTP → HTTPS редирект
+* www → без www редирект
+* Старый домен (onrender.com) → новый домен редирект
+* Сжатие gzip/brotli
+* Кэширование статики (1 год для картинок и шрифтов)
+* SPA-роутинг: все запросы → index.html
+* Защита от просмотра папок: Options -Indexes
+* Страницы ошибок: ErrorDocument 404 /index.html
+
+2.5. СТРАНИЦЫ ГОРОДОВ (ДОЛЖНЫ БЫТЬ УНИКАЛЬНЫМИ):
+- Каждая страница города (/gorod/moskva, /gorod/kazan, ...):
+* Уникальный title: "Грузоперевозки в [Город] | АЛМИК"
+* Уникальный description: 140-160 символов с названием города
+* Уникальный H1: "Грузоперевозки в [Городе]"
+* Уникальный текст: 300-500 слов про перевозки в этом городе
+* Хлебные крошки: Главная → Услуги → Грузоперевозки [Город]
+* Schema.org LocalBusiness для каждого города
+* Форма заявки с предзаполненным городом
+* Популярные маршруты из этого города
+* Услуги доступные в этом городе
+
+2.6. СТРАНИЦЫ УСЛУГ (ДОЛЖНЫ БЫТЬ УНИКАЛЬНЫМИ):
+- Каждая страница услуги (/uslugi/gazel-1-5-tonny, /uslugi/fura-20-tonn, ...):
+* Уникальный title: "[Услуга] от [цена] | АЛМИК"
+* Уникальный description с названием услуги и ценой
+* Уникальный текст: 300-500 слов про услугу
+* Характеристики (грузоподъёмность, объём, размеры)
+* Для каких грузов подходит
+* Популярные направления для этой услуги
+* Форма заявки
+
+2.7. 404 СТРАНИЦА:
+- Проверь client/src/pages/not-found.tsx
+- Должна быть кастомная 404 страница (не стандартная белая)
+- Должна иметь ссылки на главную, услуги, контакты
+- Должна иметь авторедирект через 10 секунд
+
+2.8. ПРОИЗВОДИТЕЛЬНОСТЬ:
+- HTML не должен весить больше 50 КБ
+- Изображения должны быть сжаты
+- Шрифты должны быть предзагружены (preload)
+- Lazy loading для изображений ниже экрана
+- Минификация CSS и JS
+
+═══════════════════════════════════════════
+ЧАСТЬ 3: ФИНАЛЬНАЯ ПРОВЕРКА
+═══════════════════════════════════════════
+
+3.1. Запусти сервер: npm run dev
+3.2. Проверь что главная открывается: http://localhost:5000/
+3.3. Проверь страницы городов:
+- http://localhost:5000/gorod/moskva
+- http://localhost:5000/gorod/kazan
+- http://localhost:5000/gorod/minsk
+3.4. Проверь страницы услуг:
+- http://localhost:5000/uslugi/gazel-1-5-tonny
+- http://localhost:5000/uslugi/fura-20-tonn
+3.5. Проверь что в консоли браузера нет красных ошибок
+3.6. Проверь что каждая страница имеет правильный <title> и <meta name="description">
+3.7. Проверь что JSON-LD разметка генерируется на каждой странице
+
+═══════════════════════════════════════════
+ВЫВОД ПОСЛЕ ПРОВЕРКИ:
+═══════════════════════════════════════════
+Напиши список:
+- Какие ошибки были найдены и исправлены
+- Какие SEO-улучшения сделаны
+- Что ещё можно улучшить в будущем
+- Какие страницы проиндексируются лучше всего
