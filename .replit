@@ -4,7 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["unzip", "gir-rs", "got"]
+packages = ["unzip", "gir-rs", "got", "psmisc"]
 
 [[ports]]
 localPort = 5000
