@@ -299,48 +299,12 @@
   <!-- ========== БЕЗОПАСНОСТЬ ========== -->
   <meta http-equiv="Content-Security-Policy" 
     content="
-      upgrade-insecure-requests;
-      default-src 'self';
-      script-src 
-        'self' 
-        'unsafe-inline'
-        https://mc.yandex.ru
-        https://mc.yandex.com
-        https://yastatic.net
-        https://www.googletagmanager.com
-        https://www.google-analytics.com
-        https://*.google-analytics.com
-        https://cdnjs.cloudflare.com;
-      style-src 
-        'self' 
-        'unsafe-inline' 
-        https://fonts.googleapis.com 
-        https://cdnjs.cloudflare.com;
-      img-src 
-        'self' 
-        data: 
-        https: 
-        https://mc.yandex.ru;
-      font-src 
-        'self' 
-        https://fonts.gstatic.com 
-        https://cdnjs.cloudflare.com;
-      connect-src 
-        'self' 
-        https://mc.yandex.ru 
-        https://mc.yandex.com
-        https://yastatic.net
-        https://www.google-analytics.com
-        https://*.google-analytics.com
-        https://api.telegram.org;
-      frame-src 
-        'self' 
-        https://mc.yandex.ru;
-      object-src 'none';
-      base-uri 'self';
-      form-action 'self';
-      manifest-src 'self';
-      worker-src 'self';
+      default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;
+      script-src * 'unsafe-inline' 'unsafe-eval';
+      style-src * 'unsafe-inline';
+      img-src * data: blob:;
+      font-src * data:;
+      connect-src *;
     ">
 
   <!-- ========== ФАВИКОН (СТАНДАРТНЫЕ ИМЕНА) ========== -->
@@ -1064,15 +1028,7 @@
     gtag('config', 'G-XXXXXXXXXX');
   </script>
 
-  <!-- ========== VK PIXEL (ЕСЛИ ЕСТЬ РЕКЛАМА ВК) ========== -->
-  <script type="text/javascript">
-    !function(){
-      var t=document.createElement("script");
-      t.type="text/javascript",t.async=!0,t.src="https://vk.com/js/api/openapi.js?169";
-      t.onload=function(){VK.Retargeting.Init("VK-RTRG-XXXXXX-XXXXX"),VK.Retargeting.Hit()};
-      document.head.appendChild(t)
-    }();
-  </script>
+ 
   
     
    
