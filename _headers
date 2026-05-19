@@ -1,0 +1,40 @@
+# ============================================
+# Запрет кэширования HTML (всегда свежая версия)
+# ============================================
+/*.html
+  Cache-Control: no-cache, no-store, must-revalidate
+  Pragma: no-cache
+  Expires: 0
+
+# ============================================
+# Для JavaScript и CSS (короткий кэш 1 час)
+# ============================================
+/*.js
+  Cache-Control: public, max-age=3600, must-revalidate
+
+/*.css
+  Cache-Control: public, max-age=3600, must-revalidate
+
+# ============================================
+# Для картинок и шрифтов (кэш 7 дней)
+# ============================================
+/*.png
+  Cache-Control: public, max-age=604800
+
+/*.jpg
+  Cache-Control: public, max-age=604800
+
+/*.webp
+  Cache-Control: public, max-age=604800
+
+/*.svg
+  Cache-Control: public, max-age=604800
+
+/*.woff2
+  Cache-Control: public, max-age=604800
+
+# ============================================
+# Для всех остальных файлов
+# ============================================
+/*
+  Cache-Control: public, max-age=0, must-revalidate
