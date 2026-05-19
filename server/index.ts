@@ -22,11 +22,49 @@ app.use(
 
 app.use(express.urlencoded({ extended: false }));
 
-// Редирект со старого домена на новый (кроме API)
+// ── 1. HTTP → HTTPS redirect (Render.com передаёт X-Forwarded-Proto) ──
 app.use((req, res, next) => {
-  if (req.hostname === 'almik.onrender.com' && !req.path.startsWith("/api")) {
-    return res.redirect(301, 'https://www.almik-logistic.ru' + req.url);
+  if (
+    process.env.NODE_ENV === "production" &&
+    req.headers["x-forwarded-proto"] === "http"
+  ) {
+    return res.redirect(301, "https://" + req.headers.host + req.url);
   }
+  next();
+});
+
+// ── 2. Редирект www → без www (канонический домен) ──
+app.use((req, res, next) => {
+  const host = req.headers.host || "";
+  if (
+    process.env.NODE_ENV === "production" &&
+    (host === "www.almik-logistic.ru" || host === "almik.onrender.com")
+  ) {
+    return res.redirect(301, "https://almik-logistic.ru" + req.url);
+  }
+  next();
+});
+
+// ── 3. Security headers (HSTS + антиснифинг + защита от кликджекинга) ──
+app.use((_req, res, next) => {
+  // Говорим браузеру: всегда использовать HTTPS, 1 год, включая поддомены
+  res.setHeader(
+    "Strict-Transport-Security",
+    "max-age=31536000; includeSubDomains; preload"
+  );
+  // Запрещаем браузеру угадывать MIME-тип (защита от MIME-sniffing)
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  // Запрещаем встраивать сайт во фреймы на других доменах (защита от clickjacking)
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  // Включаем встроенный XSS-фильтр браузера
+  res.setHeader("X-XSS-Protection", "1; mode=block");
+  // Контролируем какой Referer отправляется при переходе
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  // Отключаем доступ к камере/микрофону/геолокации
+  res.setHeader(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=()"
+  );
   next();
 });
 
