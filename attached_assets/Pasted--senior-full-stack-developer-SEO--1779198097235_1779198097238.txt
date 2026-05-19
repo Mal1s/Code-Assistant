@@ -1,0 +1,65 @@
+Ты — senior full-stack developer и SEO-эксперт. Проведи полный аудит проекта и исправь ВСЕ проблемы, которые мешают сайту открываться в Google Chrome, Яндекс.Браузере и других браузерах без VPN.
+
+Суть проблемы: сайт https://almik-logistic.ru работает через VPN и cron-job.org подтверждает что сервер жив (200 ОК), но у многих пользователей без VPN выдаётся ошибка ERR_CONNECTION_CLOSED. В Google Search Console сайт доступен и проверен, микроразметка без ошибок, но браузеры не могут открыть страницу. Яндекс тоже видит фавикон но не может загрузить сайт. На некоторых устройствах работает, на других нет. Нужно найти и исправить причину этой ошибки, чтобы сайт открывался у всех без VPN.
+
+═══════════════════════════════════════
+🚫 КАТЕГОРИЧЕСКИ НЕ ТРОГАТЬ:
+═══════════════════════════════════════
+- client/src/pages/Home.tsx — НИ ОДНОЙ ПРАВКИ, НИ ОДНОЙ СТРОКИ
+- Вёрстку и дизайн — НЕ МЕНЯТЬ
+- Цвета, шрифты, анимации — НЕ МЕНЯТЬ
+- Структуру папок — НЕ МЕНЯТЬ
+
+═══════════════════════════════════════
+🔧 ЧТО ИСПРАВИТЬ:
+═══════════════════════════════════════
+
+1. ПРОВЕРЬ И ИСПРАВЬ index.html:
+   - Найди тег <meta http-equiv="Content-Security-Policy">
+   - ЗАМЕНИ его на мягкую версию:
+     <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; script-src * 'unsafe-inline' 'unsafe-eval'; style-src * 'unsafe-inline'; img-src * data: blob:; font-src * data:; connect-src *;">
+   - Убедись что <noscript> Яндекс.Метрики находится в <body> а не в <head>
+   - Замени Google Analytics ID G-XXXXXXXXXX на реальный (если есть)
+   - Убедись что canonical ссылка правильная: https://almik-logistic.ru
+   - Убедись что все URL в JSON-LD используют https://almik-logistic.ru а не onrender.com
+
+2. ПРОВЕРЬ server/index.ts:
+   - Должен быть SPA-роутинг: все GET-запросы не на /api должны отдавать client/index.html
+   - Должен быть редирект с almik.onrender.com на almik-logistic.ru
+   - Должен быть редирект с HTTP на HTTPS
+   - Проверь что path импортирован
+   - Проверь что нет синтаксических ошибок
+
+3. ПРОВЕРЬ ВСЕ ФАЙЛЫ НА ОШИБКИ:
+   - client/src/pages/CityPage.tsx — должен импортировать useParams и Link из "wouter" а не из "react-router-dom"
+   - client/src/pages/ServicePage.tsx — то же самое
+   - client/src/data/cities.ts — должен экспортировать cities и City
+   - client/src/data/services.ts — должен экспортировать services и Service
+   - client/src/App.tsx — должны быть роуты для /gorod/:citySlug и /uslugi/:serviceSlug
+   - client/src/main.tsx — должен быть обёрнут в HelmetProvider
+   - Проверь что react-helmet-async установлен
+
+4. ПРОВЕРЬ SEO-ФАЙЛЫ:
+   - robots.txt — должен разрешать индексацию (Allow: /)
+   - sitemap.xml — все URL должны быть на almik-logistic.ru
+   - manifest.json — должен быть валидным JSON
+   - .htaccess — должен быть редирект на HTTPS и www → без www
+
+5. ПРОВЕРЬ РОУТИНГ:
+   - /gorod/moskva должен открывать страницу Москвы а не главную
+   - /gorod/kazan должен открывать страницу Казани
+   - /uslugi/gazel-1-5-tonny должен открывать страницу услуги
+   - Все страницы должны иметь уникальный title и description
+
+6. ФИНАЛЬНАЯ ПРОВЕРКА:
+   - Запусти сервер: npm run dev
+   - Убедись что сервер запускается без красных ошибок
+   - Проверь что главная открывается
+   - Проверь что /gorod/moskva открывается (не 404, не белый экран)
+   - Проверь что в консоли браузера нет ошибок
+   - Проверь что каждая страница имеет правильный title
+
+═══════════════════════════════════════
+📊 ВЫВОД:
+═══════════════════════════════════════
+Напиши список что исправлено и что ещё можно улучшить.
