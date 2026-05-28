@@ -24,10 +24,10 @@ import imgTrucks from "@assets/ed5s9fvz.jpg";
 import imgWarehouse from "@assets/tk_1772480287120.jpg";
 import imgLogistics from "@assets/istockphoto-518279013-170667a_1773061575970.jpg";
 import imgSpecTech from "@assets/large.509979422.jpg.eba12aa69494049409401ac8b79190b4_1772524044839.jpg";
-import truckSmall from "@assets/truck_van.png";
-import truckMedium from "@assets/truck_orange.png";
-import truckLarge from "@assets/truck_flatbed.png";
-import truckCrane from "@assets/truck_crane.png";
+import truckSmall from "@assets/truck_van.webp";
+import truckMedium from "@assets/truck_orange.webp";
+import truckLarge from "@assets/truck_flatbed.webp";
+import truckCrane from "@assets/truck_crane.webp";
 
 const fadeInUp = {
   initial: { opacity: 0, y: 30 },
@@ -151,6 +151,8 @@ export default function CityPage() {
             alt={partnerName}
             className={`${logoSize} max-w-full object-contain transition-all duration-300`}
             style={{}}
+            loading="lazy"
+            decoding="async"
           />
 
           {/* Подсказка при клике (телефон) */}
@@ -377,6 +379,8 @@ export default function CityPage() {
       <img
         src={truckMap[type]}
         alt={type}
+        loading="lazy"
+        decoding="async"
         style={{
           height: getHeight(),
           width: widthScale ? `calc(${getHeight()} * ${widthScale})` : "auto",
@@ -541,6 +545,8 @@ export default function CityPage() {
             src={imgHero}
             className="w-full h-full object-cover"
             alt="Logistic background"
+            loading="eager"
+            fetchPriority="high"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#0b1a33] via-[#0b1a33]/80 to-transparent"></div>
         </div>
@@ -617,6 +623,8 @@ export default function CityPage() {
                     src={imgTrucks}
                     alt="Trucks"
                     className="w-full h-full object-cover aspect-[4/3]"
+                    loading="lazy"
+                    decoding="async"
                   />
 
               </div>
@@ -722,6 +730,8 @@ export default function CityPage() {
                     src={service.img}
                     className={`w-full h-full object-contain ${service.imgScale} relative z-10`}
                     alt={service.title}
+                    loading="lazy"
+                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-[#0b1a33]/20 group-hover:bg-transparent transition-colors"></div>
                 </div>
@@ -734,6 +744,8 @@ export default function CityPage() {
                         className={`w-full h-full object-cover ${
                           idx === 1 ? "scale-70 object-[60%]" : ""
                         } ${idx === 2 ? "scale-90 object-right" : ""}`}
+                        loading="lazy"
+                        decoding="async"
                       />
                     ) : (
                       <i
