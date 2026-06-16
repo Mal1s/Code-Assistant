@@ -1,0 +1,478 @@
+# ============================================
+# 🤖 ROBOTS.TXT — АЛМИК | ГРУЗОПЕРЕВОЗКИ РФ И СНГ
+# ============================================
+# Версия: 2.0
+# Сайт: https://almik-logistic.ru
+# Компания: ООО «АЛМИК»
+# Хостинг: Render.com
+# Обновлено: 2026-05-18
+# ============================================
+# ✅ Полностью соответствует стандарту robots.txt
+# ✅ Оптимизирован под Google, Яндекс, Bing
+# ✅ Защищает от SEO-сканеров и ботов-конкурентов
+# ✅ Ускоряет индексацию статики и изображений
+# ✅ Чистит UTM-метки (только Яндекс)
+# ============================================
+
+# ============================================
+# 1. ОБЩИЕ ПРАВИЛА ДЛЯ ВСЕХ РОБОТОВ
+# ============================================
+User-agent: *
+
+# ── ЗАПРЕЩАЕМ СЛУЖЕБНЫЕ ДИРЕКТОРИИ ──
+Disallow: /admin/
+Disallow: /api/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /.vscode/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /tmp/
+Disallow: /temp/
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /vendor/
+Disallow: /private/
+Disallow: /backup/
+Disallow: /deploy/
+Disallow: /config/
+Disallow: /env/
+
+# ── ЗАПРЕЩАЕМ ФАЙЛЫ ПО РАСШИРЕНИЯМ ──
+Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /*.log$
+Disallow: /*.env$
+Disallow: /*.md$
+Disallow: /*.yml$
+Disallow: /*.yaml$
+Disallow: /*.lock$
+Disallow: /*.sql$
+Disallow: /*.gz$
+Disallow: /*.zip$
+Disallow: /*.tar$
+Disallow: /*.rar$
+Disallow: /package.json
+Disallow: /package-lock.json
+Disallow: /yarn.lock
+Disallow: /Dockerfile
+Disallow: /docker-compose.yml
+Disallow: /composer.json
+Disallow: /composer.lock
+Disallow: /robots.txt
+
+# ── ЗАПРЕЩАЕМ ДИНАМИЧЕСКИЕ URL ──
+Disallow: /*?*
+Disallow: /*.php$
+Disallow: /*.asp$
+Disallow: /*.aspx$
+Disallow: /*.jsp$
+Disallow: /*.cgi$
+Disallow: /cgi-bin/
+Disallow: /search/
+Disallow: /search?
+Disallow: /?s=
+Disallow: /?q=
+Disallow: /?search=
+Disallow: /?query=
+
+# ── ЗАПРЕЩАЕМ ТЕХНИЧЕСКИЕ СТРАНИЦЫ ──
+Disallow: /404
+Disallow: /500
+Disallow: /error
+Disallow: /maintenance
+Disallow: /offline
+Disallow: /test
+Disallow: /staging
+Disallow: /development
+Disallow: /sandbox
+
+# ── ЗАПРЕЩАЕМ ДУБЛИ КОНТЕНТА ──
+Disallow: /print/
+Disallow: /printer/
+Disallow: /amp/
+Disallow: /mobile/
+Disallow: /m/
+Disallow: /wifi/
+Disallow: /referral/
+Disallow: /affiliate/
+
+# ── РАЗРЕШАЕМ СТАТИЧЕСКИЕ РЕСУРСЫ (ДЛЯ СКОРОСТИ ИНДЕКСАЦИИ) ──
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.woff$
+Allow: /*.woff2$
+Allow: /*.ttf$
+Allow: /*.eot$
+Allow: /*.otf$
+Allow: /*.pdf$
+Allow: /*.xml$
+
+# ── РАЗРЕШАЕМ ВСЁ ОСТАЛЬНОЕ ──
+Allow: /
+
+# ── УКАЗЫВАЕМ SITEMAP ──
+Sitemap: https://almik-logistic.ru/sitemap.xml
+
+# ── ЗАДЕРЖКА МЕЖДУ ЗАПРОСАМИ (КРОМЕ GOOGLE) ──
+Crawl-delay: 1.5
+
+
+# ============================================
+# 2. 🇷🇺 ЯНДЕКС — ОСНОВНОЙ БОТ
+# ============================================
+User-agent: Yandex
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?
+Disallow: /search/
+
+# ЧИСТИМ ВСЕ UTM, РЕФЕРАЛЬНЫЕ И ТЕХНИЧЕСКИЕ ПАРАМЕТРЫ
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_referrer&yclid&_openstat&from&source&ref&gclid&fbclid&igshid&ysclid&utm&partner&affiliate&adset&campaign&keyword&placement&target&network&device&creative&matchtype&position&feeditemid&loc_physical_ms&loc_interest_ms&gclsrc&dclid&wbraid&gbraid&msclkid&twclid&scld&igsh&fbpid&ttclid&SnPrmReferrer&SnPrmCampaign&SnPrmAdGroup&SnPrmCreative&SnPrmTarget&SnPrmPlacement&SnPrmDevice&SnPrmPosition&SnPrmFeedItemId&SnPrmPhysicalMs&SnPrmInterestMs
+
+Crawl-delay: 2.0
+
+
+# ============================================
+# 3. 🇷🇺 ЯНДЕКС — КАРТИНКИ
+# ============================================
+User-agent: YandexImages
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /assets/
+Allow: /images/
+Allow: /img/
+Allow: /photos/
+Allow: /gallery/
+Allow: /favicon/
+Allow: /icons/
+Allow: /opengraph/
+Allow: /social/
+Crawl-delay: 1.0
+
+
+# ============================================
+# 4. 🇷🇺 ЯНДЕКС — ВИДЕО
+# ============================================
+User-agent: YandexVideo
+Allow: /*.mp4$
+Allow: /*.webm$
+Allow: /*.avi$
+Allow: /*.mov$
+Allow: /videos/
+Allow: /video/
+Allow: /media/
+Crawl-delay: 1.5
+
+
+# ============================================
+# 5. 🇷🇺 ЯНДЕКС — НОВОСТИ
+# ============================================
+User-agent: YandexNews
+Allow: /
+Crawl-delay: 1.0
+
+
+# ============================================
+# 6. 🇷🇺 ЯНДЕКС — МЕТРИКА (НЕ БЛОКИРУЕМ)
+# ============================================
+User-agent: YandexMetrika
+Allow: /
+
+
+# ============================================
+# 7. 🇷🇺 ЯНДЕКС — ВЕБМАСТЕР (НЕ БЛОКИРУЕМ)
+# ============================================
+User-agent: YandexWebmaster
+Allow: /
+
+
+# ============================================
+# 8. 🌎 GOOGLE — ОСНОВНОЙ БОТ
+# ============================================
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /search/
+Disallow: /*?
+
+# GOOGLE ИГНОРИРУЕТ CRAWL-DELAY — НЕ СТАВИМ
+
+
+# ============================================
+# 9. 🌎 GOOGLE — КАРТИНКИ
+# ============================================
+User-agent: Googlebot-Image
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /assets/
+Allow: /images/
+Allow: /img/
+Allow: /photos/
+Allow: /gallery/
+Allow: /favicon/
+Allow: /icons/
+Allow: /opengraph/
+Allow: /social/
+
+
+# ============================================
+# 10. 🌎 GOOGLE — ВИДЕО
+# ============================================
+User-agent: Googlebot-Video
+Allow: /*.mp4$
+Allow: /*.webm$
+Allow: /*.avi$
+Allow: /*.mov$
+Allow: /videos/
+Allow: /video/
+Allow: /media/
+
+
+# ============================================
+# 11. 🌎 GOOGLE — НОВОСТИ
+# ============================================
+User-agent: Googlebot-News
+Allow: /
+
+
+# ============================================
+# 12. 🌎 GOOGLE — ADSENSE / ADS (НЕ БЛОКИРУЕМ)
+# ============================================
+User-agent: Mediapartners-Google
+Allow: /
+User-agent: AdsBot-Google
+Allow: /
+
+
+# ============================================
+# 13. 🔵 BING — ОСНОВНОЙ БОТ
+# ============================================
+User-agent: bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /search/
+Disallow: /*?
+Crawl-delay: 1.5
+
+
+# ============================================
+# 14. 🔵 BING — КАРТИНКИ
+# ============================================
+User-agent: BingPreview
+Allow: /
+Crawl-delay: 1.0
+
+
+# ============================================
+# 15. 🔴 YAHOO
+# ============================================
+User-agent: Slurp
+Allow: /
+Crawl-delay: 1.5
+
+
+# ============================================
+# 16. 🦆 DUCKDUCKGO
+# ============================================
+User-agent: DuckDuckBot
+Allow: /
+Crawl-delay: 1.5
+
+
+# ============================================
+# 17. 📧 MAIL.RU
+# ============================================
+User-agent: Mail.Ru
+Allow: /
+Crawl-delay: 2.0
+
+
+# ============================================
+# 18. 📧 RAMBLER
+# ============================================
+User-agent: StackRambler
+Allow: /
+Crawl-delay: 2.0
+
+
+# ============================================
+# 19. 📱 СОЦИАЛЬНЫЕ СЕТИ И МЕССЕНДЖЕРЫ
+# ============================================
+User-agent: TelegramBot
+Allow: /
+User-agent: WhatsApp
+Allow: /
+User-agent: Viber
+Allow: /
+User-agent: facebookexternalhit
+Allow: /
+User-agent: FacebookBot
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: VKShare
+Allow: /
+User-agent: VKRobot
+Allow: /
+User-agent: Pinterestbot
+Allow: /
+User-agent: LinkedInBot
+Allow: /
+User-agent: Discordbot
+Allow: /
+User-agent: Slackbot
+Allow: /
+User-agent: SkypeUriPreview
+Allow: /
+User-agent: Snapchat
+Allow: /
+User-agent: TikTokRobot
+Allow: /
+User-agent: Instagram
+Allow: /
+
+
+# ============================================
+# 20. 🚫 ЗАПРЕЩАЕМ SEO-СКАНЕРАМ И БОТАМ-КОНКУРЕНТАМ
+# ============================================
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: SemrushBot-SA
+Disallow: /
+User-agent: MJ12bot
+Disallow: /
+User-agent: DotBot
+Disallow: /
+User-agent: PetalBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+User-agent: BLEXBot
+Disallow: /
+User-agent: ZoominfoBot
+Disallow: /
+User-agent: DataForSeoBot
+Disallow: /
+User-agent: SerpstatBot
+Disallow: /
+User-agent: Screaming Frog SEO Spider
+Disallow: /
+User-agent: SiteAuditBot
+Disallow: /
+User-agent: SeznamBot
+Disallow: /
+User-agent: rogerbot
+Disallow: /
+User-agent: Exabot
+Disallow: /
+User-agent: spbot
+Disallow: /
+User-agent: YisouSpider
+Disallow: /
+User-agent: Sogou Spider
+Disallow: /
+User-agent: Baiduspider
+Disallow: /
+User-agent: MegaIndex
+Disallow: /
+User-agent: LinkpadBot
+Disallow: /
+User-agent: XoviBot
+Disallow: /
+User-agent: Sistrix
+Disallow: /
+User-agent: CCBot
+Disallow: /
+User-agent: GPTBot
+Disallow: /
+User-agent: ChatGPT-User
+Disallow: /
+User-agent: anthropic-ai
+Disallow: /
+User-agent: Claude-Web
+Disallow: /
+User-agent: PerplexityBot
+Disallow: /
+User-agent: Applebot-Extended
+Disallow: /
+User-agent: Omgilibot
+Disallow: /
+User-agent: YandexAdditional
+Disallow: /
+User-agent: YandexFavicons
+Disallow: /
+User-agent: YandexDirect
+Disallow: /
+User-agent: YandexSearchShop
+Disallow: /
+User-agent: YandexOntoDB
+Disallow: /
+User-agent: YandexPartner
+Disallow: /
+
+
+# ============================================
+# 21. 🛡️ ЗАПРЕЩАЕМ ПАРСЕРАМ И ВРЕДОНОСНЫМ БОТАМ
+# ============================================
+User-agent: Netcraft
+Disallow: /
+User-agent: Nmap
+Disallow: /
+User-agent: Nikto
+Disallow: /
+User-agent: OpenVAS
+Disallow: /
+User-agent: sqlmap
+Disallow: /
+User-agent: w3af
+Disallow: /
+User-agent: Zgrab
+Disallow: /
+User-agent: masscan
+Disallow: /
+User-agent: python-requests
+Disallow: /
+User-agent: libwww-perl
+Disallow: /
+User-agent: curl
+Disallow: /
+User-agent: wget
+Disallow: /
+User-agent: HTTrack
+Disallow: /
+User-agent: WebCopier
+Disallow: /
+User-agent: SiteSucker
+Disallow: /
+User-agent: Offline Explorer
+Disallow: /
+User-agent: Teleport Pro
+Disallow: /
+User-agent: WebZIP
+Disallow: /
+
+
+# ============================================
+# 22. ⚡ КОНЕЦ ФАЙЛА
+# ============================================
