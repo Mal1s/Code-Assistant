@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import thirdIcon from "@assets/photo_2026.jpg";
 import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.png";
 import logoOzon from "@assets/logo_ozon_new.png";
-import logoTranstech from "@assets/photo_2026-06-25_20-48-03_1782413324167.jpg";
+import logoTranstech from "@assets/transtech_logo_nobg.png";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
 
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
