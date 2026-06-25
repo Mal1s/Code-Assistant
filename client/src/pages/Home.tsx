@@ -90,16 +90,16 @@ export default function Home() {
           logoSize = "max-h-16 md:max-h-20";
           break;
         case "УВМ-Сталь":
-          logoSize = "max-h-14 md:max-h-16";
+          logoSize = "max-h-17 md:max-h-25";
           break;
         case "Светофор":
           logoSize = "max-h-12 md:max-h-14";
           break;
         case "Мелькомбинат":
-          logoSize = "max-h-8 md:max-h-12";
+          logoSize = "max-h-10 md:max-h-18";
           break;
         case "Салаир":
-          logoSize = "max-h-4 md:max-h-10";
+          logoSize = "max-h-10 md:max-h-17";
           break;
         default:
           logoSize = "max-h-16 md:max-h-16";
