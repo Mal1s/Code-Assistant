@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import thirdIcon from "@assets/photo_2026.jpg";
 import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.png";
 import logoOzon from "@assets/logo_ozon_new.png";
-import logoTvz from "@assets/ТВЗ_1772480095190.png";
+import logoTranstech from "@assets/photo_2026-06-25_20-48-03_1782413324167.jpg";
 import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
 
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
@@ -61,7 +61,7 @@ export default function Home() {
     const logoMap: { [key: string]: string } = {
       "Русский Свет": logoRussvet,
       Ozon: logoOzon,
-      "Тверской Вагоностроительный Завод": logoTvz,
+      "Транстех": logoTranstech,
       "Металл Профиль": logoMetallprofil,
       ТехноНИКОЛЬ: logoTechnonicol,
       "УВМ-Сталь": logoUvmStal,
@@ -86,8 +86,8 @@ export default function Home() {
         case "ТехноНИКОЛЬ":
           logoSize = "max-h-14 md:max-h-16";
           break;
-        case "Тверской Вагоностроительный Завод":
-          logoSize = "max-h-16 md:max-h-20"; // на телефоне поменьше
+        case "Транстех":
+          logoSize = "max-h-16 md:max-h-20";
           break;
         case "УВМ-Сталь":
           logoSize = "max-h-14 md:max-h-16";
@@ -110,18 +110,7 @@ export default function Home() {
         let baseClasses = 
           "absolute -top-12 left-1/2 -translate-x-1/2 bg-[#f05a28] text-white font-bold px-3 py-1.5 rounded-xl z-30 shadow-xl"; 
 
-        if (name === "Тверской Вагоностроительный Завод") {
-          if (isMobile) {
-            return (
-              baseClasses +
-              " text-[9px] max-w-[150px] text-center whitespace-normal break-words"
-            );
-          } else {
-            return baseClasses + " text-xs md:text-sm whitespace-nowrap";
-          }
-        } else {
-          return baseClasses + " text-sm md:text-sm whitespace-nowrap";
-        }
+        return baseClasses + " text-sm md:text-sm whitespace-nowrap";
       };
 
       return (
@@ -330,7 +319,7 @@ export default function Home() {
   const partners = [
     "Русский Свет",
     "Ozon",
-    "Тверской Вагоностроительный Завод",
+    "Транстех",
     "Металл Профиль",
     "ТехноНИКОЛЬ",
     "УВМ-Сталь",
