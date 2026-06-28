@@ -1,0 +1,27 @@
+# Кодировка
+AddDefaultCharset UTF-8
+
+# Сжатие
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript text/plain text/xml
+</IfModule>
+
+# Кэширование
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByTypes text/css "access plus 1 month"
+  ExpiresByTypes text/javascript "access plus 1 month"
+  ExpiresByTypes image/gif "access plus 1 month"
+  ExpiresByTypes image/jpg "access plus 1 month"
+  ExpiresByTypes image/jpeg "access plus 1 month"
+  ExpiresByTypes image/png "access plus 1 month"
+  ExpiresByTypes image/x-icon "access plus 1 month"
+</IfModule>
+
+# Перенаправление на HTTPS
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+# Кастомная страница ошибки
+ErrorDocument 404 /404.html

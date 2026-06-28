@@ -1,0 +1,28 @@
+# ============================================
+# 🔐 SECURITY.TXT — АЛМИК | ГРУЗОПЕРЕВОЗКИ
+# ============================================
+# Сайт: https://almik-logistic.ru
+# Обновлено: 2026-05-19
+# ============================================
+# Если вы нашли уязвимость — напишите нам.
+# Мы ценим ответственное раскрытие и отвечаем
+# в течение 48 часов.
+# ============================================
+
+Contact: mailto:almik.ks@yandex.ru
+Contact: https://t.me/Obormotka_byaka
+Contact: https://almik-logistic.ru/#contacts
+
+Expires: 2027-05-19T00:00:00+03:00
+
+Encryption: https://almik-logistic.ru/pgp-key.txt
+
+Acknowledgments: https://almik-logistic.ru/thanks
+
+Preferred-Languages: ru, en
+
+Canonical: https://almik-logistic.ru/.well-known/security.txt
+
+Policy: https://almik-logistic.ru/politika-bezopasnosti
+
+Hiring: https://almik-logistic.ru/vakansii

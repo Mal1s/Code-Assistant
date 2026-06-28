@@ -1,0 +1,131 @@
+# ============================================
+# 🤖 ROBOTS.TXT - АЛМИК | ГРУЗОПЕРЕВОЗКИ РФ И СНГ
+# ============================================
+# Сайт: https://almik.onrender.com
+# Компания: ООО "АЛМИК"
+# Хостинг: Render.com
+# Обновлено: 2026-04-26
+# ============================================
+
+User-agent: *
+Allow: /
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.gif$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.woff2$
+Allow: /*.woff$
+Allow: /*.ttf$
+
+Disallow: /admin/
+Disallow: /api/
+Disallow: /src/
+Disallow: /node_modules/
+Disallow: /.git/
+Disallow: /dist/
+Disallow: /build/
+Disallow: /tmp/
+Disallow: /cache/
+Disallow: /logs/
+
+Disallow: /*.json$
+Disallow: /*.map$
+Disallow: /*.log$
+Disallow: /*.env$
+Disallow: /package.json
+Disallow: /package-lock.json
+
+Disallow: /*?
+Disallow: /cgi-bin/
+Disallow: /search/
+
+Host: almik.onrender.com
+Sitemap: https://almik.onrender.com/sitemap.xml
+Crawl-delay: 2.0
+
+# ============================================
+# 🇷🇺 ЯНДЕКС
+# ============================================
+User-agent: Yandex
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_referrer&yclid&_openstat&from&source&ref&gclid&fbclid
+Crawl-delay: 2.0
+
+User-agent: YandexImages
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /assets/
+Allow: /images/
+
+# ============================================
+# 🌎 GOOGLE
+# ============================================
+User-agent: Googlebot
+Allow: /
+Disallow: /*?*
+Crawl-delay: 1.5
+
+User-agent: Googlebot-Image
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /assets/
+Allow: /images/
+
+# ============================================
+# 🔵 BING
+# ============================================
+User-agent: bingbot
+Allow: /
+Crawl-delay: 1.5
+
+# ============================================
+# 📧 MAIL.RU
+# ============================================
+User-agent: Mail.Ru
+Allow: /
+Crawl-delay: 2.0
+
+# ============================================
+# 📱 СОЦИАЛЬНЫЕ СЕТИ
+# ============================================
+User-agent: TelegramBot
+Allow: /
+User-agent: WhatsApp
+Allow: /
+User-agent: Viber
+Allow: /
+User-agent: facebookexternalhit
+Allow: /
+User-agent: Twitterbot
+Allow: /
+User-agent: VKShare
+Allow: /
+
+# ============================================
+# 🚫 ЗАПРЕЩАЕМ SEO-СКАНЕРАМ
+# ============================================
+User-agent: AhrefsBot
+Disallow: /
+User-agent: SemrushBot
+Disallow: /
+User-agent: MJ12bot
+Disallow: /
+User-agent: DotBot
+Disallow: /
+User-agent: PetalBot
+Disallow: /
+User-agent: Bytespider
+Disallow: /
+
+# ============================================
+# ⚡ НАСТРОЙКИ
+# ============================================
+Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&utm_referrer&yclid&_openstat&from&source&ref&gclid&fbclid&igshid

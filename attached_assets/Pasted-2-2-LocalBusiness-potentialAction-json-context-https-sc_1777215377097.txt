@@ -1,0 +1,152 @@
+2.2. LocalBusiness с potentialAction (КНОПКИ В ПОИСКЕ):
+
+json
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "АЛМИК - Грузоперевозки Тверь",
+  "image": "https://almik.onrender.com/favicon.ico",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Петербургское шоссе, 93к1, офис 516",
+    "addressLocality": "Тверь",
+    "addressRegion": "Тверская область",
+    "postalCode": "170036",
+    "addressCountry": "RU"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 56.8587,
+    "longitude": 35.9176
+  },
+  "telephone": "+7-901-117-23-71",
+  "priceRange": "от 2500 ₽",
+  "currenciesAccepted": "RUB",
+  "paymentAccepted": "Наличные, Безналичный расчет, Перевод на карту",
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "08:00",
+    "closes": "22:00"
+  },
+  "hasMap": "https://yandex.ru/maps/org/almik/",
+  "potentialAction": [
+    {
+      "@type": "CallAction",
+      "name": "Позвонить сейчас",
+      "target": { "@type": "EntryPoint", "urlTemplate": "tel:+79011172371" }
+    },
+    {
+      "@type": "ViewAction",
+      "name": "Рассчитать стоимость",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://almik.onrender.com/#form" }
+    },
+    {
+      "@type": "SendAction",
+      "name": "Написать в Telegram",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://t.me/Obormotka_byaka" }
+    },
+    {
+      "@type": "SendAction",
+      "name": "Написать в WhatsApp",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://wa.me/79011172371" }
+    },
+    {
+      "@type": "ViewAction",
+      "name": "Посмотреть автопарк",
+      "target": { "@type": "EntryPoint", "urlTemplate": "https://almik.onrender.com/#services" }
+    }
+  ],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "bestRating": "5",
+    "worstRating": "1",
+    "ratingCount": "127"
+  }
+}
+2.3. FAQPage (10 вопросов-ответов):
+Вопросы:
+
+Сколько стоит доставка груза?
+
+Какие машины есть в автопарке?
+
+Работаете ли вы с НДС?
+
+Как быстро подадите машину?
+
+Какие документы нужны для перевозки?
+
+Работаете ли вы с физическими лицами?
+
+Есть ли у вас страховка груза?
+
+Как с вами связаться? (телефон, Telegram @Obormotka_byaka, WhatsApp)
+
+Какие регионы обслуживаете? (все регионы РФ + СНГ)
+
+Как происходит оплата?
+
+2.4. Service с ценами:
+Газель 2500₽, Фура 20т 35000₽, Манипулятор 3000₽, Трал 40000₽
+
+2.5. Product "Грузоперевозки фурой 20 тонн":
+Цена от 35000₽ до 150000₽, рейтинг 4.9
+
+2.6. BreadcrumbList:
+Главная → Услуги → Грузоперевозки по России и СНГ
+
+2.7. WebSite + SearchAction:
+Строка поиска в сниппете
+
+2.8. HowTo "Как заказать грузоперевозку":
+3 шага: Оставьте заявку → Получите расчёт за 15 минут → Подпишите договор
+
+ШАГ 3: client/index.html (МЕТА-ТЕГИ)
+Title: 🚛 Грузоперевозки по России и СНГ от 1.5 до 20 тонн | АЛМИК | Фуры 20т, тралы, манипуляторы, Газели | Цены от 2500₽ | +7 (901) 117-23-71
+
+Meta description (до 160 символов):
+АЛМИК — прямые грузоперевозки от 1.5 до 20 тонн. Собственные фуры 20т, тралы, манипуляторы, Газели 2023 года. Фиксированные цены в договоре. Работаем с НДС. Звоните +7 (901) 117-23-71!
+
+Meta keywords:
+грузоперевозки, грузоперевозки Россия, грузоперевозки СНГ, грузоперевозки Тверь, фура 20 тонн, трал, манипулятор, Газель, негабаритные перевозки, сборные грузы, переезд с грузчиками, доставка стройматериалов, перевозка оборудования, НДС 22%, Беларусь, Казахстан, Армения, Киргизия, Узбекистан, Таджикистан, Монголия, Грузия, Азербайджан, Москва, Санкт-Петербург
+
+Дополнительные мета-теги:
+
+meta name="telegram" content="Obormotka_byaka"
+
+meta name="whatsapp" content="+79011172371"
+
+meta name="format-detection" content="telephone=yes"
+
+meta name="theme-color" content="#0b1a33"
+
+meta name="revisit-after" content="1 days"
+
+meta name="author" content="ООО «АЛМИК»"
+
+meta name="copyright" content="© 2023-2026 ООО «АЛМИК»"
+
+link rel="canonical" href="https://almik.onrender.com"
+
+link rel="manifest" href="/manifest.json"
+
+Все Open Graph теги (og:title, og:description, og:image, og:url, og:phone_number, og:email, og:street-address, og:locality)
+
+Twitter Card теги
+
+VK теги
+
+Гео-теги (geo.region, geo.placename, geo.position, ICBM)
+
+DC теги (DC.title, DC.subject, DC.description, DC.coverage)
+
+Кэширование (Last-Modified, Cache-Control, Expires)
+
+Безопасность (Content-Security-Policy, referrer)
+
+Preconnect и dns-prefetch для быстрой загрузки
+
+PWA теги (mobile-web-app-capable, apple-mobile-web-app-capable)
+

@@ -1,0 +1,535 @@
+🚚 ПРОМПТ ДЛЯ REPLIT (СУПЕР-ДЕТАЛЬНЫЙ)
+Задача:
+Создать одностраничный сайт (landing page) для транспортной компании "TransLogist". Требуется строгая структура, адаптивный дизайн и готовая форма обратной связи.
+
+Цветовая схема:
+
+Основной фон сайта: #f8faff (очень светлый серо-голубой)
+
+Шапка (хедер) и подвал (футер): #0b1a33 (темно-синий)
+
+Акцентный цвет (кнопки, иконки, рамки): #f05a28 (оранжевый)
+
+Текст на темном фоне: белый
+
+Текст на светлом фоне: #333333
+
+Карточки преимуществ: белый фон, тень: 0 10px 30px rgba(0,0,0,0.05)
+
+Шрифты:
+
+Заголовки: Montserrat, жирный (700)
+
+Текст: Open Sans, обычный (400)
+
+Подключать через Google Fonts
+
+Общие требования:
+
+Контейнер для контента шириной 1200px, выравнивание по центру
+
+Все секции должны иметь отступы: padding: 80px 20px (сверху/снизу 80px, по бокам 20px для мобильных)
+
+Сайт должен идеально смотреться на iPhone 12 (390px) и desktop (1920px)
+
+1. ШАПКА (ХЕДЕР) - КОД И РАСПОЛОЖЕНИЕ
+css
+/* Стили для хедера */
+.header {
+  background-color: #0b1a33;
+  padding: 20px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid #f05a28;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  color: white;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: #f05a28; /* Оранжевая буква или акцент */
+}
+
+.header-contacts {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.phone-number {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.phone-number:hover {
+  color: #f05a28;
+}
+
+.callback-btn {
+  background-color: #f05a28;
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 50px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  border: 2px solid transparent;
+}
+
+.callback-btn:hover {
+  background-color: transparent;
+  border: 2px solid #f05a28;
+  color: #f05a28;
+}
+2. ПЕРВЫЙ ЭКРАН (ГЕРОЙ) - КОД
+css
+/* Герой секция */
+.hero {
+  background: linear-gradient(135deg, #0b1a33 0%, #1a2f4f 100%);
+  padding: 120px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80') center/cover;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.hero-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  text-align: center;
+}
+
+.hero h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 52px;
+  color: white;
+  margin-bottom: 25px;
+  line-height: 1.2;
+  text-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.hero-subtitle {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 22px;
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 45px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background-color: #f05a28;
+  color: white;
+  border: none;
+  padding: 18px 45px;
+  border-radius: 60px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 2px solid #f05a28;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary:hover {
+  background-color: transparent;
+  color: #f05a28;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 18px 45px;
+  border-radius: 60px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-secondary:hover {
+  background-color: white;
+  color: #0b1a33;
+}
+3. ПРЕИМУЩЕСТВА - КОД СЕТКИ
+css
+/* Секция преимуществ */
+.benefits {
+  padding: 80px 20px;
+  background-color: #f8faff;
+}
+
+.benefits-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 42px;
+  color: #0b1a33;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.section-subtitle {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 20px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 30px;
+}
+
+.benefit-card {
+  background: white;
+  padding: 40px 25px;
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+  transition: transform 0.3s;
+}
+
+.benefit-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(240,90,40,0.1);
+}
+
+.benefit-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.benefit-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #0b1a33;
+  margin-bottom: 15px;
+}
+
+.benefit-card p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Адаптив для преимуществ */
+@media (max-width: 992px) {
+  .benefits-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 576px) {
+  .benefits-grid {
+    grid-template-columns: 1fr;
+  }
+}
+4. УСЛУГИ - СПИСОК С ИКОНКАМИ
+css
+/* Секция услуг */
+.services {
+  padding: 80px 20px;
+  background: white;
+}
+
+.services-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 25px;
+  background: #f8faff;
+  border-radius: 15px;
+  border-left: 5px solid #f05a28;
+  transition: all 0.3s;
+}
+
+.service-item:hover {
+  background: white;
+  box-shadow: 0 15px 30px rgba(240,90,40,0.1);
+}
+
+.service-check {
+  font-size: 32px;
+  color: #f05a28;
+  min-width: 40px;
+  text-align: center;
+}
+
+.service-content h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 20px;
+  color: #0b1a33;
+  margin-bottom: 8px;
+}
+
+.service-content p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 15px;
+  color: #666;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+}
+5. КАК МЫ РАБОТАЕМ - СХЕМА С ШАГАМИ
+css
+/* Секция шагов */
+.steps {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%);
+}
+
+.steps-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  margin-top: 50px;
+  position: relative;
+}
+
+.step-card {
+  text-align: center;
+  position: relative;
+  padding: 40px 25px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+.step-number {
+  width: 60px;
+  height: 60px;
+  background: #f05a28;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  margin: 0 auto 25px;
+}
+
+.step-card h3 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  color: #0b1a33;
+  margin-bottom: 15px;
+}
+
+.step-card p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Линия между шагами (стрелки) */
+@media (min-width: 992px) {
+  .step-card:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    right: -25px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 32px;
+    color: #f05a28;
+    font-weight: bold;
+    z-index: 10;
+  }
+}
+
+@media (max-width: 768px) {
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+}
+6. ФОРМА ОБРАТНОЙ СВЯЗИ - ПОЛНОСТЬЮ РАБОЧАЯ
+css
+/* Секция формы */
+.contact-form-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.form-container {
+  max-width: 800px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 30px;
+  padding: 50px;
+  box-shadow: 0 30px 60px rgba(11,26,51,0.1);
+  border: 1px solid rgba(240,90,40,0.1);
+}
+
+.form-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  color: #0b1a33;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.form-subtitle {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  color: #666;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  color: #0b1a33;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 15px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 15px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  transition: all 0.3s;
+  background: #f8faff;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #f05a28;
+  background: white;
+  box-shadow: 0 0 0 5px rgba(240,90,40,0.1);
+}
+
+.form-group textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.submit-btn {
+  background-color: #f05a28;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  border-radius: 60px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+  border: 2px solid #f05a28;
+}
+
+.submit-btn:hover {
+  background-color: transparent;
+  color: #f05a28;
+}
+
+@media (max-width: 576px) {
+  .form-container {
+    padding: 30px 20px;
+  }
+  
+  .form-title {
+    font-size: 28px;
+  }
+}

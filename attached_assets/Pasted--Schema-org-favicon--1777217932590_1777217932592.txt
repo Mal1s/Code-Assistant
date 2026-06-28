@@ -1,0 +1,92 @@
+Ты должен проверить и исправить ВСЕ ошибки в Schema.org разметке моего сайта, настроить favicon для отображения в поисковиках, и сделать так чтобы сайт находился по ЛЮБЫМ запросам связанным с грузоперевозками.
+
+Сайт: https://almik.onrender.com
+Файлы которые можно менять: client/index.html, client/src/App.tsx, client/public/robots.txt, client/public/sitemap.xml, client/public/manifest.json
+Файл который НЕЛЬЗЯ трогать: client/src/pages/Home.tsx
+
+ЧАСТЬ 1: ИСПРАВИТЬ ОШИБКИ SCHEMA.ORG
+В файле client/src/App.tsx есть Schema.org разметка. Валидатор показал 3 ошибки. Исправь их:
+
+Ошибка 1: CallAction не поддерживается
+В LocalBusiness схеме замени ВСЕ CallAction на ContactAction. Было:
+
+json
+{
+  "@type": "CallAction",
+  "name": "Позвонить сейчас",
+  "target": { "@type": "EntryPoint", "urlTemplate": "tel:+79011172371" }
+}
+Должно стать:
+
+json
+{
+  "@type": "ContactAction",
+  "name": "Позвонить сейчас",
+  "target": { "@type": "EntryPoint", "urlTemplate": "tel:+79011172371" }
+}
+Ошибка 2: TransportService не существует
+В файле client/index.html есть скрытая разметка с itemtype="https://schema.org/TransportService". Такого типа НЕТ в Schema.org. Удали этот блок полностью:
+
+html
+<div style="display: none;" itemscope itemtype="https://schema.org/TransportService">
+    <span itemprop="name">Грузоперевозки Тверь АЛМИК</span>
+    ...
+</div>
+Ошибка 3: geo в Organization
+В Organization схеме НЕЛЬЗЯ использовать свойство geo. Оно работает только в LocalBusiness. Найди в organizationSchema и удали этот блок:
+
+json
+"geo": {
+  "@type": "GeoCoordinates",
+  "latitude": 56.8587,
+  "longitude": 35.9176
+},
+После исправлений проверь что JSON валидный (все скобки закрыты, все запятые на месте, нет лишних запятых перед закрывающими скобками).
+
+ЧАСТЬ 2: НАСТРОИТЬ FAVICON ДЛЯ ПОИСКОВИКОВ (САМОЕ ВАЖНОЕ)
+Сейчас в поиске Яндекса и Google вместо иконки сайта отображается глобус (серая стандартная иконка). Нужно чтобы отображался логотип АЛМИК.
+
+Вот что нужно сделать:
+
+Шаг 1: Я загружу в папку client/public/ файл favicon-512.png (квадратная иконка с буквой "А" на оранжевом фоне #f05a28, размер 512x512 пикселей).
+
+Шаг 2: Проверь что в client/index.html в разделе <head> есть ВСЕ эти строки (если каких-то нет — добавь):
+
+html
+<!-- Основной favicon -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+
+<!-- PNG иконки разных размеров -->
+<link rel="icon" type="image/png" sizes="512x512" href="/favicon-512.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.png">
+
+<!-- Apple устройства -->
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="152x152" href="/favicon-192.png">
+<link rel="apple-touch-icon" sizes="120x120" href="/favicon.png">
+<link rel="apple-touch-icon" sizes="76x76" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon-192.png">
+
+<!-- Microsoft / Windows -->
+<meta name="msapplication-TileColor" content="#0b1a33">
+<meta name="msapplication-TileImage" content="/favicon-512.png">
+<meta name="msapplication-square70x70logo" content="/favicon.png">
+<meta name="msapplication-square150x150logo" content="/favicon-192.png">
+<meta name="msapplication-square310x310logo" content="/favicon-512.png">
+
+<!-- Яндекс.Табло -->
+<meta name="yandex-tableau-widget" content="logo=https://almik.onrender.com/favicon-512.png, color=#0b1a33">
+Шаг 3: Убедись что в Schema.org (Organization и LocalBusiness) указаны правильные ссылки на иконки:
+
+json
+"logo": "https://almik.onrender.com/favicon-512.png",
+"image": "https://almik.onrender.com/opengraph.jpg"
+Шаг 4: Убедись что в Open Graph и VK тегах указаны ссылки на картинки:
+
+html
+<meta property="og:image" content="https://almik.onrender.com/opengraph.jpg">
+<meta property="vk:image" content="https://almik.onrender.com/opengraph.jpg">

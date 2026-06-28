@@ -1,0 +1,230 @@
+https://remont-holodilnikov-tver.onrender.com/
+Проверка URL
+
+Проверка кода
+error
+Обнаружено: 9, некоторые содержат ошибки
+Элементы с ошибками не могут показываться в виде расширенных результатов поиска Google. Подробнее
+Сведения
+Сканирование
+check_circle
+Просканировано: 10 июн. 2026 г., 13:50:14
+Обнаруженные элементы
+check_circle
+Александр — Ремонт холодильников в Твери
+check_circle
+Александр — Ремонт холодильников в Твери
+check_circle
+Александр — Ремонт холодильников в Твери
+error
+Без названия
+2 критичные проблемы
+
+Отсутствует поле "author"
+Отсутствует поле "itemReviewed"
+type
+Review
+review
+type
+Review
+name
+Отзыв о ремонте холодильника — Михаил К.
+description
+срочный ремонт холодильника, холодильник не морозит, мастер Тверь
+author
+type
+Person
+name
+Михаил К.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+review
+type
+Review
+name
+Отзыв о ремонте холодильника — Светлана Т.
+description
+диагностика холодильника, честный мастер, ремонт холодильников недорого
+author
+type
+Person
+name
+Светлана Т.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+review
+type
+Review
+name
+Отзыв о ремонте холодильника — Дмитрий Р.
+description
+замена компрессора, оригинальные запчасти, гарантия на ремонт
+author
+type
+Person
+name
+Дмитрий Р.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+review
+type
+Review
+name
+Отзыв о ремонте холодильника — Анна В.
+description
+надёжный мастер, ремонт бытовой техники, постоянный клиент
+author
+type
+Person
+name
+Анна В.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+error
+Без названия
+2 критичные проблемы
+
+type
+Review
+review
+Недопустимый тип объекта в поле "<parent_node>"
+Нескольким оценкам не назначен объект aggregateRating.
+type
+Review
+name
+Отзыв о ремонте холодильника — Михаил К.
+description
+срочный ремонт холодильника, холодильник не морозит, мастер Тверь
+author
+type
+Person
+name
+Михаил К.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+error
+Без названия
+2 критичные проблемы
+
+type
+Review
+review
+Недопустимый тип объекта в поле "<parent_node>"
+Нескольким оценкам не назначен объект aggregateRating.
+type
+Review
+name
+Отзыв о ремонте холодильника — Светлана Т.
+description
+диагностика холодильника, честный мастер, ремонт холодильников недорого
+author
+type
+Person
+name
+Светлана Т.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+error
+Без названия
+2 критичные проблемы
+
+type
+Review
+review
+Недопустимый тип объекта в поле "<parent_node>"
+Нескольким оценкам не назначен объект aggregateRating.
+type
+Review
+name
+Отзыв о ремонте холодильника — Дмитрий Р.
+description
+замена компрессора, оригинальные запчасти, гарантия на ремонт
+author
+type
+Person
+name
+Дмитрий Р.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+error
+Без названия
+2 критичные проблемы
+
+type
+Review
+review
+Недопустимый тип объекта в поле "<parent_node>"
+Нескольким оценкам не назначен объект aggregateRating.
+type
+Review
+name
+Отзыв о ремонте холодильника — Анна В.
+description
+надёжный мастер, ремонт бытовой техники, постоянный клиент
+author
+type
+Person
+name
+Анна В.
+reviewRating
+type
+Rating
+ratingValue
+5
+bestRating
+5
+error
+Ремонт холодильников в Твери — Александр
+Одна критичная проблема
+
+Недопустимый тип объекта в поле "itemReviewed"
+type
+AggregateRating
+ratingValue
+4.9
+bestRating
+5.0
+ratingCount
+200
+reviewCount
+200
+itemReviewed
+type
+Thing
+name
+Ремонт холодильников в Твери — Александр

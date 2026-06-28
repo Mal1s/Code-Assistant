@@ -1,0 +1,255 @@
+@import "tailwindcss" source(none);
+@source "./";
+
+/* Определение темы */
+@theme {
+  --color-background: hsl(210 40% 98%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-card: hsl(0 0% 100%);
+  --color-card-foreground: hsl(222 47% 11%);
+  --color-popover: hsl(0 0% 100%);
+  --color-popover-foreground: hsl(222 47% 11%);
+  --color-primary: #0b1a33;
+  --color-primary-foreground: hsl(210 40% 98%);
+  --color-secondary: #f05a28;
+  --color-secondary-foreground: hsl(210 40% 98%);
+  --color-muted: hsl(210 40% 96.1%);
+  --color-muted-foreground: hsl(215.4 16.3% 46.9%);
+  --color-accent: hsl(210 40% 96.1%);
+  --color-accent-foreground: hsl(222.2 47.4% 11.2%);
+  --color-destructive: hsl(0 84.2% 60.2%);
+  --color-destructive-foreground: hsl(210 40% 98%);
+  --color-border: hsl(214.3 31.8% 91.4%);
+  --color-input: hsl(214.3 31.8% 91.4%);
+  --color-ring: #f05a28;
+  --radius: 1rem;
+}
+
+/* Кастомные утилиты */
+@utility btn-orange {
+  background-color: #f05a28;
+  color: white;
+  font-weight: 900;
+  padding: 1rem 2.5rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+  box-shadow: 0 10px 15px -3px rgb(240 90 40 / 0.3);
+
+  &:hover {
+    background-color: #d44a1d;
+    scale: 1.05;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+}
+
+@utility btn-outline {
+  border: 2px solid white;
+  color: white;
+  font-weight: 900;
+  padding: 1rem 2.5rem;
+  border-radius: 1rem;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: white;
+    color: #0b1a33;
+    scale: 1.05;
+  }
+
+  &:active {
+    scale: 0.95;
+  }
+}
+
+/* Базовые стили */
+@layer base {
+  * {
+    border-color: hsl(214.3 31.8% 91.4%);
+  }
+
+  body {
+    font-family: sans-serif;
+    background-color: #f8faff;
+    color: #0b1a33;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+  border: 2px solid #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #f05a28;
+}
+
+h2 {
+  background: linear-gradient(135deg, #0b1a33 0%, #f05a28 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.btn-orange {
+  @apply relative overflow-hidden;
+}
+
+.btn-orange::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(transparent 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      transparent 100%);
+  transform: rotate(25deg);
+  animation: shine 3s infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(25deg);
+  }
+
+  20% {
+    transform: translateX(100%) rotate(25deg);
+  }
+
+  100% {
+    transform: translateX(100%) rotate(25deg);
+  }
+}
+
+.shimmer-img {
+  @apply relative overflow-hidden;
+}
+
+.shimmer-img::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+  100% {
+    left: 150%;
+  }
+}
+
+.stars {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  pointer-events: none;
+}
+
+.stars::before,
+.stars::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(2px 2px at 10px 10px, white, rgba(0, 0, 0, 0)),
+    radial-gradient(2px 2px at 20px 30px, #f05a28, rgba(0, 0, 0, 0));
+  background-size: 200px 200px;
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 20% 50%, rgba(240, 90, 40, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(240, 90, 40, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Road Decoration */
+.road-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-50%);
+  border-top: 4px dashed rgba(255, 255, 255, 0.4);
+}
+
+/* ===== ДОБАВИТЬ ЭТО ===== */
+/* Анимация переливающегося градиента */
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+/* ===== КОНЕЦ ДОБАВЛЕНИЯ ===== */

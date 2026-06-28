@@ -1,0 +1,150 @@
+Ты должен проверить и улучшить ВСЕ SEO-файлы моего проекта. Файл client/src/pages/Home.tsx НЕ ТРОГАТЬ вообще. Меняй только файлы SEO, мета-теги, Schema.org, robots.txt, sitemap.xml, manifest.json, favicon.
+
+Главная цель: сайт должен быть на ПЕРВОМ месте в Яндексе и Google по всем ключевым запросам (грузоперевозки, фура 20 тонн, манипулятор аренда, переезд, доставка грузов) по всей России, Беларуси, Казахстану, Армении, Киргизии, Узбекистану, Таджикистану, Монголии, Грузии, Азербайджану.
+
+Вторая цель: favicon должен отображаться в поисковой выдаче Яндекса и Google, во вкладке браузера, на устройствах Apple.
+
+Третья цель: расширенные сниппеты с кнопками "Позвонить", "Написать в Telegram", звёздами рейтинга 4.9, FAQ-блоком, ценами.
+
+ЧТО ТЫ ДОЛЖЕН СДЕЛАТЬ ПО ШАГАМ:
+ШАГ 1: Проверить и исправить Favicon (САМОЕ ВАЖНОЕ)
+Файл: client/public/favicon.ico
+
+Убедись что favicon.ico существует в папке client/public/
+
+Если нет — создай его (можно простую иконку с буквой "А" на оранжевом фоне #f05a28)
+
+Проверь что в client/index.html есть ВСЕ эти строки для отображения иконки в поисковиках:
+
+html
+<link rel="icon" type="image/x-icon" href="/favicon.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon.ico">
+<meta name="msapplication-TileImage" content="/favicon.ico">
+<meta name="msapplication-TileColor" content="#0b1a33">
+<meta name="yandex-tableau-widget" content="logo=https://almik.onrender.com/favicon.ico, color=#0b1a33">
+В Schema.org Organization и LocalBusiness должно быть:
+
+json
+"logo": "https://almik.onrender.com/favicon.ico",
+"image": "https://almik.onrender.com/favicon.ico"
+В Open Graph:
+
+html
+<meta property="og:image" content="https://almik.onrender.com/favicon.ico">
+<meta property="og:image:width" content="256">
+<meta property="og:image:height" content="256">
+ПОЧЕМУ ЭТО ВАЖНО: Без этих строк поисковики не показывают иконку сайта в выдаче. Сайт выглядит как серая ссылка без логотипа.
+
+ШАГ 2: Проверить и исправить Schema.org разметку в App.tsx
+Файл: client/src/App.tsx
+
+Там уже есть компонент JsonLd с четырьмя схемами. Проверь ВСЁ:
+
+2.1. Organization schema (самая важная для поиска):
+
+name: "АЛМИК"
+
+url: "https://almik.onrender.com"
+
+logo и image: "https://almik.onrender.com/favicon.ico"
+
+telephone: "+7-901-117-23-71"
+
+email: "almik.ks@yandex.ru" (добавь если нет)
+
+address: Петербургское шоссе 93к1, офис 516, Тверь, 170036, RU
+
+geo: latitude 56.8587, longitude 35.9176
+
+openingHours: Mo-Su 08:00-22:00
+
+aggregateRating: ratingValue 4.9, reviewCount 127, bestRating 5
+
+sameAs: ["https://t.me/Obormotka_byaka"]
+
+areaServed: RU, BY, KZ, AM, KG, UZ, TJ, MN, GE, AZ
+
+vatID: "6900000798"
+
+taxID: "6900000798"
+
+legalName: "ООО «АЛМИК»"
+
+foundingDate: "2023-01-15"
+
+slogan: "Доставим ваш груз в любую точку России и СНГ"
+
+2.2. LocalBusiness schema:
+
+name: "АЛМИК - Грузоперевозки Тверь"
+
+telephone: "+7-901-117-23-71"
+
+priceRange: "от 2500 ₽"
+
+address с полным адресом и гео-координатами
+
+openingHours: Mo-Su 08:00-22:00
+
+potentialAction с тремя действиями:
+
+CallAction "Позвонить сейчас" → tel:+79011172371
+
+ViewAction "Рассчитать стоимость" → https://almik.onrender.com/#form
+
+SendAction "Написать в Telegram" → https://t.me/Obormotka_byaka
+
+2.3. FAQPage schema:
+Минимум 8 вопросов-ответов:
+
+"Сколько стоит доставка груза?" → "Газель по городу от 2500₽. Фура 20т от 35000₽. Звоните +7 (901) 117-23-71!"
+
+"Какие машины есть в автопарке?" → "Газели 1.5-2т, фуры 20т, тралы, манипуляторы. Автопарк 2023 года."
+
+"Работаете ли вы с НДС?" → "Да, работаем с НДС 22% (ОСНО). Можно без НДС."
+
+"Как быстро подадите машину?" → "От 2 часов. Срочная подача до 1 часа."
+
+"Какие документы нужны?" → "Для юрлиц: реквизиты и заявка. Для физлиц: паспорт."
+
+"Работаете ли с физическими лицами?" → "Да, переезды, доставка мебели, техники."
+
+"Есть ли страховка груза?" → "Да, каждый груз застрахован."
+
+"Как связаться?" → "Телефон +7 (901) 117-23-71, Telegram @Obormotka_byaka."
+
+2.4. BreadcrumbList:
+Главная → Грузоперевозки по России и СНГ
+
+Также добавь ещё схемы:
+
+2.5. Service schema:
+
+name: "Грузоперевозки по России и СНГ"
+
+offers с ценами: Газель 2500₽, Фура 20т 35000₽, Манипулятор 3000₽, Трал 40000₽
+
+2.6. Product schema:
+
+name: "Грузоперевозки фурой 20 тонн"
+
+offers: lowPrice 35000, highPrice 150000
+
+2.7. WebSite schema со строкой поиска:
+
+url: https://almik.onrender.com
+
+SearchAction с target https://almik.onrender.com/search?q={search_term_string}
+
+2.8. HowTo schema:
+
+name: "Как заказать грузоперевозку в АЛМИК"
+
+3 шага: Оставьте заявку → Получите расчёт → Подпишите договор
+
+totalTime: PT15M
+
+ВАЖНО: Проверь что ВЕСЬ JSON валидный. Ни одной лишней запятой, все скобки закрыты, все кавычки правильные. Используй двойные кавычки внутри JSON
