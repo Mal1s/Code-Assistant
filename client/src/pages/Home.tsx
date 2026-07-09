@@ -11,7 +11,7 @@ import logoMetallprofil from "@assets/Logo-new2_1772480101124.png";
 
 import logoTechnonicol from "@assets/medium_a4cfeb09a569425cb6fb66eaa87f79a5_1772480106124.jpg";
 import imgHero from "@assets/sleek-truck-drives-down-winding-road-surrounded-by-lush-greene_1772480378551.jpg";
-import logoUvmStal from "@assets/uvmstal_logo.png";
+import logoUvmStal from "@assets/uvmstal.png";
 import logoWb from "@assets/1irjwkgp3m2z5rszv972wbwxjhjjl2kx_1772480113923.png";
 import logoMelkom from "@assets/tild3031-6237-4533-b534-613333326531__photo_1772480116794.png";
 import manipulatorIcon from "@assets/photo_2026-03-09_23-29-36.jpg";
