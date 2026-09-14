@@ -8,6 +8,7 @@ import Home from "@/pages/Home";
 import CityPage from "@/pages/CityPage";
 import ServicePage from "@/pages/ServicePage";
 import JsonLd from "@/components/JsonLd";
+import RouteSeo from "@/components/RouteSeo";
 
 function Router() {
   return (
@@ -451,6 +452,7 @@ function App() {
         <JsonLd data={productSchema} />
         <JsonLd data={breadcrumbSchema} />
         <JsonLd data={howToSchema} />
+        <RouteSeo />
         <Router />
       </TooltipProvider>
     </QueryClientProvider>
