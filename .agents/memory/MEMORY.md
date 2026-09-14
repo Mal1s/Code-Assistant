@@ -1,0 +1,1 @@
+- [GitHub Pages SEO routing](github-pages-seo.md) — client-router URLs need physical static entry files and a matching sitemap when published from the repository root.
