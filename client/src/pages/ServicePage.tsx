@@ -26,41 +26,16 @@ export default function ServicePage() {
     <>
       {/* SEO */}
       <Helmet>
-        <title>{service.title}</title>
-        <meta name="description" content={service.description} />
-        <link rel="canonical" href={`https://almik-logistic.ru/uslugi/${serviceSlug}/`} />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`https://almik-logistic.ru/uslugi/${serviceSlug}`} />
-        <meta property="og:title" content={service.title} />
-        <meta property="og:description" content={service.description} />
-        <meta property="og:image" content="https://almik-logistic.ru/opengraph.jpg" />
-        <meta property="og:locale" content="ru_RU" />
-        <meta property="og:site_name" content="АЛМИК — грузоперевозки" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={service.title} />
-        <meta name="twitter:description" content={service.description} />
-        <meta name="twitter:image" content="https://almik-logistic.ru/opengraph.jpg" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
+            "@id": `https://almik-logistic.ru/uslugi/${serviceSlug}/#service`,
             name: service.name,
             description: service.description,
-            url: `https://almik-logistic.ru/uslugi/${serviceSlug}`,
-            provider: {
-              "@type": "Organization",
-              name: "АЛМИК",
-              url: "https://almik-logistic.ru",
-              telephone: "+7-901-117-23-71",
-              email: "almik.ks@yandex.ru"
-            },
+            url: `https://almik-logistic.ru/uslugi/${serviceSlug}/`,
+            provider: { "@id": "https://almik-logistic.ru/#organization" },
             areaServed: { "@type": "Country", name: "Россия" },
-            offers: {
-              "@type": "Offer",
-              price: service.price.replace(/[^0-9]/g, ""),
-              priceCurrency: "RUB",
-              availability: "https://schema.org/InStock"
-            }
           })}
         </script>
         <script type="application/ld+json">
@@ -70,7 +45,7 @@ export default function ServicePage() {
             itemListElement: [
               { "@type": "ListItem", position: 1, name: "Главная", item: "https://almik-logistic.ru/" },
               { "@type": "ListItem", position: 2, name: "Услуги", item: "https://almik-logistic.ru/#services" },
-              { "@type": "ListItem", position: 3, name: service.name, item: `https://almik-logistic.ru/uslugi/${serviceSlug}` }
+              { "@type": "ListItem", position: 3, name: service.name, item: `https://almik-logistic.ru/uslugi/${serviceSlug}/` }
             ]
           })}
         </script>

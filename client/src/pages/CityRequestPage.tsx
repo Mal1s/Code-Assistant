@@ -20,16 +20,16 @@ export default function CityRequestPage({ city }: { city: City }) {
           Перевозки по предварительной заявке
         </p>
         <h1 className="mb-5 text-3xl font-black text-[#0b1a33] md:text-5xl">
-          Грузоперевозки из Твери в {city.nameGenitive}
+          Грузоперевозки Тверь — {city.name}
         </h1>
         <p className="mb-5 text-lg leading-relaxed text-slate-700">
-          АЛМИК организует перевозки между Тверью и {city.namePrepositional} по
+          АЛМИК организует перевозки по направлению Тверь — {city.name} по
           предварительному запросу. Возможность рейса, транспорт, дата подачи и
           стоимость подтверждаются после уточнения маршрута и параметров груза.
         </p>
         <p className="mb-8 leading-relaxed text-slate-500">
           База компании находится в Твери. Эта страница не означает наличие
-          филиала или постоянного автопарка в {city.namePrepositional}.
+          филиала или постоянного автопарка в этом городе.
         </p>
         <div className="flex flex-wrap gap-3">
           <a

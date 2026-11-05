@@ -1,1 +1,2 @@
 - [GitHub Pages SEO routing](github-pages-seo.md) — client-router URLs need physical static entry files and a matching sitemap when published from the repository root.
+- [Regional service coverage](regional-service-coverage.md) — АЛМИК базируется в Твери и организует рейсы по России по заявке, а не через заявленную сеть филиалов.

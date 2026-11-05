@@ -4,7 +4,10 @@ import { cp, mkdir, readFile, readdir, rm, writeFile } from "fs/promises";
 import path from "path";
 import { cities } from "../client/src/data/cities";
 import { services } from "../client/src/data/services";
-import { freightRoutes } from "../client/src/data/routes";
+import {
+  freightRoutes,
+  getFreightRouteSlug,
+} from "../client/src/data/routes";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -43,7 +46,6 @@ type SeoRoute = {
   title: string;
   description: string;
   includeInSitemap: boolean;
-  priority: string;
 };
 
 const staticRoutes: SeoRoute[] = [
@@ -53,7 +55,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "АЛМИК организует грузоперевозки по России по предварительной заявке. База в Твери. Маршрут, транспорт, дата и стоимость подтверждаются индивидуально.",
     includeInSitemap: true,
-    priority: "1.0",
   },
   {
     routePath: "/o-kompanii",
@@ -61,7 +62,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "ООО «АЛМИК» — транспортная компания с базой в Твери. Организуем грузоперевозки по России по предварительной заявке.",
     includeInSitemap: true,
-    priority: "0.8",
   },
   {
     routePath: "/kontakty",
@@ -69,7 +69,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Свяжитесь с транспортной компанией АЛМИК: +7 (901) 117-23-71, almik.ks@yandex.ru. База компании находится в Твери.",
     includeInSitemap: true,
-    priority: "0.8",
   },
   {
     routePath: "/perevozki-po-rossii",
@@ -77,7 +76,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Перевозки по России по предварительному запросу. База АЛМИК — в Твери; маршрут, транспорт, дата подачи и стоимость подтверждаются для каждого заказа.",
     includeInSitemap: true,
-    priority: "0.9",
   },
   {
     routePath: "/vakansii",
@@ -85,7 +83,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Вакансии транспортной компании АЛМИК для водителей и специалистов по логистике.",
     includeInSitemap: false,
-    priority: "0.5",
   },
   {
     routePath: "/karta-sayta",
@@ -93,7 +90,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Карта сайта транспортной компании АЛМИК: услуги, города присутствия и полезные разделы.",
     includeInSitemap: false,
-    priority: "0.5",
   },
   {
     routePath: "/sotrudnichestvo",
@@ -101,7 +97,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Сотрудничество с транспортной компанией АЛМИК для юридических лиц, поставщиков и постоянных клиентов.",
     includeInSitemap: false,
-    priority: "0.5",
   },
   {
     routePath: "/dlya-voditeley",
@@ -109,7 +104,6 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Информация для водителей, которые хотят сотрудничать с транспортной компанией АЛМИК.",
     includeInSitemap: false,
-    priority: "0.5",
   },
   {
     routePath: "/blog",
@@ -117,35 +111,30 @@ const staticRoutes: SeoRoute[] = [
     description:
       "Полезные материалы о грузоперевозках, логистике, переездах и выборе транспорта.",
     includeInSitemap: false,
-    priority: "0.4",
   },
   {
     routePath: "/politika-konfidencialnosti",
     title: "Политика конфиденциальности — АЛМИК",
     description: "Политика обработки персональных данных на сайте АЛМИК.",
     includeInSitemap: false,
-    priority: "0.2",
   },
   {
     routePath: "/polzovatelskoe-soglashenie",
     title: "Пользовательское соглашение — АЛМИК",
     description: "Пользовательское соглашение сайта АЛМИК.",
     includeInSitemap: false,
-    priority: "0.2",
   },
   {
     routePath: "/rekvizity",
     title: "Реквизиты ООО «АЛМИК»",
     description: "Реквизиты транспортной компании ООО «АЛМИК».",
     includeInSitemap: false,
-    priority: "0.2",
   },
   {
     routePath: "/dogovor-oferta",
     title: "Договор-оферта — АЛМИК",
     description: "Договор-оферта транспортной компании АЛМИК.",
     includeInSitemap: false,
-    priority: "0.2",
   },
 ];
 
@@ -175,28 +164,28 @@ function getSeoRoutes(): SeoRoute[] {
       title:
         city.slug === "tver"
           ? "Грузоперевозки в Твери по заявке | АЛМИК"
-          : `Грузоперевозки из Твери в ${city.nameGenitive} по заявке | АЛМИК`,
+          : `Грузоперевозки Тверь — ${city.name} по заявке | АЛМИК`,
       description:
         city.slug === "tver"
           ? "База транспортной компании АЛМИК находится в Твери. Грузоперевозки по городу, области и России согласуются по предварительной заявке."
-          : `Перевозка между Тверью и ${city.namePrepositional} по предварительному запросу. Наличие транспорта, сроки и стоимость уточняются индивидуально.`,
+          : `Перевозка по направлению Тверь — ${city.name} по предварительному запросу. Наличие транспорта, сроки и стоимость уточняются индивидуально.`,
       includeInSitemap: city.slug === "tver",
-      priority: "0.8",
     })),
     ...Object.values(services).map((service) => ({
       routePath: `/uslugi/${service.slug}`,
       title: service.title,
       description: service.description,
       includeInSitemap: true,
-      priority: "0.8",
     })),
-    ...Object.entries(freightRoutes).map(([slug, route]) => ({
-      routePath: `/marshrut/${slug}`,
-      title: `Перевозка груза: ${route.from} — ${route.to} | АЛМИК`,
-      description: `Перевозка по направлению ${route.from} — ${route.to}. Возможность рейса и стоимость уточняются по заявке.`,
-      includeInSitemap: false,
-      priority: "0.2",
-    })),
+    ...getIndexedContentRouteSlugs().map((slug) => {
+      const route = freightRoutes[slug];
+      return {
+        routePath: `/marshrut/${slug}`,
+        title: `Перевозка груза: ${route.from} — ${route.to} | АЛМИК`,
+        description: `Перевозка по направлению ${route.from} — ${route.to}. Возможность рейса и стоимость уточняются по заявке.`,
+        includeInSitemap: false,
+      };
+    }),
   ];
 }
 
@@ -204,6 +193,22 @@ function getAllStaticRoutes(seoRoutes: SeoRoute[]) {
   const routePaths = new Set(seoRoutes.map(({ routePath }) => routePath));
 
   return [...routePaths];
+}
+
+function getIndexedContentRouteSlugs() {
+  const routeSlugs = new Set<string>();
+  const tver = cities.tver;
+
+  for (const route of tver.popularRoutes) {
+    routeSlugs.add(getFreightRouteSlug(route.from, route.to));
+  }
+  for (const service of Object.values(services)) {
+    for (const route of service.popularRoutes) {
+      routeSlugs.add(getFreightRouteSlug(route.from, route.to));
+    }
+  }
+
+  return [...routeSlugs].filter((slug) => freightRoutes[slug]);
 }
 
 function canonicalUrl(routePath: string) {
@@ -288,6 +293,7 @@ function jsonLd(route: SeoRoute) {
     graph.push({
       "@context": "https://schema.org",
       "@type": "Service",
+      "@id": `${canonicalUrl(route.routePath)}#service`,
       name: service.name,
       description: service.description,
       url: canonicalUrl(route.routePath),
@@ -312,7 +318,7 @@ function renderRouteContent(route: SeoRoute) {
   const cityMatch = route.routePath.match(/^\/gorod\/([^/]+)$/);
   const city = cityMatch ? cities[cityMatch[1]] : undefined;
   if (city && city.slug !== "tver") {
-    return `<main class="seo-fallback"><p class="seo-eyebrow">Перевозки по предварительной заявке</p><h1>Грузоперевозки из Твери в ${escapeHtml(city.nameGenitive)}</h1><p>АЛМИК организует перевозки между Тверью и ${escapeHtml(city.namePrepositional)} по предварительному запросу. Возможность рейса, транспорт, дата подачи и стоимость подтверждаются после уточнения маршрута и параметров груза.</p><p>База компании находится в Твери. Эта страница не означает наличие филиала или постоянного автопарка в ${escapeHtml(city.namePrepositional)}.</p><p><a href="tel:+79011172371">Уточнить маршрут: +7 (901) 117-23-71</a></p><p><a href="/perevozki-po-rossii/">Условия перевозок по России</a></p></main>`;
+    return `<main class="seo-fallback"><p class="seo-eyebrow">Перевозки по предварительной заявке</p><h1>Грузоперевозки Тверь — ${escapeHtml(city.name)}</h1><p>АЛМИК организует перевозки по направлению Тверь — ${escapeHtml(city.name)} по предварительному запросу. Возможность рейса, транспорт, дата подачи и стоимость подтверждаются после уточнения маршрута и параметров груза.</p><p>База компании находится в Твери. Филиал или постоянный автопарк в этом городе не заявляется.</p><p><a href="tel:+79011172371">Уточнить маршрут: +7 (901) 117-23-71</a></p><p><a href="/perevozki-po-rossii/">Условия перевозок по России</a></p></main>`;
   }
 
   const serviceMatch = route.routePath.match(/^\/uslugi\/([^/]+)$/);
@@ -418,7 +424,6 @@ async function prepareStaticSeoPages() {
         description:
           "Грузоперевозки по России и СНГ на собственном автопарке АЛМИК.",
         includeInSitemap: false,
-        priority: "0.2",
       } satisfies SeoRoute);
 
     if (route === "/") {

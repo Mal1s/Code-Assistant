@@ -1,253 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://almik-logistic.ru</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
+    <loc>https://almik-logistic.ru/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/o-kompanii</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/o-kompanii/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/kontakty</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/kontakty/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/vakansii</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://almik-logistic.ru/perevozki-po-rossii/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/karta-sayta</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://almik-logistic.ru/gorod/tver/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/sotrudnichestvo</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://almik-logistic.ru/uslugi/gazel-1-5-tonny/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/dlya-voditeley</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
+    <loc>https://almik-logistic.ru/uslugi/gazel-3-tonny/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/moskva</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/fura-10-tonn/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/tver</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/fura-20-tonn/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/sankt-peterburg</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/manipulyator-5-tonn/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/kazan</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/manipulyator-7-tonn/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/nizhniy-novgorod</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/tral-dlya-negabarita/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/voronezh</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/pereezd-pod-klyuch/</loc>
   </url>
   <url>
-    <loc>https://almik-logistic.ru/gorod/minsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/astana</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/ekaterinburg</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/novosibirsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/krasnodar</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/sochi</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/spb</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/samara</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/ufa</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/chelyabinsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/perm</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/omsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/krasnoyarsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/barnaul</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/yaroslavl</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/tula</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/ryazan</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/vladimir</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/rostov-na-donu</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/volgograd</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/saratov</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/tolyatti</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/izhevsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/bryansk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/lipetsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/smolensk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/irkutsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/gorod/khabarovsk</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/gazel-1-5-tonny</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/gazel-3-tonny</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/fura-10-tonn</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/fura-20-tonn</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/manipulyator-5-tonn</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/manipulyator-7-tonn</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/tral-dlya-negabarita</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/pereezd-pod-klyuch</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://almik-logistic.ru/uslugi/fura-refrizherator</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <loc>https://almik-logistic.ru/uslugi/fura-refrizherator/</loc>
   </url>
 </urlset>
