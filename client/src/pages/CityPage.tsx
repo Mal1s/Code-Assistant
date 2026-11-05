@@ -2,9 +2,11 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import { useParams, Link } from "wouter";
 import { Helmet } from "react-helmet-async";
-import { cities } from "../data/cities";
+import { cities, type City } from "../data/cities";
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import CityRequestPage from "./CityRequestPage";
+import NotFound from "./not-found";
 import thirdIcon from "@assets/photo_2026.jpg";
 import logoRussvet from "@assets/tf9kyzh0hxdjbmfjccwy6c24pnlojmaw_1772480087609.png";
 import logoOzon from "@assets/logo_ozon_new.png";
@@ -38,6 +40,16 @@ const fadeInUp = {
 };
 
 export default function CityPage() {
+  const { citySlug } = useParams();
+  const city = cities[citySlug || ""];
+
+  if (!city) return <NotFound />;
+  if (city.slug !== "tver") return <CityRequestPage city={city} />;
+
+  return <TverCityPage city={city} />;
+}
+
+function TverCityPage({ city }: { city: City }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -60,9 +72,6 @@ export default function CityPage() {
     comment: ""
     
   });
-  const { citySlug } = useParams();
-  const city = cities[citySlug || ""] || cities["moskva"]; // если город не найден — покажет Москву
-  
   const getPartnerLogo = (partnerName: string) => {
     const logoMap: { [key: string]: string } = {
       "Русский Свет": logoRussvet,

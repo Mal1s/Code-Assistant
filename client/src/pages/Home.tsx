@@ -1381,6 +1381,12 @@ export default function Home() {
                     >
                       almik.ks@yandex.ru
                     </a>
+                    <a
+                      href="/perevozki-po-rossii/"
+                      className="text-sm font-bold text-[#f05a28] block hover:text-white transition-colors"
+                    >
+                      Перевозки по России
+                    </a>
                   </div>
                 
               </div>

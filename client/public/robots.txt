@@ -1,17 +1,10 @@
-# Технические правила индексации сайта АЛМИК
+# Правила обхода сайта АЛМИК
 User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /admin/
-Disallow: /private/
-Disallow: /src/
-Disallow: /node_modules/
-Disallow: /dist/
-Disallow: /.git/
-Disallow: /.github/
 
-# Параметры кампаний не создают отдельные страницы для индексации.
+# Игнорировать параметры рекламных кампаний в Яндексе.
 Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&fbclid&ysclid
 
 Sitemap: https://almik-logistic.ru/sitemap.xml
-Host: https://almik-logistic.ru

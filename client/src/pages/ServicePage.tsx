@@ -28,8 +28,7 @@ export default function ServicePage() {
       <Helmet>
         <title>{service.title}</title>
         <meta name="description" content={service.description} />
-        <meta name="keywords" content={service.seoKeywords} />
-        <link rel="canonical" href={`https://almik-logistic.ru/uslugi/${serviceSlug}`} />
+        <link rel="canonical" href={`https://almik-logistic.ru/uslugi/${serviceSlug}/`} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://almik-logistic.ru/uslugi/${serviceSlug}`} />
         <meta property="og:title" content={service.title} />
@@ -72,34 +71,6 @@ export default function ServicePage() {
               { "@type": "ListItem", position: 1, name: "Главная", item: "https://almik-logistic.ru/" },
               { "@type": "ListItem", position: 2, name: "Услуги", item: "https://almik-logistic.ru/#services" },
               { "@type": "ListItem", position: 3, name: service.name, item: `https://almik-logistic.ru/uslugi/${serviceSlug}` }
-            ]
-          })}
-        </script>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "FAQPage",
-            mainEntity: [
-              {
-                "@type": "Question",
-                name: `Сколько стоит ${service.name}?`,
-                acceptedAnswer: { "@type": "Answer", text: `Стоимость услуги "${service.name}" — ${service.price}. Точная цена зависит от маршрута, объёма и особенностей груза. Расчёт за 15 минут по телефону +7 (901) 117-23-71.` }
-              },
-              {
-                "@type": "Question",
-                name: "Как заказать грузоперевозку в АЛМИК?",
-                acceptedAnswer: { "@type": "Answer", text: "Позвоните по телефону +7 (901) 117-23-71 или напишите в WhatsApp/Telegram. Менеджер рассчитает стоимость за 15 минут и согласует время подачи машины." }
-              },
-              {
-                "@type": "Question",
-                name: "Работаете ли вы с юридическими лицами?",
-                acceptedAnswer: { "@type": "Answer", text: "Да, работаем с юридическими и физическими лицами. Заключаем официальный договор, предоставляем счёт-фактуру, УПД и все закрывающие документы. Можно с НДС 22% или без НДС." }
-              },
-              {
-                "@type": "Question",
-                name: "Есть ли страхование груза?",
-                acceptedAnswer: { "@type": "Answer", text: "Да, АЛМИК несёт полную материальную ответственность за сохранность вашего груза. Возможно дополнительное страхование по стоимости груза." }
-              }
             ]
           })}
         </script>
